@@ -11,14 +11,14 @@ height = 600
 screen = pygame.display.set_mode((width, height))
 # set window title & icon
 pygame.display.set_caption("Space Invaders")
-icon = pygame.image.load("root/resources/images/5.png")
+icon = pygame.image.load("Space_Invaders/root/resources/images/5.png")
 pygame.display.set_icon(icon)
 
 # set Background
-background = pygame.image.load("root/resources/images/5.png")
+background = pygame.image.load("Space_Invaders/root/resources/images/5.png")
 
 # Player
-player_img = pygame.image.load("root/resources/images/5.png")
+player_img = pygame.image.load("Space_Invaders/root/resources/images/5.png")
 player_x = 370
 player_y = 480
 player_x_change = 0
@@ -45,7 +45,8 @@ def game_over_text():
     screen.blit(game_over_blit, (200, 250))
 
 # Enemy
-enemy_img = pygame.image.load("root/resources/images/5.png")
+enemy_img = pygame.image.load("Space_Invaders/root/resources/images/5.png")
+enemy_width = enemy_img.get_width()
 enemy_x = []
 enemy_y = []
 enemy_x_change = []
@@ -53,7 +54,7 @@ enemy_y_change = 40
 number_of_enemies = 6
 
 for i in range(number_of_enemies):
-    enemy_x.append(random.randint(0, width - enemy_img.get_width()))
+    enemy_x.append(random.randint(0, width - enemy_width))
     enemy_y.append(random.randint(50, 150))
     enemy_x_change.append(3)
 
@@ -62,7 +63,7 @@ def enemy(x, y):
 
 
 # Bullet
-bullet_img = pygame.image.load("root/resources/images/5.png")
+bullet_img = pygame.image.load("Space_Invaders/root/resources/images/5.png")
 bullet_x = 0
 bullet_y = 480
 bullet_x_change = 4
@@ -142,7 +143,7 @@ while running:
             bullet_ready = True
             score += 1
 
-            enemy_x[i] = random.randint(0, 800)
+            enemy_x[i] = random.randint(0, width - enemy_width)
             enemy_y[i] = random.randint(50, 150)
 
     # bullet movement
