@@ -1,11 +1,9 @@
 name: Lint with Ruff
 
 on:
+  push:
   pull_request:
-    branches:
-      - main
-      - develop
-      - 'test/**'
+    branches: [ "main" ]
 
 jobs:
   ruff:
