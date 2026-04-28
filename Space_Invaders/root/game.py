@@ -5,6 +5,9 @@ import os
 
 pygame.init()
 
+# Clock-feature
+pygame.time.set_timer(pygame.USEREVENT, 1000)
+
 # Base directory of this script
 BASE_DIR = os.path.dirname(__file__)
 
@@ -41,6 +44,13 @@ font = pygame.font.Font("freesansbold.ttf", 32)
 def show_score():
     score_blit = font.render(f"Score: {score}", True, (255, 255, 255))
     screen.blit(score_blit, (10, 10))
+
+# Clock-feature
+seconds = 0
+
+def show_timer():
+    timer_blit = font.render(f"Time: {seconds}", True, (255, 255, 255))
+    screen.blit(timer_blit, (650, 10))
 
 # Game over
 game_over_font = pygame.font.Font("freesansbold.ttf", 64)
@@ -95,12 +105,17 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
+        # ⏱️ TIMER UPDATE (NEU)
+        if event.type == pygame.USEREVENT:
+            seconds += 1
+
         # Player Movement
         if event.type == pygame.KEYDOWN:
             if event.key in (pygame.K_LEFT, pygame.K_a):
                 player_x_change = -4
             elif event.key in (pygame.K_RIGHT, pygame.K_d):
                 player_x_change = 4
+
             if event.key == pygame.K_SPACE and bullet_ready:
                 bullet_x = player_x
                 fire_bullet(bullet_x, bullet_y)
@@ -123,6 +138,7 @@ while running:
             break
 
         enemy_x[i] += enemy_x_change[i]
+
         if enemy_x[i] <= 0 or enemy_x[i] >= (width - enemy_width):
             enemy_x_change[i] *= -1
             enemy_y[i] += enemy_y_change
@@ -146,7 +162,9 @@ while running:
         bullet_y = 480
         bullet_ready = True
 
+    # UI
     show_score()
+    show_timer()
 
     clock.tick(60)
     pygame.display.update()
