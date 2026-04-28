@@ -100,17 +100,19 @@ while running:
         # Player Movement
         if event.type == pygame.KEYDOWN:
             if event.key in (pygame.K_LEFT, pygame.K_a):
-                player_x_change = -4
+                player_x_change += -4
             elif event.key in (pygame.K_RIGHT, pygame.K_d):
-                player_x_change = 4
+                player_x_change += 4
             if event.key == pygame.K_SPACE and bullet_ready:
                 # fire bullet logic at current player x
                 bullet_x = player_x
                 fire_bullet(bullet_x, bullet_y)
 
         if event.type == pygame.KEYUP:
-            if event.key in (pygame.K_LEFT, pygame.K_RIGHT, pygame.K_a, pygame.K_d):
-                player_x_change = 0
+            if event.key in (pygame.K_LEFT, pygame.K_a):
+                player_x_change += 4
+            if event.key in (pygame.K_RIGHT, pygame.K_d):
+                player_x_change += -4
 
     # draw Player & change coords + boundaries
     player_x += player_x_change
