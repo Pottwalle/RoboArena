@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,21 +12,106 @@
             font-family: Arial, sans-serif;
             margin: 40px;
             line-height: 1.6;
+            background-color: lightgray;
         }
+
         h1 {
             color: #333;
+        }
+
+        p {
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .header {
+            background-color: white;
+            padding-left: 10px;
+            padding-right: 10px;
+            border-radius: 5px;
+        }
+
+        .header ul {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            gap: 20px;
+        }
+
+        .header h1 {
+            border-bottom: black solid 1px;
+        }
+
+        .member {}
+
+        .sprint-target {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            padding-top: 1px;
+            margin-top: 10px;
+        }
+
+        .sprint-header {
+            border-bottom: black solid 1px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sprint-header ul {
+            list-style-type: none;
+            margin: 0px;
         }
     </style>
 </head>
 
 <body>
-    <h1>RoboArena Team 3</h1>
-  <p>Wir haben damit begonnen dieses Repo zu erstellen.</p>
-  <p>Dann haben wir einen basic Ruff test mit KI erstellt und auf das Repo geladen.</p>
-  <p>als nächstes haben wir ein basic space invaders game erstellt und damit ein wenig herumexperimentiert.</p>
-  <p>Probleme die bei uns aufgetreten sind hingen vor allem mit dem setup für das environment zusammen oder hatten
-    ihre Wurzel in relativen Pfaden und wie Python diese interpretiert.</p>
+    <div class="header">
+        <h1>RoboArena Team 3</h1>
+        <ul>
+            <li class="member"><a href="https://github.com/Pottwalle">Valk0</a></li>
+            <li class="member"><a href="https://github.com/500Block">500Block</a></li>
+            <li class="member"><a href="https://github.com/bidD007">dani_634</a></li>
+            <li class="member"><a href="https://github.com/BackForester">Backforster</a></li>
+        </ul>
+    </div>
+    <div class="sprint-target">
+        <div class="sprint-header">
+            <h1>Sprint 1</h1>
+            <ul>
+                <li>von: 17.04.2026</li>
+                <li>bis: 29.04.2026</li>
+            </ul>
+        </div>
+        <ul>
+            <li>
+                <p>Wir haben damit begonnen dieses Repo zu erstellen.</p>
+            </li>
+            <li>
+                <p>Dann haben wir einen basic Ruff test mit KI erstellt und auf das Repo geladen.</p>
+            </li>
+            <li>
+                <p>als nächstes haben wir ein basic space invaders game erstellt und damit ein wenig
+                    herumexperimentiert.</p>
+            </li>
+            <li>
+                <p>danach haben wir eine GitHub IO Seite erstellt.</p>
+            </li>
+            <li>
+                <p>Probleme die bei uns aufgetreten sind hingen vor allem mit dem setup für das environment zusammen
+                    oder hatten
+                    ihre Wurzel in relativen Pfaden und wie Python diese interpretiert.</p>
+            </li>
+        </ul>
+    </div>
+    <div class="sprint-target">
+        <a href="https://se.informatik.uni-tuebingen.de/teaching/teamproject/">Praktische Informatik 4 Projekt: Robo
+            Arena</a>
+        Leitung: <a href="https://github.com/timosachsenberg">Timo Sachsenberg</a>
+    </div>
 
 
 </body>
+
 </html>
