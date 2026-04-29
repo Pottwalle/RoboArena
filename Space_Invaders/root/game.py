@@ -11,14 +11,14 @@ height = 600
 screen = pygame.display.set_mode((width, height))
 # set window title & icon
 pygame.display.set_caption("Space Invaders")
-icon = pygame.image.load("Space_Invaders/root/resources/images/Enemy.png")
+icon = pygame.image.load("resources/images/Enemy.png")
 pygame.display.set_icon(icon)
 
 # set Background
-background = pygame.image.load("Space_Invaders/root/resources/images/Background.png")
+background = pygame.image.load("resources/images/Background.png")
 
 # Player
-player_img = pygame.image.load("Space_Invaders/root/resources/images/Spaceship.png")
+player_img = pygame.image.load("resources/images/Spaceship.png")
 player_x = 370
 player_y = 480
 player_x_change = 0
@@ -45,7 +45,7 @@ def game_over_text():
     screen.blit(game_over_blit, (200, 250))
 
 # Enemy
-enemy_img = pygame.image.load("Space_Invaders/root/resources/images/Enemy.png")
+enemy_img = pygame.image.load("resources/images/Enemy.png")
 enemy_width = enemy_img.get_width()
 enemy_x = []
 enemy_y = []
@@ -61,9 +61,22 @@ for i in range(number_of_enemies):
 def enemy(x, y):
     screen.blit(enemy_img, (x, y))
 
+# Miniboss
+boss_img = pygame.image.load("resources/images/Enemy.png")
+boss_x = 0
+boss_y = -100
+boss_x_change = 2
+boss_y_change = 0
+boss_alive = False
+boss_health = 0
+boss_max_health = 5
+
+def boss(x, y):
+    scaled_boss = pygame.transform.scale(boss_img, (128, 128))
+    screen.blit(scaled_boss, (x, y))
 
 # Bullet
-bullet_img = pygame.image.load("Space_Invaders/root/resources/images/Bullet.png")
+bullet_img = pygame.image.load("resources/images/Bullet.png")
 bullet_x = 0
 bullet_y = 480
 bullet_x_change = 4
@@ -147,7 +160,31 @@ while running:
 
             enemy_x[i] = random.randint(0, width - enemy_width)
             enemy_y[i] = random.randint(50, 150)
+    # Miniboss spawn
+    if score > 0 and score % 20 == 0 and not boss_alive:
+        boss_alive = True
+        boss_health = boss_max_health
+        boss_x = random.randint(0, width - 128)
+        boss_y = 50
 
+    # Miniboss movement
+    if boss_alive:
+        boss_x += boss_x_change
+        if boss_x <= 0 or boss_x >= width - 128:
+            boss_x_change *= -1
+
+        boss(boss_x, boss_y)
+
+        # Miniboss bullet collision
+        boss_collision = is_collision(boss_x + 32, boss_y + 32, bullet_x, bullet_y)
+        if boss_collision:
+            bullet_y = 480
+            bullet_ready = True
+            boss_health -= 1
+            if boss_health <= 0:
+                boss_alive = False
+                score += 10  
+                boss_y = -100
     # bullet movement
     if bullet_y <= 0 - bullet_y_offset * 2:
         bullet_y = 480
