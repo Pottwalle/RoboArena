@@ -1,9 +1,24 @@
-import pygame
-import random
 import math
+import random
+import pygame
+import os
 
 # init pygame
 pygame.init()
+
+# Base directory of this script
+BASE_DIR = os.path.dirname(__file__)
+
+def asset(path):
+    return os.path.join(BASE_DIR, path)
+
+icon = pygame.image.load(asset("resources/images/Enemy.png"))
+pygame.display.set_icon(icon)
+
+background = pygame.image.load(asset("resources/images/Background.png"))
+player_img = pygame.image.load(asset("resources/images/Spaceship.png"))
+enemy_img = pygame.image.load(asset("resources/images/Enemy.png"))
+bullet_img = pygame.image.load(asset("resources/images/Bullet.png"))
 
 # Game Window
 width = 800
@@ -11,14 +26,8 @@ height = 600
 screen = pygame.display.set_mode((width, height))
 # set window title & icon
 pygame.display.set_caption("Space Invaders")
-icon = pygame.image.load("Space_Invaders/root/resources/images/Enemy.png")
-pygame.display.set_icon(icon)
-
-# set Background
-background = pygame.image.load("Space_Invaders/root/resources/images/Background.png")
 
 # Player
-player_img = pygame.image.load("Space_Invaders/root/resources/images/Spaceship.png")
 player_x = 370
 player_y = 480
 player_x_change = 0
@@ -45,7 +54,6 @@ def game_over_text():
     screen.blit(game_over_blit, (200, 250))
 
 # Enemy
-enemy_img = pygame.image.load("Space_Invaders/root/resources/images/Enemy.png")
 enemy_width = enemy_img.get_width()
 enemy_x = []
 enemy_y = []
@@ -63,7 +71,6 @@ def enemy(x, y):
 
 
 # Bullet
-bullet_img = pygame.image.load("Space_Invaders/root/resources/images/Bullet.png")
 bullet_x = 0
 bullet_y = 480
 bullet_x_change = 4
