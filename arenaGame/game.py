@@ -2,15 +2,14 @@ import pygame
 import random
 import math
 from tile import Tile
+from settings import SCREEN_HEIGHT, SCREEN_WIDTH, TILE_SIZE
 
 
 
 pygame.init()
 
 # Game Window
-screen_width = 1280
-screen_height = 720
-screen = pygame.display.set_mode((screen_width, screen_height))
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 # set window title & icon
 pygame.display.set_caption("Robot Arena")
 
@@ -18,7 +17,6 @@ pygame.display.set_caption("Robot Arena")
 background = ("gray")
 
 # draw
-TILE_SIZE = 50
 # map
 MAP = [
     ["n", "n", "n", "w", "n", "n", "n", "n", "n", "n"],
@@ -48,8 +46,8 @@ grid_width = len(MAP[0]) * TILE_SIZE
 grid_height = len(MAP) * TILE_SIZE
 
 # offset for map placement
-offset_x = (screen_width - grid_width) // 2
-offset_y = (screen_height - grid_height) //2
+offset_x = (SCREEN_WIDTH - grid_width) // 2
+offset_y = (SCREEN_HEIGHT - grid_height) //2
 
 for row_index, row in enumerate(MAP):
     tile_row = []
