@@ -1,4 +1,3 @@
-import pygame
 from tile import Tile
 
 # map
