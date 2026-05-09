@@ -10,9 +10,9 @@ class BasicRobot:
         self.r = r
         self.alpha = alpha
 
-    def paint(self, screen):
+    def draw(self, screen):
         # Zeichnet den blauen Kreis
-        pygame.draw.circle(screen, (173, 216, 230), (int(self.x), int(self.y)), self.r)
+        pygame.draw.circle(screen, (255, 255, 0), (int(self.x), int(self.y)), self.r)
         # Zeichnet den schwarzen Rand
         pygame.draw.circle(screen, (0, 0, 0), (int(self.x), int(self.y)), self.r, 2)
 
@@ -45,7 +45,7 @@ if __name__ == "__main__":
         # Testen die Richtung um 360 grad:
         test_roboter.alpha += 1
 
-        test_roboter.paint(screen)
+        test_roboter.draw(screen)
 
         pygame.display.flip()
         clock.tick(60)
