@@ -50,7 +50,7 @@ class Arena:
         return grid
     
     #draw game map
-    def draw_map(self, screen):
+    def draw_map(self, screen, camera):
         for row_index, tile_row in enumerate(self.grid):
             for col_index, tile in enumerate(tile_row):
-                tile.draw(col_index, row_index, screen, self.offset_x, self.offset_y)
+                tile.draw(col_index, row_index, screen, self.offset_x - camera.x, self.offset_y - camera.y)
