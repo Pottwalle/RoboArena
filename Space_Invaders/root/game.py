@@ -1,9 +1,24 @@
-import pygame
-import random
 import math
+import random
+import pygame
+import os
 
 # init pygame
 pygame.init()
+
+# Base directory of this script
+BASE_DIR = os.path.dirname(__file__)
+
+def asset(path):
+    return os.path.join(BASE_DIR, path)
+
+icon = pygame.image.load(asset("resources/images/Enemy.png"))
+pygame.display.set_icon(icon)
+
+background = pygame.image.load(asset("resources/images/Background.png"))
+player_img = pygame.image.load(asset("resources/images/Spaceship.png"))
+enemy_img = pygame.image.load(asset("resources/images/Enemy.png"))
+bullet_img = pygame.image.load(asset("resources/images/Bullet.png"))
 
 # Game Window
 width = 800
