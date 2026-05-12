@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meine GitHub.io Seite</title>
+
+    <!-- Optional: einfache Grundstyles -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            line-height: 1.6;
+            background-color: lightgray;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p {
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .header {
+            background-color: white;
+            padding-left: 10px;
+            padding-right: 10px;
+            border-radius: 5px;
+        }
+
+        .header ul {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            gap: 20px;
+        }
+
+        .header h1 {
+            border-bottom: black solid 1px;
+        }
+
+        .member {}
+
+        .sprint-target {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            padding-top: 1px;
+            margin-top: 10px;
+        }
+
+        .sprint-header {
+            border-bottom: black solid 1px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sprint-header ul {
+            list-style-type: none;
+            margin: 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>RoboArena Team 3</h1>
+        <ul>
+            <li class="member"><a href="https://github.com/Pottwalle">Valk0</a></li>
+            <li class="member"><a href="https://github.com/500Block">500Block</a></li>
+            <li class="member"><a href="https://github.com/bidD007">dani_634</a></li>
+            <li class="member"><a href="https://github.com/BackForester">Backforster</a></li>
+        </ul>
+    </div>
+
+     <div class="sprint-target">
+        <div class="sprint-header">
+            <h1>Sprint 2</h1>
+            <ul>
+                <li>von: 29.04.2026</li>
+                <li>bis: 13.05.2026</li>
+            </ul>
+        </div>
+        <ul>
+            <li>
+                <p>Wir haben mit einem Brainstorming begonnen, welche Ideen wir zur Umsetzung unseres Games haben.
+                    Da wir uns noch nicht ganz sicher über die endgültige Umsetzung waren, haben wir beschlossen mit einer top down 2-D Karte 
+                    zu beginnen, da wir diese für jede unserer Ideen benötigen. Genauso, wie ein basic WASD Player-movement.
+                    <img src="data/sprint02/arena_first_sketch.png" alt="first sketch" width=500px>
+                </p>
+            </li>
+            <li>
+                <p>BackForester hat damit begonnen eine basic Arena zu implementieren und hat zusätzlich eine allgemeine Tiles-Klasse definiert.</p>
+            </li>
+            <li>
+                <p>Als nächstes hat Pottwalle zusätzlich drei neue Arten von Tiles zu dem vorher schon existenten Wasser hinzugefügt und die Tile Klasse 
+                    in ein eigenes Modul ausgelagert (die Tile-Eigenschaften werden aktuell noch nicht angewandt).
+                </p>
+            </li>
+            <li>
+                <p>Danach hat bidD007 die basic-Roboter Klasse implementiert, die einen Roboter als Kreis auf der Arena darstellt und dessen 
+                    Eigenschaften wie Koordinaten, Blickrichtung und Größe hält.</p>
+                    <img src="data/sprint02/basic_robo_sketch.png" alt="basic Robo" width=500px>
+                    <img src="data/sprint02/menu_experiment.png" alt="menu Idee" width=500px>
+            </li>
+            <li>
+                <p>500Block hat die Map Konstruktion ausgelagert sowie eine settingsdatei erstellt, danach basic WASD movement 
+                    implementiert mithilfe der BasicRobo Klasse.</p>
+                    <img src="data/sprint02/current_latest_model.png" alt="current status of the game" width=500px>
+            </li>
+        </ul>
+    </div>
+    <a href="index.html">Zurück zur Übersicht</a>
+
+</body>
+</html>
