@@ -23,10 +23,16 @@ class Player:
         self.base_speed = base_speed
         self.speed_modifier = speed_modifier
     
-    def update(self, dt):
-        '''handles the updating of all player related methods changing the coordinates accordingly'''
+    def update(self, dt, movement):
         self.input()
-        self.move(dt)
+        self.position = movement.move(
+            self.position,
+            self.direction,
+            self.base_speed * self.speed_modifier,
+            dt,
+            self.r
+        )
+
 
     def draw(self, screen, camera):
         screen_position = self.position - camera
@@ -63,9 +69,4 @@ class Player:
         if self.direction.length() > 0:
             self.direction = self.direction.normalize()
     
-    def move(self, dt):
-        '''moves the player's world coordinates
-        
-        Attributes:
-            dt - delta time (time elapsed since last frame)'''
-        self.position += self.direction * self.base_speed * self.speed_modifier * dt
+    
