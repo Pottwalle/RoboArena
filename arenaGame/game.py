@@ -2,6 +2,7 @@ import pygame
 from settings import SCREEN_HEIGHT, SCREEN_WIDTH, TILE_SIZE, FPS
 from arena import Arena
 from player import Player
+from tile import load_tiles
 
 
 pygame.init()
@@ -13,6 +14,7 @@ pygame.display.set_caption("Robot Arena")
 
 #set Background
 background = ("gray")
+load_tiles()
 
 # Arena
 arena = Arena(SCREEN_WIDTH, SCREEN_HEIGHT, TILE_SIZE)

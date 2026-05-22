@@ -1,25 +1,52 @@
 import pygame
 from settings import ASSET_DIR, TILE_SIZE, EDGE_OVERLAYS
 
-tileset = pygame.image.load(ASSET_DIR + "/tiles/tileset.png")
+tileset = None
+tiles = None
+tile_edges = None
 
-tiles = {
-    "dirt": tileset.subsurface((x, y, TILE_SIZE, TILE_SIZE)).convert(),
-    "water": tileset.subsurface((x, y, TILE_SIZE, TILE_SIZE)).convert(),
-    "lava": tileset.subsurface((x, y, TILE_SIZE, TILE_SIZE)).convert(),
-    "brick": tileset.subsurface((x, y, TILE_SIZE, TILE_SIZE)).convert(),
-    "jungle": tileset.subsurface((x, y, TILE_SIZE, TILE_SIZE)).convert()
-}
+def load_tiles():
+    global tileset, tiles, tile_edges
+    tileset = pygame.image.load(ASSET_DIR / 'tiles' / 'tileset.png')
 
-tile_edges = {
+    tiles = {
+        "dirt": tileset.subsurface((0, 0, TILE_SIZE, TILE_SIZE)).convert(),
+        "lava": tileset.subsurface((32, 0, TILE_SIZE, TILE_SIZE)).convert(),
+        "water": tileset.subsurface((64, 0, TILE_SIZE, TILE_SIZE)).convert(),
+        "brick": tileset.subsurface((96, 0, TILE_SIZE, TILE_SIZE)).convert(),
+        "jungle": tileset.subsurface((192, 0, TILE_SIZE, TILE_SIZE)).convert()
+    }
 
-}
+    tile_edges = {
+
+    }
+
+class Tile_Mask:
+    def __init__(self, top, bottom, left, right, tile_type):
+        '''
+        stores the 
+        Args:
+            top, bottom, left, right, tile_type: tile types according to type_mapping in arena.py
+        '''
+        self.top = top
+        self.bottom = bottom
+        self.left = left
+        self.right = right
+        self.tile_type = tile_type
+    
+    def generate_mask(self):
+        if self.tile_type == "water":
+            if self.tile_type != self.top:
+                pass
 
 class Tile:
-    def __init__(self, x, y, size, tile_type="normal", solid=False, dmg=0):
+    def __init__(self, x, y, size, mask: Tile_Mask, tile_type="normal", solid=False, dmg=0):
         self.x = x
         self.y = y
         self.size = size
+
+        # Maske um übergänge zeichnen zu können
+        self.mask = mask
 
         # Rechteck für Kollision & Position
         self.rect = pygame.Rect(x * size, y * size, size, size)
@@ -65,4 +92,5 @@ class Tile:
         surface.blit(tiles[self.tile_type], pos)
 
         if EDGE_OVERLAYS:
-            surface.blit(tile_edges[0], pos) #TODO
+            if self.mask.top == "water":
+                surface.blit(tile_edges[0], pos) #TODO
