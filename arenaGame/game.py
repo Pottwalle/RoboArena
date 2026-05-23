@@ -3,6 +3,8 @@ from settings import SCREEN_HEIGHT, SCREEN_WIDTH, TILE_SIZE, FPS
 from arena import Arena
 from player import Player
 from movement import Movement
+from damage import Damage
+from lifebar import Lifebar
 
 
 pygame.init()
@@ -25,6 +27,10 @@ player = Player(
     arena.offset_y + arena.grid_height // 2,
     10, 0, 100
 )
+# create damage handler
+damage = Damage(movement)
+#create lifebar 
+lifebar = Lifebar(player, screen)
 
 
 # basic game loop
@@ -42,6 +48,9 @@ while running:
 
     player.update(dt, movement)
 
+    # apply damage to player based on current tile
+    damage.applyDamage(player, dt)
+
     # player camera, move the arena in the way that the player stays centered, represents the camera coordinates (center screen)
     camera = player.position - pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 
@@ -50,4 +59,8 @@ while running:
     #draw game map and player
     arena.draw_map(screen, camera)
     player.draw(screen, camera)
+    #draw lifebar on top of everything
+    lifebar.draw()
     pygame.display.update()
+
+    

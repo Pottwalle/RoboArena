@@ -41,7 +41,7 @@ class Tile:
         elif tile_type == "lava":
             self.color = (255, 80, 0)
             self.speed_modifier = 0.7
-            self.dmg = 1
+            self.dmg = 5
         elif tile_type == "jungle":
             self.color = (144, 238, 144)
 
