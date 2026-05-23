@@ -1,4 +1,3 @@
-import pygame
 
 class Damage:
     def __init__(self, movement):
