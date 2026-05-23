@@ -14,12 +14,16 @@ class Player:
             alpha: direction of the player facing
             base_speed: the bas movement speed of the player
             speed_modifier: the multiplier of the base speed, initially 1
+            hp: the health points of the player, initially 100
+            max_hp: the maximum health points of the player, initially 100
         '''
 
         self.position = pygame.Vector2(x, y)
         self.r = r
         self.alpha = alpha
         self.direction = pygame.Vector2()
+        self.hp = 100
+        self.max_hp = 100
 
         self.base_speed = base_speed
         self.speed_modifier = speed_modifier
@@ -30,10 +34,13 @@ class Player:
         self.max_speed = 300
         self.friction = 0.90
 
-    def update(self, dt):
         '''handles the updating of all player related methods changing the coordinates accordingly'''
+    
+    def update(self, dt, movement):
         self.input()
-        self.move(dt)
+        self.position = movement.move(self, dt)
+
+
 
     def draw(self, screen, camera):
         screen_position = self.position - camera
@@ -69,35 +76,3 @@ class Player:
 
         if self.direction.length() > 0:
             self.direction = self.direction.normalize()
-
-    def move(self, dt):
-        '''moves the player's world coordinates
-
-        Attributes:
-            dt - delta time (time elapsed since last frame)'''
-
-        # --- Beschleunigung + Richtungswechsel ---
-        if self.direction.length() > 0:
-
-            dir_norm = self.direction.normalize()
-
-            # Richtungswechsel erkennen
-            if self.velocity.length() > 0:
-                vel_dir = self.velocity.normalize()
-
-                # wenn entgegengesetzt → kurz bremsen
-                if vel_dir.dot(dir_norm) < 0:
-                    self.velocity *= 0.5
-
-            # Beschleunigung
-            self.velocity += dir_norm * self.acceleration * dt
-
-        # --- maximale Geschwindigkeit ---
-        if self.velocity.length() > self.max_speed:
-            self.velocity = self.velocity.normalize() * self.max_speed
-
-        # --- Bewegung ---
-        self.position += self.velocity * dt
-
-        # --- Reibung / Ausrollen ---
-        self.velocity *= self.friction

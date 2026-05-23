@@ -2,13 +2,22 @@ import pygame
 
 
 class Tile:
-    def __init__(self, x, y, size, tile_type="normal", solid=False, dmg=0):
+    def __init__(self, x, y, size, tile_type="normal", solid=False, dmg=0, offset_x=0, offset_y=0):
         self.x = x
         self.y = y
         self.size = size
 
+        # Weltkoordinaten inkl. offset
+        world_x = offset_x + x * size
+        world_y = offset_y + y * size
+
         # Rechteck für Kollision & Position
-        self.rect = pygame.Rect(x * size, y * size, size, size)
+        self.rect = pygame.Rect(
+            world_x,
+            world_y,
+            size,
+            size
+        )
 
         # Tile-Eigenschaften
         self.tile_type = tile_type
@@ -32,7 +41,7 @@ class Tile:
         elif tile_type == "lava":
             self.color = (255, 80, 0)
             self.speed_modifier = 0.7
-            self.dmg = 1
+            self.dmg = 5
         elif tile_type == "jungle":
             self.color = (144, 238, 144)
 
