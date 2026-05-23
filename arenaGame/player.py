@@ -4,7 +4,7 @@ import math
 
 # Roboter Klasse mit Attributen, Position, Radius und Richtung
 class Player:
-    def __init__(self, x, y, r, alpha, base_speed, speed_modifier = 1):
+    def __init__(self, x, y, r, alpha, base_speed, speed_modifier=1):
         '''Represents th Player in the game holding the position, handling the movement and drawing of the player
 
         Attributes:
@@ -15,6 +15,7 @@ class Player:
             base_speed: the bas movement speed of the player
             speed_modifier: the multiplier of the base speed, initially 1
         '''
+
         self.position = pygame.Vector2(x, y)
         self.r = r
         self.alpha = alpha
@@ -22,7 +23,13 @@ class Player:
 
         self.base_speed = base_speed
         self.speed_modifier = speed_modifier
-    
+
+        # --- movement Erweiterung ---
+        self.velocity = pygame.Vector2(0, 0)
+        self.acceleration = 800
+        self.max_speed = 300
+        self.friction = 0.90
+
     def update(self, dt):
         '''handles the updating of all player related methods changing the coordinates accordingly'''
         self.input()
@@ -45,7 +52,7 @@ class Player:
 
     def input(self):
         '''handles the inputs for the player movement and sets the direction value accordingly
-        
+
         sets the direction y to w = -1, s = 1, and x to a = -1, d = 1'''
         keys = pygame.key.get_pressed()
         self.direction.x = 0
@@ -62,10 +69,35 @@ class Player:
 
         if self.direction.length() > 0:
             self.direction = self.direction.normalize()
-    
+
     def move(self, dt):
         '''moves the player's world coordinates
-        
+
         Attributes:
             dt - delta time (time elapsed since last frame)'''
-        self.position += self.direction * self.base_speed * self.speed_modifier * dt
+
+        # --- Beschleunigung + Richtungswechsel ---
+        if self.direction.length() > 0:
+
+            dir_norm = self.direction.normalize()
+
+            # Richtungswechsel erkennen
+            if self.velocity.length() > 0:
+                vel_dir = self.velocity.normalize()
+
+                # wenn entgegengesetzt → kurz bremsen
+                if vel_dir.dot(dir_norm) < 0:
+                    self.velocity *= 0.5
+
+            # Beschleunigung
+            self.velocity += dir_norm * self.acceleration * dt
+
+        # --- maximale Geschwindigkeit ---
+        if self.velocity.length() > self.max_speed:
+            self.velocity = self.velocity.normalize() * self.max_speed
+
+        # --- Bewegung ---
+        self.position += self.velocity * dt
+
+        # --- Reibung / Ausrollen ---
+        self.velocity *= self.friction
