@@ -39,7 +39,27 @@ class Movement:
         # checks for each tile in the tilemap, if the player is currently on it
         for row in self.tilemap:
             for tile in row:
-                if tile.rect.collidepoint(pos.x, pos.y):
+                player_rect = pygame.Rect(
+                pos.x - radius,
+                pos.y - radius,
+                radius * 2,
+                radius * 2
+)
+                if tile.rect.colliderect(player_rect):
                     # returns speed modifier for the current tile, the player is on.
                     return tile.speed_modifier
         return 1.0
+    
+    def getCurrentTile(self, pos, radius):
+        for row in self.tilemap:
+            for tile in row:
+                player_rect = pygame.Rect(
+                pos.x - radius,
+                pos.y - radius,
+                radius * 2,
+                radius * 2
+)
+                if tile.rect.colliderect(player_rect):
+                    return tile
+        return None
+    
