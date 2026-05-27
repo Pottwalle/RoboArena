@@ -31,6 +31,7 @@ player = Player(
 enemies = [
     Enemy(arena.offset_x + 100, arena.offset_y + 100, 10, 0, 60, movement, movementType="aggressive"),
     Enemy(arena.offset_x + 200, arena.offset_y + 150, 10, 0, 40, movement, movementType="random"),
+    Enemy(arena.offset_x + 300, arena.offset_y + 200, 10, 0, 20, movement, movementType="passive"),
 ]
 
 # create damage handler

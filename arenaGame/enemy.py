@@ -47,6 +47,10 @@ class Enemy:
                 diff = self.position - player.position
                 if diff.length() > 0:
                     self.direction = diff.normalize()
+            elif (player.position - self.position).length() > 200:
+                diff = player.position - self.position
+                if diff.length() > 0:
+                    self.direction = diff.normalize()
             else:
                 self.direction = pygame.Vector2(0, 0)
 
