@@ -5,7 +5,7 @@ import math
 # Roboter Klasse mit Attributen, Position, Radius und Richtung
 class Player:
     def __init__(self, x, y, r, alpha, base_speed, speed_modifier = 1):
-        '''Represents th Player in the game holding the position, handling the movement and drawing of the player
+        '''Represents the Player in the game holding the position, handling the movement and drawing of the player
 
         Attributes:
             x: players x position
