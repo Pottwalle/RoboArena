@@ -59,8 +59,7 @@ while running:
     #draw game map and player
     arena.draw_map(screen, camera)
     player.draw(screen, camera)
-    #draw lifebar on top of everything
-    lifebar.draw()
+    
     pygame.display.update()
 
     

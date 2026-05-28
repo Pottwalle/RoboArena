@@ -5,61 +5,76 @@ class Movement:
     def __init__(self, tilemap):
         self.tilemap = tilemap
 
-    # moves the player based on the input direction, speed and delta time, 
-    # with respect to the tile properties of the current tile the player is on.
-    def move(self, pos, direction, speed, dt, radius):
-        # get the speed modifier of current tile the player is on
+    def move(self, player, dt):
+        pos = player.position
+        direction = player.direction
+        radius = player.r
+
+        velocity = player.velocity
+        acceleration = player.acceleration
+        max_speed = player.max_speed
+        friction = player.friction
+
+        # --- Tile Speed Modifier ---
         speed_mod = self.handleMoveSpeed(pos, radius)
-        # get actual movement speed for current tile
-        effective_speed = speed * speed_mod
-        # new position based on current tile speed modifier
-        new_pos = pos + direction * effective_speed * dt
+
+        # --- Beschleunigung ---
+        if direction.length() > 0:
+            dir_norm = direction.normalize()
+
+            # Richtungswechsel abbremsen
+            if velocity.length() > 0:
+                vel_dir = velocity.normalize()
+                if vel_dir.dot(dir_norm) < 0:
+                    velocity *= 0.5
+
+            # Beschleunigung (inkl. Tile-Speed)
+            velocity += dir_norm * acceleration * speed_mod * dt
+
+        # --- Max Speed ---
+        if velocity.length() > max_speed * speed_mod:
+            velocity = velocity.normalize() * max_speed * speed_mod
+
+        # --- Reibung ---
+        velocity *= friction
+
+        # --- Bewegung ---
+        new_pos = pos + velocity * dt
+
+        # --- Kollision ---
         if self.handleCollision(new_pos, radius):
+            # bei Kollision Geschwindigkeit stoppen
+            velocity = pygame.Vector2(0, 0)
+            player.velocity = velocity
             return pos
+
+        # Velocity zurückspeichern
+        player.velocity = velocity
         return new_pos
-    
-    # checks if the player collides with any solid tile, returns true if so.
+
     def handleCollision(self, pos, radius):
-        # checks for each tile in the tilemap, if the player is currently on it.
+        player_rect = pygame.Rect(pos.x - radius, pos.y - radius, radius*2, radius*2)
+
         for row in self.tilemap:
             for tile in row:
-                player_rect = pygame.Rect(
-                pos.x - radius,
-                pos.y - radius,
-                radius * 2,
-                radius * 2
-)
                 if tile.solid and tile.rect.colliderect(player_rect):
-                    print("Kollision mit:", tile.rect)
                     return True
         return False
-    
-    # checks whether the tile the player is currently on has a speed modifier.
+
     def handleMoveSpeed(self, pos, radius):
-        # checks for each tile in the tilemap, if the player is currently on it
+        player_rect = pygame.Rect(pos.x - radius, pos.y - radius, radius*2, radius*2)
+
         for row in self.tilemap:
             for tile in row:
-                player_rect = pygame.Rect(
-                pos.x - radius,
-                pos.y - radius,
-                radius * 2,
-                radius * 2
-)
                 if tile.rect.colliderect(player_rect):
-                    # returns speed modifier for the current tile, the player is on.
                     return tile.speed_modifier
         return 1.0
-    
+
     def getCurrentTile(self, pos, radius):
+        player_rect = pygame.Rect(pos.x - radius, pos.y - radius, radius*2, radius*2)
+
         for row in self.tilemap:
             for tile in row:
-                player_rect = pygame.Rect(
-                pos.x - radius,
-                pos.y - radius,
-                radius * 2,
-                radius * 2
-)
                 if tile.rect.colliderect(player_rect):
                     return tile
         return None
-    

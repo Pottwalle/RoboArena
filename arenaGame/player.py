@@ -4,7 +4,7 @@ import math
 
 # Roboter Klasse mit Attributen, Position, Radius und Richtung
 class Player:
-    def __init__(self, x, y, r, alpha, base_speed, speed_modifier = 1):
+    def __init__(self, x, y, r, alpha, base_speed, speed_modifier=1):
         '''Represents th Player in the game holding the position, handling the movement and drawing of the player
 
         Attributes:
@@ -17,6 +17,7 @@ class Player:
             hp: the health points of the player, initially 100
             max_hp: the maximum health points of the player, initially 100
         '''
+
         self.position = pygame.Vector2(x, y)
         self.r = r
         self.alpha = alpha
@@ -26,16 +27,19 @@ class Player:
 
         self.base_speed = base_speed
         self.speed_modifier = speed_modifier
+
+        # --- movement Erweiterung ---
+        self.velocity = pygame.Vector2(0, 0)
+        self.acceleration = 800
+        self.max_speed = 300
+        self.friction = 0.90
+
+        '''handles the updating of all player related methods changing the coordinates accordingly'''
     
     def update(self, dt, movement):
         self.input()
-        self.position = movement.move(
-            self.position,
-            self.direction,
-            self.base_speed * self.speed_modifier,
-            dt,
-            self.r
-        )
+        self.position = movement.move(self, dt)
+
 
 
     def draw(self, screen, camera):
@@ -55,7 +59,7 @@ class Player:
 
     def input(self):
         '''handles the inputs for the player movement and sets the direction value accordingly
-        
+
         sets the direction y to w = -1, s = 1, and x to a = -1, d = 1'''
         keys = pygame.key.get_pressed()
         self.direction.x = 0
@@ -72,5 +76,3 @@ class Player:
 
         if self.direction.length() > 0:
             self.direction = self.direction.normalize()
-    
-    
