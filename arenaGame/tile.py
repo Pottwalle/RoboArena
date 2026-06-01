@@ -1,5 +1,5 @@
 import pygame
-from settings import ASSET_DIR, TILE_SIZE, EDGE_OVERLAYS
+from settings import ASSET_DIR, TILE_SIZE
 
 tileset = None
 tiles = None
