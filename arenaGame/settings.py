@@ -6,7 +6,8 @@ SCREEN_HEIGHT = 720
 FPS = 60
 
 # Tiles
-TILE_SIZE = 50
+TILE_SIZE = 32
+EDGE_OVERLAYS = False
 
 # base rescource path
 BASE_DIR = Path(__file__).parent
