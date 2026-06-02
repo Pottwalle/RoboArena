@@ -18,14 +18,12 @@ MAP = [
 
 # type mapping
 type_mapping = {
-    "n": "dirt", 
-    "w": "water", 
+    "n": "normal", 
+    "w": "wasser", 
     "b": "brick", 
     "l": "lava",
     "j": "jungle"
     }
-
-mapped_map = [[type_mapping[char] for char in row] for row in MAP]
 
 class Arena:
     def __init__(self, screen_width, screen_height, tile_size):
@@ -39,9 +37,9 @@ class Arena:
         self.offset_x = (self.screen_width - self.grid_width) // 2
         self.offset_y = (self.screen_height - self.grid_height) // 2
 
-        self.grid = self.generate_grid(mapped_map)
+        self.grid = self.generate_grid()
     
-    def generate_grid(self, mapped_map):
+    def generate_grid(self):
         grid = []
 
         for row_index, row in enumerate(MAP):
