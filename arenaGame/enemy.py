@@ -1,7 +1,7 @@
 import pygame
 import math
 import random
-import movement
+
 
 class Enemy:
     def __init__(self, x, y, r, alpha, base_speed, movement, speed_modifier=1, health=10, damage=5, movementType="random"):
