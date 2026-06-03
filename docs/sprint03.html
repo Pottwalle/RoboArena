@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meine GitHub.io Seite</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="header">
+        <h1>RoboArena Team 3</h1>
+        <ul>
+            <li class="member"><a href="https://github.com/Pottwalle">Valk0</a></li>
+            <li class="member"><a href="https://github.com/500Block">500Block</a></li>
+            <li class="member"><a href="https://github.com/bidD007">dani_634</a></li>
+            <li class="member"><a href="https://github.com/BackForester">Backforster</a></li>
+        </ul>
+    </div>
+
+     <div class="sprint-target">
+        <div class="sprint-header">
+            <h1>Sprint 3</h1>
+            <ul>
+                <li>von: 13.05.2026</li>
+                <li>bis: 03.06.2026</li>
+            </ul>
+        </div>
+        <ul>
+            <li>
+                <p>500 Block hat Texturen erstellt und das rendering der Tiles implementiert, außerdem wurden edge Tile Texturen erstellt, welche noch implementiert werden müssen.
+                    <br>
+                    <img src="data/sprint03/tiles_example.png" alt="example of tiles also with edge tiles">
+                    <img src="data/sprint03/tileset_crop.png" alt="tileset">
+                    <br>
+                    <a href="https://github.com/Pottwalle/RoboArena/pull/51#issue-4566428920">more details</a>
+                </p>
+            </li>
+        </ul>
+         <ul>
+            <li>
+                <p>
+                    Backforester hat Gegner hinzugefügt.
+                </p>
+                <p>
+                    Diese haben 3 grundlegende movement typen (passiv,aggresiv,random), Kollision mit tiles, HP und berührungsschaden, jedoch noch keine Kollision mit dem spieler, damit dieser ausgelöst werden könnte.
+                </p>
+            </li>
+            <li>
+                <p>
+                    Pottwalle hat das Player-Movement in eine eigene Klasse ausgelagert, in welcher zusätzlich auch Kollisionen behandelt werden.<br>
+                    Danach hat er eine Lifebar eingefügt, und eine Scchadensklasse, in welcher Schaden applied werden kann. Tile Damage wurde hier zum testen angewandt.
+                </p>
+            </li>
+            <li>
+                <p>
+                    bidD007 hat neue Movement Bewegungen eingeführt, die dafür sorgen dass der Player bei längeren gedrückt halten einer Richtungstaste schneller wird und bei einem Richtungswechsel eine Verzögerung bekommt
+                </p>
+            </li>
+         </ul>
+    </div>
+    <div class="sprint-target">
+        <a href="index.html">Zurück zur Übersicht</a>
+    </div>
+</body>
+
+</html>
