@@ -1,5 +1,5 @@
 import pygame
-from settings import ASSET_DIR, TILE_SIZE
+from settings import TILE_SIZE
 
 
 class Tile:
