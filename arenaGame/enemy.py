@@ -2,6 +2,7 @@ import pygame
 import math
 import random
 
+
 class Enemy:
     def __init__(self, x, y, r, alpha, base_speed, movement, speed_modifier=1, health=10, damage=5, movementType="random"):
         self.position = pygame.Vector2(x, y)
@@ -15,6 +16,14 @@ class Enemy:
         self.damage = damage
         self.movement_type = movementType
         self.movement = movement  # Movement-Objekt übergeben
+
+        # --- movement Erweiterung ---
+        self.velocity = pygame.Vector2(0, 0)
+        self.acceleration = 800
+        self.max_speed = 300
+        self.friction = 0.90
+
+        '''handles the updating of all player related methods changing the coordinates accordingly'''
 
     def update(self, dt, player, clock):
         self.move(dt, player, clock)
@@ -61,9 +70,5 @@ class Enemy:
         self.calcDirection(player, clock)
         # movement.move() übernimmt Kollision & Tile-Geschwindigkeit automatisch
         self.position = self.movement.move(
-            self.position,
-            self.direction,
-            self.base_speed * self.speed_modifier,
-            dt,
-            self.r
+            self,dt
         )
