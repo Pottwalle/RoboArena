@@ -6,6 +6,7 @@ from movement import Movement
 from damage import Damage
 from lifebar import Lifebar
 from enemy import Enemy
+from tile import load_tiles
 
 pygame.init()
 
@@ -17,6 +18,7 @@ pygame.display.set_caption("Robot Arena")
 # set Background
 background = ("gray")
 
+load_tiles()
 # Arena
 arena = Arena(SCREEN_WIDTH, SCREEN_HEIGHT, TILE_SIZE)
 # Tilemap for movement
@@ -74,4 +76,4 @@ while running:
     # draw lifebar on top of everything
     lifebar.draw()
     pygame.display.update()
-
+    
