@@ -23,6 +23,8 @@ class Enemy:
         self.max_speed = 300
         self.friction = 0.90
 
+        self.weapon = None
+
         '''handles the updating of all player related methods changing the coordinates accordingly'''
 
     def update(self, dt, player, clock):
@@ -72,3 +74,6 @@ class Enemy:
         self.position = self.movement.move(
             self,dt
         )
+
+    def setWeapon(self, weapon):
+        self.weapon = weapon

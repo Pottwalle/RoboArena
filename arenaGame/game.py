@@ -7,6 +7,7 @@ from damage import Damage
 from lifebar import Lifebar
 from enemy import Enemy
 from tile import load_tiles
+from club import Club
 
 pygame.init()
 
@@ -29,6 +30,7 @@ player = Player(
     arena.offset_y + arena.grid_height // 2,
     10, 0, 100
 )
+player.setWeapon(Club(player))
 # Gegner-Liste erstellen
 enemies = [
     Enemy(arena.offset_x + 100, arena.offset_y + 100, 10, 0, 60, movement, movementType="aggressive"),
@@ -59,6 +61,10 @@ while running:
     for enemy in enemies:
         enemy.update(dt, player, clock)
 
+    # apply weapon damage to enemies
+    if player.weapon is not None:
+        player.weapon.update(dt, enemies)
+
     # apply damage to player based on current tile
     damage.applyDamage(player, dt)
 
@@ -70,9 +76,15 @@ while running:
     # draw game map and player
     arena.draw_map(screen, camera)
     player.draw(screen, camera)
+    # draw weapon 
+    if player.weapon is not None:
+        player.weapon.draw(screen, camera)
     #draw enemies
     for enemy in enemies:
         enemy.draw(screen, camera)
+
+    # remove dead enemies
+    enemies = [enemy for enemy in enemies if enemy.health > 0]
     # draw lifebar on top of everything
     lifebar.draw()
     pygame.display.update()
