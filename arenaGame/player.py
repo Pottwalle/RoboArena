@@ -1,7 +1,5 @@
 import pygame
 import math
-from meleeWeapon import MeleeWeapon
-
 # Roboter Klasse mit Attributen, Position, Radius und Richtung
 class Player:
     def __init__(self, x, y, r, alpha, base_speed, speed_modifier = 1):

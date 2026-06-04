@@ -1,6 +1,5 @@
 # arenaGame/melee_weapon.py
 import math
-import pygame
 from weapon import Weapon
 
 

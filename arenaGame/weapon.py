@@ -1,5 +1,4 @@
 # arenaGame/weapon.py
-import math
 import pygame
 
 
@@ -16,16 +15,16 @@ class Weapon:
     def update(self, dt: float, targets: list):
         """
         dt: delta time
-        targets: Liste von Objekten mit .position und .health (z.B. Enemy)
+        targets: list of enemmies to hit 
         """
         self.time_since_last_attack += dt
 
-        # Default: nichts tun – konkrete Waffen implementieren Logik
+        # Default: specialised weapon implement update, here is nothing more
         # (MeleeWeapon wird das überschreiben)
         pass
 
     def draw(self, screen, camera: pygame.Vector2):
         """
-        Optionale Visualisierung der Waffe.
+        optional visualisiation of the weapon
         """
         pass
