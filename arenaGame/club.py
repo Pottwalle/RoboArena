@@ -7,7 +7,7 @@ class Club(MeleeWeapon):
     def __init__(self, owner):
         super().__init__(
             owner=owner,
-            damage=10,
+            damage=2,
             attack_range=60,
             cone_angle_deg=60,
             cooldown=0.8,
