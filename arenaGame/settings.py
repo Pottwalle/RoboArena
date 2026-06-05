@@ -7,7 +7,7 @@ FPS = 60
 
 # Tiles
 TILE_SIZE = 32
-EDGE_OVERLAYS = False
+EDGE_OVERLAYS = True
 
 # base rescource path
 BASE_DIR = Path(__file__).parent

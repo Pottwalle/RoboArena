@@ -68,7 +68,7 @@ class Arena:
         
         return grid
     
-    def get_tile(map: list[list[str]], row: int, col: int) -> str | None:
+    def get_tile(self, map: list[list[str]], row: int, col: int) -> str | None:
         '''
         Returns the tile Type at the position row, col in the map with None if out of bounds
         Args:
@@ -76,7 +76,7 @@ class Arena:
             row: row index for the tile if in bounds
             col: collumn index for the tile if in bounds
         '''
-        if 0 <= row <= len(map) and 0 <= col <= len(map[0]):
+        if 0 <= row < len(map) and 0 <= col < len(map[0]):
             return map[row][col]
         return None
     

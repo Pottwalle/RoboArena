@@ -1,14 +1,13 @@
 import pygame
 
 TRANSITIONS = {
-    "dirt": ["water", "lava"],
-    "jungle": ["dirt"]
+    "dirt": [("water", "water_dirt"), ("lava", "lava_dirt")],
+    "jungle": [("dirt", "dirt_jungle")],
 }
 
 class Tile_Mask():
     def __init__(self, top, bottom, left, right, tile_type):
-        '''
-        stores the 
+        '''stores the direction tile typed of the given tile
         Args:
             top, bottom, left, right, tile_type: tile types according to type_mapping in arena.py
         '''
@@ -17,8 +16,10 @@ class Tile_Mask():
         self.left = left
         self.right = right
         self.tile_type = tile_type
+        self.mask = self.generate_mask()
     
-    def generate_mask(self):
+    def generate_mask(self) -> list:
+        '''generates a list of tuples which hold the (edge_key, direction), the edge_key contains the <base tile type>_<neighbor tile type> and directions in the format n, e, s, w, nw, ne, sw, se'''
         overlays = []
 
         def add_edges(neighbor_type, overlay_key):
@@ -37,6 +38,6 @@ class Tile_Mask():
             if "s" in edges and "e" in edges: overlays.append((overlay_key, "se"))
         
         for neighbor_type in TRANSITIONS.get(self.tile_type, []):
-            add_edges(neighbor_type, neighbor_type)
+            add_edges(neighbor_type[0], neighbor_type[1])
         
         return overlays
