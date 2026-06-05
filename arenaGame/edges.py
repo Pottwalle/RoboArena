@@ -1,6 +1,7 @@
 TRANSITIONS = {
-    "dirt": [("water", "water_dirt"), ("lava", "lava_dirt")],
-    "jungle": [("dirt", "dirt_jungle")],
+    "water": [("dirt", "water_dirt")],
+    "lava": [("dirt", "lava_dirt")],
+    "dirt": [("jungle", "dirt_jungle")]
 }
 
 class Tile_Mask():
