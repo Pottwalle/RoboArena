@@ -8,6 +8,7 @@ from lifebar import Lifebar
 from enemy import Enemy
 from tile import load_tiles
 from club import Club
+from enum import Enum, auto
 
 pygame.init()
 
@@ -43,6 +44,14 @@ damage = Damage(movement)
 # create lifebar
 lifebar = Lifebar(player, screen)
 
+# Game states
+class GameState(Enum):
+    MAIN_MENU = auto()
+    PLAYING = auto()
+    ESC_MENU = auto()
+
+state = GameState.PLAYING
+
 # basic game loop
 clock = pygame.time.Clock()
 running = True
@@ -51,41 +60,55 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                if state == GameState.ESC_MENU:
+                    state = GameState.PLAYING
+                else:
+                    state = GameState.ESC_MENU
 
     # delta time (time elapsed since last frame)
     dt = clock.tick(FPS) / 1000
     # print("FPS: ", clock.get_fps())
 
-    player.update(dt, movement)
+    if state == GameState.PLAYING:
+        player.update(dt, movement)
 
-    for enemy in enemies:
-        enemy.update(dt, player, clock)
+        for enemy in enemies:
+            enemy.update(dt, player, clock)
 
-    # apply weapon damage to enemies
-    if player.weapon is not None:
-        player.weapon.update(dt, enemies)
+        # apply weapon damage to enemies
+        if player.weapon is not None:
+            player.weapon.update(dt, enemies)
 
-    # apply damage to player based on current tile
-    damage.applyDamage(player, dt)
+        # apply damage to player based on current tile
+        damage.applyDamage(player, dt)
 
-    # player camera, move the arena in the way that the player stays centered, represents the camera coordinates (center screen)
-    camera = player.position - pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+        # player camera, move the arena in the way that the player stays centered, represents the camera coordinates (center screen)
+        camera = player.position - pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 
-    # draw Background
-    screen.fill(background)
-    # draw game map and player
-    arena.draw_map(screen, camera)
-    player.draw(screen, camera)
-    # draw weapon 
-    if player.weapon is not None:
-        player.weapon.draw(screen, camera)
-    #draw enemies
-    for enemy in enemies:
-        enemy.draw(screen, camera)
+        # draw Background
+        screen.fill(background)
+        # draw game map and player
+        arena.draw_map(screen, camera)
+        player.draw(screen, camera)
+        # draw weapon 
+        if player.weapon is not None:
+            player.weapon.draw(screen, camera)
+        #draw enemies
+        for enemy in enemies:
+            enemy.draw(screen, camera)
 
-    # remove dead enemies
-    enemies = [enemy for enemy in enemies if enemy.health > 0]
-    # draw lifebar on top of everything
-    lifebar.draw()
+        # remove dead enemies
+        enemies = [enemy for enemy in enemies if enemy.health > 0]
+        # draw lifebar on top of everything
+        lifebar.draw()
+
+    elif state == GameState.MAIN_MENU:
+        pass
+
+    elif state == GameState.ESC_MENU:
+        pass
+    
     pygame.display.update()
     
