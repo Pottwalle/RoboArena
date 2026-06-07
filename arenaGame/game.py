@@ -9,6 +9,7 @@ from enemy import Enemy
 from tile import load_tiles
 from club import Club
 from enum import Enum, auto
+from ui import main_menu
 
 pygame.init()
 
@@ -50,7 +51,10 @@ class GameState(Enum):
     PLAYING = auto()
     ESC_MENU = auto()
 
-state = GameState.PLAYING
+state = GameState.MAIN_MENU
+
+# Menus
+main_menu = main_menu.MainMenu()
 
 # basic game loop
 clock = pygame.time.Clock()
@@ -66,6 +70,8 @@ while running:
                     state = GameState.PLAYING
                 else:
                     state = GameState.ESC_MENU
+        
+        main_menu.handle_event(event)
 
     # delta time (time elapsed since last frame)
     dt = clock.tick(FPS) / 1000
@@ -105,7 +111,9 @@ while running:
         lifebar.draw()
 
     elif state == GameState.MAIN_MENU:
-        pass
+        # main_menu.handle_event(event)
+        main_menu.update(dt)
+        main_menu.draw(screen)
 
     elif state == GameState.ESC_MENU:
         pass
