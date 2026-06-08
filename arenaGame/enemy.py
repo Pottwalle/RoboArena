@@ -13,6 +13,7 @@ class Enemy:
         self.base_speed = base_speed
         self.speed_modifier = speed_modifier
         self.health = health
+        self.max_health = health
         self.damage = damage
         self.movement_type = movementType
         self.movement = movement  # Movement-Objekt übergeben
@@ -20,7 +21,7 @@ class Enemy:
         # --- movement Erweiterung ---
         self.velocity = pygame.Vector2(0, 0)
         self.acceleration = 800
-        self.max_speed = 300
+        self.max_speed = 200
         self.friction = 0.90
 
         self.weapon = None
@@ -40,6 +41,30 @@ class Enemy:
         end_x = screen_position.x + math.cos(rad) * self.r
         end_y = screen_position.y - math.sin(rad) * self.r
         pygame.draw.line(screen, (0, 0, 0), (screen_position.x, screen_position.y), (int(end_x), int(end_y)), 2)
+
+        # Lifebar
+        bar_width = 40
+        bar_height = 6
+        bar_offset = self.r + 10
+
+        # background
+        bg_rect = pygame.Rect(
+            screen_position.x - bar_width // 2,
+            screen_position.y - bar_offset,
+            bar_width,
+            bar_height
+        )
+        pygame.draw.rect(screen, (255,0,0), bg_rect)
+
+        # current life
+        hp_ratio = self.health / self.max_health
+        fg_rect = pygame.Rect(
+            screen_position.x - bar_width // 2,
+            screen_position.y - bar_offset,
+            bar_width * hp_ratio,
+            bar_height
+        )
+        pygame.draw.rect(screen, (0,255,0), fg_rect)
 
     def calcDirection(self, player, clock):
         if self.movement_type == "random":
