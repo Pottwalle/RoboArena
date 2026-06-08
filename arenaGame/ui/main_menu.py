@@ -3,7 +3,7 @@ from .ui_manager import UIManager
 from .button import Button
 
 class MainMenu():
-    def __init__(self):
+    def __init__(self, set_playing):
         self.font = pygame.font.Font("freesansbold.ttf", 32)
 
         self.ui = UIManager()
@@ -12,7 +12,7 @@ class MainMenu():
             (300, 250, 200, 60),
             "start",
             self.font,
-            print()
+            set_playing
         ))
     
     def handle_event(self, event):

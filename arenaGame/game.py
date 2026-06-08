@@ -53,8 +53,13 @@ class GameState(Enum):
 
 state = GameState.MAIN_MENU
 
+# callback functions to set Game states
+def set_playing():
+    global state
+    state = GameState.PLAYING
+
 # Menus
-main_menu = main_menu.MainMenu()
+main_menu = main_menu.MainMenu(set_playing)
 
 # basic game loop
 clock = pygame.time.Clock()
