@@ -1,7 +1,5 @@
 import pygame
 import math
-
-
 # Roboter Klasse mit Attributen, Position, Radius und Richtung
 class Player:
     def __init__(self, x, y, r, alpha, base_speed, speed_modifier = 1):
@@ -33,6 +31,8 @@ class Player:
         self.acceleration = 800
         self.max_speed = 300
         self.friction = 0.90
+
+        self.weapon = None
 
         '''handles the updating of all player related methods changing the coordinates accordingly'''
     
@@ -76,3 +76,6 @@ class Player:
 
         if self.direction.length() > 0:
             self.direction = self.direction.normalize()
+
+    def setWeapon(self, weapon):
+        self.weapon = weapon
