@@ -2,6 +2,13 @@ import pygame
 
 class Button():
     def __init__(self, rect, text, font, callback):
+        '''Represents an UI element button, with the typical handle_event, update, draw functions
+        
+        Args:
+            rect: (x, y, w, h) pygame recct tuple, buttons area
+            text: the texxt shown on the button
+            font: font used on the buttons text
+            callback: function triggered on pressing the button'''
         self.rect = pygame.Rect(rect)
         self.text = text
         self.font = font
