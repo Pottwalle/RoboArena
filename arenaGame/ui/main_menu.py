@@ -2,7 +2,7 @@ import pygame
 from .ui_manager import UIManager
 from .button import Button
 from .texture_button import TextureButton
-from settings import UI_SCALE, ASSET_DIR
+from settings import UI_SCALE, ASSET_DIR, SCREEN_WIDTH, SCREEN_HEIGHT
 
 class MainMenu():
     def __init__(self, set_playing, set_settings, set_quit):
@@ -13,6 +13,7 @@ class MainMenu():
         
         # load textures, size in pixels is 79 x 18 px
         self.ui_elements = pygame.image.load(ASSET_DIR / "ui/ui_elements.png")
+        self.bg_texture = pygame.transform.scale(pygame.image.load(ASSET_DIR / "ui/main_menu_bg.png"), (SCREEN_WIDTH, SCREEN_HEIGHT))
         self.play_texture = self.ui_elements.subsurface((0, 18, 79, 18)).convert_alpha()
         self.settings_texture = self.ui_elements.subsurface((0, 0, 79, 18)).convert_alpha()
         self.quit_texture = self.ui_elements.subsurface((0, 36, 79, 18)).convert_alpha()
@@ -53,5 +54,5 @@ class MainMenu():
         self.ui.update(dt)
 
     def draw(self, surface: pygame.Surface):
-        surface.fill((20, 20, 30))
+        surface.blit(self.bg_texture, (0, 0))
         self.ui.draw(surface)
