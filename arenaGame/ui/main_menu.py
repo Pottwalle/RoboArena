@@ -1,6 +1,5 @@
 import pygame
 from .ui_manager import UIManager
-from .button import Button
 from .texture_button import TextureButton
 from settings import UI_SCALE, ASSET_DIR, SCREEN_WIDTH, SCREEN_HEIGHT
 
@@ -19,6 +18,7 @@ class MainMenu():
         self.quit_texture = self.ui_elements.subsurface((0, 36, 79, 18)).convert_alpha()
         self.hover_texture = self.ui_elements.subsurface((0, 54, 79, 18)).convert_alpha()
 
+        # coordinates of the buttons are measuren in the original UI site 320x180 and than scaled by factor in settings to fit the Window
         self.ui.add(TextureButton(
             (31 * self.scale, 31 * self.scale, 79 * self.scale, 18 * self.scale),
             "play",

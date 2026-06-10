@@ -6,7 +6,7 @@ SCREEN_HEIGHT = 720
 FPS = 60
 
 # ui
-UI_SCALE = 4
+UI_SCALE = int(1280 / 320)
 
 # Tiles
 TILE_SIZE = 32
