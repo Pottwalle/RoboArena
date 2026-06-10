@@ -45,11 +45,16 @@ damage = Damage(movement)
 # create lifebar
 lifebar = Lifebar(player, screen)
 
+# gameloop parameters, need init before set_quit()
+clock = pygame.time.Clock()
+running = True
+
 # Game states
 class GameState(Enum):
     MAIN_MENU = auto()
     PLAYING = auto()
     ESC_MENU = auto()
+    SETTINGS = auto()
 
 state = GameState.MAIN_MENU
 
@@ -57,13 +62,17 @@ state = GameState.MAIN_MENU
 def set_playing():
     global state
     state = GameState.PLAYING
+def set_settings():
+    global state
+    state = GameState.SETTINGS
+def set_quit():
+    global running
+    running = False
 
 # Menus
-main_menu = main_menu.MainMenu(set_playing)
+main_menu = main_menu.MainMenu(set_playing, set_settings, set_quit)
 
 # basic game loop
-clock = pygame.time.Clock()
-running = True
 while running:
 
     for event in pygame.event.get():
@@ -119,6 +128,9 @@ while running:
         # main_menu.handle_event(event)
         main_menu.update(dt)
         main_menu.draw(screen)
+    
+    elif state == GameState.SETTINGS:
+        pass
 
     elif state == GameState.ESC_MENU:
         pass
