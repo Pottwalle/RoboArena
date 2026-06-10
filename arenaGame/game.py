@@ -10,6 +10,7 @@ from tile import load_tiles
 from club import Club
 from enum import Enum, auto
 from ui import main_menu
+from ui.game_ui import GameUI
 
 pygame.init()
 
@@ -43,7 +44,7 @@ enemies = [
 # create damage handler
 damage = Damage(movement)
 # create lifebar
-lifebar = Lifebar(player, screen)
+lifebar = Lifebar(player)
 
 # gameloop parameters, need init before set_quit()
 clock = pygame.time.Clock()
@@ -71,6 +72,7 @@ def set_quit():
 
 # Menus
 main_menu = main_menu.MainMenu(set_playing, set_settings, set_quit)
+game_ui = GameUI(lifebar)
 
 # basic game loop
 while running:
@@ -121,8 +123,8 @@ while running:
 
         # remove dead enemies
         enemies = [enemy for enemy in enemies if enemy.health > 0]
-        # draw lifebar on top of everything
-        lifebar.draw()
+        # draw the whole game UI on top
+        game_ui.draw(screen)
 
     elif state == GameState.MAIN_MENU:
         # main_menu.handle_event(event)

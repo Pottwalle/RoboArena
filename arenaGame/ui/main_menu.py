@@ -5,7 +5,6 @@ from settings import UI_SCALE, ASSET_DIR, SCREEN_WIDTH, SCREEN_HEIGHT
 
 class MainMenu():
     def __init__(self, set_playing, set_settings, set_quit):
-        self.font = pygame.font.Font("freesansbold.ttf", 32)
 
         self.ui = UIManager()
         self.scale = UI_SCALE
