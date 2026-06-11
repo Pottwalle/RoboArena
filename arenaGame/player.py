@@ -22,6 +22,8 @@ class Player:
         self.direction = pygame.Vector2()
         self.hp = 100
         self.max_hp = 100
+        self.xp = 25
+        self.level = 0
 
         self.base_speed = base_speed
         self.speed_modifier = speed_modifier
@@ -79,3 +81,10 @@ class Player:
 
     def setWeapon(self, weapon):
         self.weapon = weapon
+    
+    def add_xp(self, amount):
+        if amount >= 0:
+            self.xp += amount
+    
+    def update_level(self):
+        pass

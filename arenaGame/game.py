@@ -1,5 +1,5 @@
 import pygame
-from settings import SCREEN_HEIGHT, SCREEN_WIDTH, TILE_SIZE, FPS
+from settings import SCREEN_HEIGHT, SCREEN_WIDTH, TILE_SIZE, FPS, UI_SCALE
 from arena import Arena
 from player import Player
 from movement import Movement
@@ -11,6 +11,7 @@ from club import Club
 from enum import Enum, auto
 from ui import main_menu
 from ui.game_ui import GameUI
+from levelbar import Levelbar
 
 pygame.init()
 
@@ -43,8 +44,9 @@ enemies = [
 
 # create damage handler
 damage = Damage(movement)
-# create lifebar
+# create lifebar & Levelbar
 lifebar = Lifebar(player)
+levelbar = Levelbar(player, UI_SCALE)
 
 # gameloop parameters, need init before set_quit()
 clock = pygame.time.Clock()
@@ -72,7 +74,7 @@ def set_quit():
 
 # Menus
 main_menu = main_menu.MainMenu(set_playing, set_settings, set_quit)
-game_ui = GameUI(lifebar)
+game_ui = GameUI(lifebar, levelbar)
 
 # basic game loop
 while running:
