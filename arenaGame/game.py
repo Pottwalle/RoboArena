@@ -28,6 +28,7 @@ load_tiles()
 arena = Arena(SCREEN_WIDTH, SCREEN_HEIGHT, TILE_SIZE)
 # Tilemap for movement
 movement = Movement(arena.grid)
+
 # create the player with its base stats
 player = Player(
     arena.offset_x + arena.grid_width // 2,

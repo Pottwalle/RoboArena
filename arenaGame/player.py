@@ -22,8 +22,10 @@ class Player:
         self.direction = pygame.Vector2()
         self.hp = 100
         self.max_hp = 100
-        self.xp = 25
+
+        self.xp = 0
         self.level = 0
+        self.xp_breakpoints = [0, 50, 100, 180, 300, 500, 750, 1200, 922337203685477580] # summed up xp needed per level
 
         self.base_speed = base_speed
         self.speed_modifier = speed_modifier
@@ -81,10 +83,19 @@ class Player:
 
     def setWeapon(self, weapon):
         self.weapon = weapon
-    
+
     def add_xp(self, amount):
         if amount >= 0:
             self.xp += amount
-    
+            self.update_level()
+
     def update_level(self):
-        pass
+        if self.xp >= self.xp_breakpoints[self.level + 1]:
+            self.level += 1
+
+    def get_level_prograss(self) -> float:
+        current_lvl = self.level
+        current_lvl_xp = self.xp_breakpoints[current_lvl]
+        next_lvl_xp = self.xp_breakpoints[current_lvl + 1]
+
+        return max(0.0, min(1.0, (self.xp - current_lvl_xp) / (next_lvl_xp - current_lvl_xp)))
