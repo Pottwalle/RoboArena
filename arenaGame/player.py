@@ -85,17 +85,21 @@ class Player:
         self.weapon = weapon
 
     def add_xp(self, amount):
+        '''adds amount of xp to the players current level, needs to be >= 0 and checks if the players level needs to be updated'''
         if amount >= 0:
             self.xp += amount
             self.update_level()
 
     def update_level(self):
+        '''increases the players level by 1 level if he has more xp than required for the next level'''
         if self.xp >= self.xp_breakpoints[self.level + 1]:
             self.level += 1
+            self.update_level() # in case more xp than 1 level is gained
 
-    def get_level_prograss(self) -> float:
+    def get_level_progress(self) -> float:
+        '''returns the percentage of the way of the players level to the next level, clamped between 0 and 1'''
         current_lvl = self.level
         current_lvl_xp = self.xp_breakpoints[current_lvl]
         next_lvl_xp = self.xp_breakpoints[current_lvl + 1]
 
-        return max(0.0, min(1.0, (self.xp - current_lvl_xp) / (next_lvl_xp - current_lvl_xp)))
+        return max(0.0, min(1.0, (self.xp - current_lvl_xp) / max(1, (next_lvl_xp - current_lvl_xp))))
