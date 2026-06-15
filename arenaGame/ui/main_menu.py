@@ -19,7 +19,7 @@ class MainMenu():
 
         # coordinates of the buttons are measuren in the original UI site 320x180 and than scaled by factor in settings to fit the Window
         self.ui.add(TextureButton(
-            (31 * self.scale, 31 * self.scale, 79 * self.scale, 18 * self.scale),
+            (31, 31, 79, 18),
             "play",
             self.play_texture,
             self.hover_texture,
@@ -28,7 +28,7 @@ class MainMenu():
             ))
         
         self.ui.add(TextureButton(
-            (31 * self.scale, 53 * self.scale, 79 * self.scale, 18 * self.scale),
+            (31, 53, 79, 18),
             "settings",
             self.settings_texture,
             self.hover_texture,
@@ -37,7 +37,7 @@ class MainMenu():
             ))
         
         self.ui.add(TextureButton(
-            (31 * self.scale, 75 * self.scale, 79 * self.scale, 18 * self.scale),
+            (31, 75, 79, 18),
             "play",
             self.quit_texture,
             self.hover_texture,

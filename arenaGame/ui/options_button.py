@@ -1,0 +1,53 @@
+import pygame
+from settings import ASSET_DIR
+from .texture_button import TextureButton
+from .menu_font import MenuFont
+
+class OptionsButton():
+    def __init__(self, rect: pygame.rect.Rect, options: list[str], menu_font: MenuFont, scale: int, callback):
+        self.rect = pygame.Rect(rect)
+        self.rect.width = max(14, rect[2]) # ensure that both left and right button have space
+        self.rect.height = max(10, rect[3])
+        self.scale = scale
+
+        self.options = options
+        self.callback = callback
+        self.selected = 0
+        self.menu_font = menu_font
+
+        ui_elements = pygame.image.load(ASSET_DIR / "ui/ui_elements.png")
+        # scale of the arrows buttons is 7x10 px
+        arrow_w = 7
+        arrow_h = 10
+        left_arrow_texture = ui_elements.subsurface((0, 81, arrow_w, arrow_h)).convert_alpha() # unscaled yet
+        right_arrow_texture = ui_elements.subsurface((9, 81, arrow_w, arrow_h)).convert_alpha() # unscaled yet
+        left_arrow_hover_texture = ui_elements.subsurface((18, 81, arrow_w, arrow_h)).convert_alpha() # unscaled yet
+        right_arrow_hover_texture = ui_elements.subsurface((27, 81, arrow_w, arrow_h)).convert_alpha() # unscaled yet
+
+        self.left_arrow = TextureButton((rect[0], rect[1], arrow_w, arrow_h), "", left_arrow_texture, left_arrow_hover_texture, scale, self.option_left)
+        self.right_arrow = TextureButton((rect[0] + rect[2] - arrow_w, rect[1], arrow_w, arrow_h), "", right_arrow_texture, right_arrow_hover_texture, scale, self.option_right)
+
+        self.options_surface: list[pygame.Surface] = []
+        for i in range(len(options)):
+            self.options_surface.append(menu_font.create_text_surface(options[i]))
+
+    def handle_event(self, event: pygame.event.Event):
+        self.left_arrow.handle_event(event)
+        self.right_arrow.handle_event(event)
+    
+    def update(self, dt):
+        pass
+    
+    def draw(self, surface: pygame.Surface):
+        self.left_arrow.draw(surface)
+        text_x = self.rect[2] // 2 - self.options_surface[self.selected].get_width() // 2
+        self.menu_font.render_text_surface(surface, self.options_surface[self.selected], ((self.rect[0] + text_x) * self.scale, self.rect[1] * self.scale), self.scale)
+        self.right_arrow.draw(surface)
+    
+    def option_right(self):
+        self.selected = (self.selected + 1) % len(self.options)
+        print(self.options[self.selected])
+    
+    def option_left(self):
+        self.selected = (self.selected - 1) % len(self.options)
+        print(self.options[self.selected])

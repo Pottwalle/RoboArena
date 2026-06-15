@@ -94,8 +94,10 @@ while running:
                     state = GameState.PLAYING
                 else:
                     state = GameState.ESC_MENU
-        
-        main_menu.handle_event(event)
+        if state == GameState.SETTINGS:
+            settings_menu.handle_event(event)
+        if state == GameState.MAIN_MENU:
+            main_menu.handle_event(event)
 
     # delta time (time elapsed since last frame)
     dt = clock.tick(FPS) / 1000
@@ -143,7 +145,7 @@ while running:
         settings_menu.draw(screen)
 
     elif state == GameState.ESC_MENU:
-        pass
+        state = GameState.SETTINGS
     
     pygame.display.update()
     
