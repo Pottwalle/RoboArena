@@ -11,7 +11,7 @@ class MainMenu():
         
         # load textures, size in pixels is 79 x 18 px
         self.ui_elements = pygame.image.load(ASSET_DIR / "ui/ui_elements.png")
-        self.bg_texture = pygame.transform.scale(pygame.image.load(ASSET_DIR / "ui/main_menu_bg.png"), (SCREEN_WIDTH, SCREEN_HEIGHT))
+        self.bg_texture = pygame.transform.scale(pygame.image.load(ASSET_DIR / "ui/main_menu_bg.png").convert(), (SCREEN_WIDTH, SCREEN_HEIGHT))
         self.play_texture = self.ui_elements.subsurface((0, 18, 79, 18)).convert_alpha()
         self.settings_texture = self.ui_elements.subsurface((0, 0, 79, 18)).convert_alpha()
         self.quit_texture = self.ui_elements.subsurface((0, 36, 79, 18)).convert_alpha()

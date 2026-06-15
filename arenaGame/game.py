@@ -9,9 +9,12 @@ from enemy import Enemy
 from tile import load_tiles
 from club import Club
 from enum import Enum, auto
-from ui import main_menu
+from ui.main_menu import MainMenu
 from ui.game_ui import GameUI
 from levelbar import Levelbar
+from ui.menu_font import MenuFont
+from ui.settings_menu import SettingsMenu
+
 
 pygame.init()
 
@@ -74,7 +77,9 @@ def set_quit():
     running = False
 
 # Menus
-main_menu = main_menu.MainMenu(set_playing, set_settings, set_quit)
+menu_font = MenuFont()
+main_menu = MainMenu(set_playing, set_settings, set_quit)
+settings_menu = SettingsMenu(menu_font)
 game_ui = GameUI(lifebar, levelbar)
 
 # basic game loop
@@ -135,7 +140,7 @@ while running:
         main_menu.draw(screen)
     
     elif state == GameState.SETTINGS:
-        pass
+        settings_menu.draw(screen)
 
     elif state == GameState.ESC_MENU:
         pass
