@@ -4,7 +4,7 @@ import random
 
 
 class Enemy:
-    def __init__(self, x, y, r, alpha, base_speed, movement, speed_modifier=1, health=10, damage=5, movementType="random"):
+    def __init__(self, x, y, r, alpha, base_speed, movement, speed_modifier=0.6, health=10, damage=1, movementType="random"):
         self.position = pygame.Vector2(x, y)
         self.r = r
         self.alpha = alpha
@@ -21,7 +21,7 @@ class Enemy:
         # --- movement Erweiterung ---
         self.velocity = pygame.Vector2(0, 0)
         self.acceleration = 800
-        self.max_speed = 200
+        self.max_speed = 80
         self.friction = 0.90
 
         self.weapon = None
