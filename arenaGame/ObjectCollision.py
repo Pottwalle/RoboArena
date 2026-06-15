@@ -1,4 +1,4 @@
-
+import pygame
 class ObjectCollision:
     """Detects and resolves collisions between circular game objects.
 
