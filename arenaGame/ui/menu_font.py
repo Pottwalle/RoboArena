@@ -4,9 +4,9 @@ from settings import ASSET_DIR
 class MenuFont():
     def __init__(self):
         self.letters = {}
-        self.load_font()
+        self._load_font()
 
-    def load_font(self):
+    def _load_font(self):
         '''loads the letters upper alphabet & 0 - 9 into the self.letters dict'''
         # letters are 6x10px with 2px margin 
         letters_sheet = pygame.image.load(ASSET_DIR / "font/menu_font.png").convert_alpha()

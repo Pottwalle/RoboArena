@@ -5,7 +5,7 @@ class TextureButton():
         '''Represents an UI element button with a texture, with the typical handle_event, update, draw functions
         
         Args:
-            rect: (x, y, w, h) pygame recct tuple, buttons area !!unscaled!!
+            rect: (x, y, w, h) pygame rect tuple, buttons area !!unscaled!!
             text: the text displayed on the button, but never seen
             texture: the normal state texture when the button is unhovered
             hover_texture: overlayed texture when the button hets hovered, should have alpha chanel

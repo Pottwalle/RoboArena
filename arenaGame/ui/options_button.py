@@ -4,7 +4,17 @@ from .texture_button import TextureButton
 from .menu_font import MenuFont
 
 class OptionsButton():
-    def __init__(self, rect: pygame.rect.Rect, options: list[str], menu_font: MenuFont, scale: int, callback):
+    def __init__(self, rect: pygame.rect.Rect, options: list[str], menu_font: MenuFont, scale: int, callback, selected=0):
+        '''Represents a button which can cycle through multiple given options
+
+        Args:
+            rect: unscaled coordinates and with height of the button size, make shure that the with is at least 14px (only button width + additional space for text) and height should be 10px
+            options: list of strings where the you can cycle through with left / right arrow
+            menu_font: text style with which the middle text (current option) is displayed as
+            scale: Menu UI sclae used for scaling buttons / text
+            callback: function to change the state at the confirmation of the menu #TODO
+            selected: current selected option, should be inside the list
+        '''
         self.rect = pygame.Rect(rect)
         self.rect.width = max(14, rect[2]) # ensure that both left and right button have space
         self.rect.height = max(10, rect[3])
@@ -12,7 +22,7 @@ class OptionsButton():
 
         self.options = options
         self.callback = callback
-        self.selected = 0
+        self.selected = selected
         self.menu_font = menu_font
 
         ui_elements = pygame.image.load(ASSET_DIR / "ui/ui_elements.png")
@@ -45,9 +55,11 @@ class OptionsButton():
         self.right_arrow.draw(surface)
     
     def option_right(self):
+        '''sets the selection to the next item'''
         self.selected = (self.selected + 1) % len(self.options)
         print(self.options[self.selected])
     
     def option_left(self):
+        '''sets the selection to the previous item'''
         self.selected = (self.selected - 1) % len(self.options)
         print(self.options[self.selected])
