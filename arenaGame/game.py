@@ -14,6 +14,7 @@ from ui.game_ui import GameUI
 from levelbar import Levelbar
 from ui.menu_font import MenuFont
 from ui.settings_menu import SettingsMenu
+from ui.esc_menu import EscMenu
 
 
 pygame.init()
@@ -75,11 +76,15 @@ def set_settings():
 def set_quit():
     global running
     running = False
+def set_main_menu():
+    global state
+    state = GameState.MAIN_MENU
 
 # Menus
 menu_font = MenuFont()
 main_menu = MainMenu(set_playing, set_settings, set_quit)
-settings_menu = SettingsMenu(menu_font)
+settings_menu = SettingsMenu(menu_font, set_main_menu)
+esc_menu = EscMenu(menu_font, set_playing, set_main_menu, set_settings)
 game_ui = GameUI(lifebar, levelbar)
 
 # basic game loop
@@ -88,16 +93,22 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_ESCAPE:
-                if state == GameState.ESC_MENU:
-                    state = GameState.PLAYING
-                else:
-                    state = GameState.ESC_MENU
-        if state == GameState.SETTINGS:
-            settings_menu.handle_event(event)
+
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            if state == GameState.PLAYING:
+                state = GameState.ESC_MENU
+            elif state == GameState.ESC_MENU:
+                state = GameState.PLAYING
+            elif state == GameState.SETTINGS:
+                state = GameState.MAIN_MENU
+            
+        # only pass events to active menu
         if state == GameState.MAIN_MENU:
             main_menu.handle_event(event)
+        elif state == GameState.SETTINGS:
+            settings_menu.handle_event(event)
+        elif state == GameState.ESC_MENU:
+            esc_menu.handle_event(event)
 
     # delta time (time elapsed since last frame)
     dt = clock.tick(FPS) / 1000
@@ -143,9 +154,11 @@ while running:
     
     elif state == GameState.SETTINGS:
         settings_menu.draw(screen)
+        settings_menu.update(dt)
 
     elif state == GameState.ESC_MENU:
-        state = GameState.SETTINGS
+        esc_menu.draw(screen)
+        esc_menu.update(dt)
     
     pygame.display.update()
     
