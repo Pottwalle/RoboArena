@@ -84,6 +84,7 @@ game_ui = GameUI(lifebar, levelbar)
 
 # basic game loop
 while running:
+    print(clock.get_fps())
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:

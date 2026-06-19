@@ -4,7 +4,7 @@ import random
 
 
 class Enemy:
-    def __init__(self, x, y, r, alpha, base_speed, movement, speed_modifier=1, health=10, damage=5, movementType="random"):
+    def __init__(self, x, y, r, alpha, base_speed, movement, speed_modifier=1, health=10, xp_on_death=20, damage=5, movementType="random"):
         self.position = pygame.Vector2(x, y)
         self.r = r
         self.alpha = alpha
@@ -14,6 +14,7 @@ class Enemy:
         self.speed_modifier = speed_modifier
         self.health = health
         self.max_health = health
+        self.xp_on_death = xp_on_death
         self.damage = damage
         self.movement_type = movementType
         self.movement = movement  # Movement-Objekt übergeben
@@ -66,7 +67,7 @@ class Enemy:
         )
         pygame.draw.rect(screen, (0,255,0), fg_rect)
 
-    def calcDirection(self, player, clock):
+    def calc_direction(self, player, clock):
         if self.movement_type == "random":
             if random.randint(0, 500) == 0:
                 self.direction = pygame.Vector2(random.uniform(-1, 1), random.uniform(-1, 1))
@@ -94,7 +95,7 @@ class Enemy:
             self.speed_modifier = 0
 
     def move(self, dt, player, clock):
-        self.calcDirection(player, clock)
+        self.calc_direction(player, clock)
         # movement.move() übernimmt Kollision & Tile-Geschwindigkeit automatisch
         self.position = self.movement.move(
             self,dt
@@ -102,3 +103,7 @@ class Enemy:
 
     def setWeapon(self, weapon):
         self.weapon = weapon
+    
+    def on_death(self) -> int:
+        if self.health <= 0:
+            return self.xp_on_death

@@ -37,9 +37,11 @@ class OptionsButton():
         self.left_arrow = TextureButton((rect[0], rect[1], arrow_w, arrow_h), "", left_arrow_texture, left_arrow_hover_texture, scale, self.option_left)
         self.right_arrow = TextureButton((rect[0] + rect[2] - arrow_w, rect[1], arrow_w, arrow_h), "", right_arrow_texture, right_arrow_hover_texture, scale, self.option_right)
 
-        self.options_surface: list[pygame.Surface] = []
+        self.options_surface_scaled: list[pygame.Surface] = []
         for i in range(len(options)):
-            self.options_surface.append(menu_font.create_text_surface(options[i]))
+            text_surface = menu_font.create_text_surface(options[i])
+            scaled_text_surface = pygame.transform.scale(text_surface, (text_surface.get_width() * self.scale, 10 * self.scale)) # already scale here so we dont have to every game loop
+            self.options_surface_scaled.append(scaled_text_surface)
 
     def handle_event(self, event: pygame.event.Event):
         self.left_arrow.handle_event(event)
@@ -50,9 +52,11 @@ class OptionsButton():
     
     def draw(self, surface: pygame.Surface):
         self.left_arrow.draw(surface)
-        text_x = self.rect[2] // 2 - self.options_surface[self.selected].get_width() // 2
-        self.menu_font.render_text_surface(surface, self.options_surface[self.selected], ((self.rect[0] + text_x) * self.scale, self.rect[1] * self.scale), self.scale)
         self.right_arrow.draw(surface)
+
+        # scaled button width - text width already scaled
+        text_x = self.rect[2] * self.scale // 2 - self.options_surface_scaled[self.selected].get_width() // 2
+        self.menu_font.render_text_surface_unscaled(surface, self.options_surface_scaled[self.selected], (self.rect[0] * self.scale + text_x, self.rect[1] * self.scale))
     
     def option_right(self):
         '''sets the selection to the next item'''
