@@ -3,6 +3,7 @@ from .ui_manager import UIManager
 from .texture_button import TextureButton
 from settings import ASSET_DIR, UI_SCALE, SCREEN_WIDTH, SCREEN_HEIGHT
 from ui.menu_font import MenuFont
+from ui.ui_element import UIElement
 
 class EscMenu:
     def __init__(self, menu_font: MenuFont, on_resume, on_main_menu, on_settings):
@@ -10,36 +11,30 @@ class EscMenu:
         self.menu_font = menu_font
         self.scale = UI_SCALE
 
-        self.bg = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
-        self.bg.set_alpha(180)
-        self.bg.fill((0, 0, 0))
+        self.bg = pygame.transform.scale(pygame.image.load(ASSET_DIR / "ui/settings_bg.png").convert(), (SCREEN_WIDTH, SCREEN_HEIGHT))
 
         ui_elements = pygame.image.load(ASSET_DIR / "ui/ui_elements.png")
 
-        resume_tex = ui_elements.subsurface((0, 0, 79, 18)).convert_alpha()
-        resume_hover = ui_elements.subsurface((0, 18, 79, 18)).convert_alpha()
+        hover_texture = ui_elements.subsurface((0,54, 79, 18)).convert_alpha()
 
-        settings_tex = ui_elements.subsurface((0, 36, 79, 18)).convert_alpha()
-        settings_hover = ui_elements.subsurface((0, 54, 79, 18)).convert_alpha()
-
-        main_tex = ui_elements.subsurface((0, 72, 79, 18)).convert_alpha()
-        main_hover = ui_elements.subsurface((0, 90, 79, 18)).convert_alpha()
+        paused_text = menu_font.create_text_surface("PAUSED").convert_alpha()
+        self.scaled_paused_text = UIElement.scale_surface(paused_text, self.scale)
 
         self.ui.add(TextureButton((31, 31, 79, 18), "resume",
-                                  resume_tex, resume_hover, self.scale, on_resume))
+                                  None, hover_texture, self.scale, on_resume, text_button=True))
 
         self.ui.add(TextureButton((31, 75, 79, 18), "settings",
-                                  settings_tex, settings_hover, self.scale, on_settings))
+                                  None, hover_texture, self.scale, on_settings, text_button=True))
         
         self.ui.add(TextureButton((31, 119, 79, 18), "main menu",
-                                  main_tex, main_hover, self.scale, on_main_menu))
+                                  None, hover_texture, self.scale, on_main_menu, text_button=True))
 
     def handle_event(self, event):
         self.ui.handle_event(event)
 
-    def draw(self, surface):
+    def draw(self, surface: pygame.Surface):
         surface.blit(self.bg, (0, 0))
-        self.menu_font.render_text(surface, "PAUSED", (50, 20), self.scale)
+        self.menu_font.render_text_surface_unscaled(surface, self.scaled_paused_text, (50, 50))
         self.ui.draw(surface)
 
     def update(self, dt):
