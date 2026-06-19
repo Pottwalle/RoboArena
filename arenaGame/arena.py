@@ -1,5 +1,5 @@
 from tile import Tile
-from edges import Tile_Mask
+import edges
 
 class Arena:
     def __init__(self, screen_width, screen_height, tile_size, level_path):
@@ -32,29 +32,38 @@ class Arena:
             }
         return [[type_mapping[char] for char in row] for row in raw_map]
     
+    def get_tile(self, map: list[list[str]], row: int, col: int) -> str | None:
+        '''
+        Returns the tile Type at the position row, col in the map with None if out of bounds
+        Args:
+            map (2D list): game map
+            row: row index for the tile if in bounds
+            col: collumn index for the tile if in bounds
+        '''
+        if 0 <= row < len(map) and 0 <= col < len(map[0]):
+            return map[row][col]
+        return None
+    
     def generate_grid(self, mapped_map):
         grid = []
-        height = len(mapped_map)
-        width = len(mapped_map[0])
 
         for row_index, row in enumerate(mapped_map):
             tile_row = []
             for col_index, tile_type in enumerate(row):
-                top = mapped_map[row_index -1][col_index] if row_index > 0 else tile_type
-                bottom = mapped_map[row_index +1][col_index] if row_index < height - 1 else tile_type
-                left = mapped_map[row_index][col_index - 1] if col_index > 0 else tile_type
-                right = mapped_map[row_index][col_index + 1] if col_index < width - 1 else tile_type
-
-                tile_mask = Tile_Mask(top, bottom, left, right, tile_type) 
 
                 new_tile = Tile(
                     col_index, 
                     row_index, 
                     self.tile_size, 
-                    tile_mask = tile_mask,
                     tile_type=tile_type, 
                     offset_x=self.offset_x, 
-                    offset_y=self.offset_y
+                    offset_y=self.offset_y,
+                    tile_mask = edges.Tile_Mask(
+                        top = self.get_tile(mapped_map, row_index - 1, col_index),
+                        bottom = self.get_tile(mapped_map, row_index + 1, col_index),
+                        left = self.get_tile(mapped_map, row_index, col_index - 1),
+                        right = self.get_tile(mapped_map, row_index, col_index + 1),
+                        tile_type = tile_type)
                     )
                 tile_row.append(new_tile)
             grid.append(tile_row)
