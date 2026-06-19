@@ -21,7 +21,7 @@ background = ("gray")
 
 load_tiles()
 # Arena
-arena = Arena(SCREEN_WIDTH, SCREEN_HEIGHT, TILE_SIZE)
+arena = Arena(SCREEN_WIDTH, SCREEN_HEIGHT, TILE_SIZE, "level3.txt")
 # Tilemap for movement
 movement = Movement(arena.grid)
 # create the player with its base stats
