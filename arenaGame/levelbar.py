@@ -1,5 +1,5 @@
 import pygame
-from settings import ASSET_DIR
+from settings import settings
 from player import Player
 
 class Levelbar:
@@ -7,7 +7,7 @@ class Levelbar:
         self.player = player
 
         self.scale = scale
-        ui_elements = pygame.image.load(ASSET_DIR / "ui/ui_elements.png")
+        ui_elements = pygame.image.load(settings.ASSET_DIR / "ui/ui_elements.png")
         # pos im stylesheet 0, 72, 138, 3px
         self.xp_bar_texture = pygame.transform.scale(ui_elements.subsurface((0, 72, 138, 3)).convert_alpha(), (138 * self.scale, 3 * self.scale))
         self.xp_bar_underlay = pygame.transform.scale(ui_elements.subsurface((0, 75, 138, 3)).convert_alpha(), (138 * self.scale, 3 * self.scale))

@@ -1,10 +1,10 @@
 import pygame
 import math
 import random
-
+from reward import Reward
 
 class Enemy:
-    def __init__(self, x, y, r, alpha, base_speed, movement, speed_modifier=1, health=10, damage=5, movementType="random"):
+    def __init__(self, x, y, r, alpha, base_speed, movement, speed_modifier=1, health=10, damage=5, movementType="random", xp_reward = 10):
         self.position = pygame.Vector2(x, y)
         self.r = r
         self.alpha = alpha
@@ -23,6 +23,8 @@ class Enemy:
         self.acceleration = 800
         self.max_speed = 200
         self.friction = 0.90
+
+        self.reward = Reward(xp=xp_reward)
 
         self.weapon = None
 
@@ -66,7 +68,7 @@ class Enemy:
         )
         pygame.draw.rect(screen, (0,255,0), fg_rect)
 
-    def calcDirection(self, player, clock):
+    def calc_direction(self, player, clock):
         if self.movement_type == "random":
             if random.randint(0, 500) == 0:
                 self.direction = pygame.Vector2(random.uniform(-1, 1), random.uniform(-1, 1))
@@ -94,7 +96,7 @@ class Enemy:
             self.speed_modifier = 0
 
     def move(self, dt, player, clock):
-        self.calcDirection(player, clock)
+        self.calc_direction(player, clock)
         # movement.move() übernimmt Kollision & Tile-Geschwindigkeit automatisch
         self.position = self.movement.move(
             self,dt
