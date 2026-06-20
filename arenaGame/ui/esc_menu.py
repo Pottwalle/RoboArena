@@ -1,7 +1,7 @@
 import pygame
 from .ui_manager import UIManager
 from .texture_button import TextureButton
-from settings import ASSET_DIR, UI_SCALE, SCREEN_WIDTH, SCREEN_HEIGHT
+from settings import settings
 from ui.menu_font import MenuFont
 from ui.ui_element import UIElement
 
@@ -9,11 +9,11 @@ class EscMenu:
     def __init__(self, menu_font: MenuFont, on_resume, on_main_menu, on_settings):
         self.ui = UIManager()
         self.menu_font = menu_font
-        self.scale = UI_SCALE
+        self.scale = settings.UI_SCALE
 
-        self.bg = pygame.transform.scale(pygame.image.load(ASSET_DIR / "ui/settings_bg.png").convert(), (SCREEN_WIDTH, SCREEN_HEIGHT))
+        self.bg = pygame.transform.scale(pygame.image.load(settings.ASSET_DIR / "ui/settings_bg.png").convert(), (settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
 
-        ui_elements = pygame.image.load(ASSET_DIR / "ui/ui_elements.png")
+        ui_elements = pygame.image.load(settings.ASSET_DIR / "ui/ui_elements.png")
 
         hover_texture = ui_elements.subsurface((0,54, 79, 18)).convert_alpha()
 
