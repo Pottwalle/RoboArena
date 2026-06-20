@@ -41,9 +41,9 @@ player = Player(
 player.setWeapon(Club(player))
 # Gegner-Liste erstellen
 enemies = [
-    Enemy(arena.offset_x + 100, arena.offset_y + 100, 10, 0, 60, movement, movementType="aggressive"),
-    Enemy(arena.offset_x + 200, arena.offset_y + 150, 10, 0, 40, movement, movementType="random"),
-    Enemy(arena.offset_x + 300, arena.offset_y + 200, 10, 0, 20, movement, movementType="passive"),
+    Enemy(arena.offset_x + 100, arena.offset_y + 100, 10, 0, 60, movement, movementType="aggressive", xp_reward=25),
+    Enemy(arena.offset_x + 200, arena.offset_y + 150, 10, 0, 40, movement, movementType="random", xp_reward=15),
+    Enemy(arena.offset_x + 300, arena.offset_y + 200, 10, 0, 20, movement, movementType="passive", xp_reward=10),
 ]
 
 # create damage handler
@@ -132,7 +132,12 @@ while running:
         for enemy in enemies:
             enemy.draw(screen, camera)
 
-        # remove dead enemies
+        # remove dead enemies & handle rewards
+        killed_enemies = [enemy for enemy in enemies if enemy.health <= 0]
+        for enemy in killed_enemies:
+            if hasattr(enemy, 'reward'):
+                enemy.reward.apply_to_player(player)
+        
         enemies = [enemy for enemy in enemies if enemy.health > 0]
         # draw the whole game UI on top
         game_ui.draw(screen)

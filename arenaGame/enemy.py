@@ -1,10 +1,10 @@
 import pygame
 import math
 import random
-
+from reward import Reward
 
 class Enemy:
-    def __init__(self, x, y, r, alpha, base_speed, movement, speed_modifier=1, health=10, xp_on_death=20, damage=5, movementType="random"):
+    def __init__(self, x, y, r, alpha, base_speed, movement, speed_modifier=1, health=10, xp_on_death=20, damage=5, movementType="random", xp_reward = 10):
         self.position = pygame.Vector2(x, y)
         self.r = r
         self.alpha = alpha
@@ -14,7 +14,6 @@ class Enemy:
         self.speed_modifier = speed_modifier
         self.health = health
         self.max_health = health
-        self.xp_on_death = xp_on_death
         self.damage = damage
         self.movement_type = movementType
         self.movement = movement  # Movement-Objekt übergeben
@@ -24,6 +23,8 @@ class Enemy:
         self.acceleration = 800
         self.max_speed = 200
         self.friction = 0.90
+
+        self.reward = Reward(xp=xp_reward)
 
         self.weapon = None
 
@@ -103,7 +104,3 @@ class Enemy:
 
     def setWeapon(self, weapon):
         self.weapon = weapon
-    
-    def on_death(self) -> int:
-        if self.health <= 0:
-            return self.xp_on_death
