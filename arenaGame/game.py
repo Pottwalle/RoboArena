@@ -65,32 +65,37 @@ class GameState(Enum):
     SETTINGS = auto()
 
 state = GameState.MAIN_MENU
+previous_state = GameState.MAIN_MENU
 
 # callback functions to set Game states
 def set_playing():
-    global state
+    global state, previous_state
+    previous_state = state
     state = GameState.PLAYING
 def set_settings():
-    global state
+    global state, previous_state
+    previous_state = state
     state = GameState.SETTINGS
+def set_back_from_settings():
+    global state, previous_state
+    state = previous_state
 def set_quit():
     global running
     running = False
 def set_main_menu():
-    global state
+    global state, previous_state
+    previous_state = state
     state = GameState.MAIN_MENU
 
 # Menus
 menu_font = MenuFont()
 main_menu = MainMenu(set_playing, set_settings, set_quit)
-settings_menu = SettingsMenu(menu_font, set_main_menu)
+settings_menu = SettingsMenu(menu_font, set_back_from_settings)
 esc_menu = EscMenu(menu_font, set_playing, set_main_menu, set_settings)
 game_ui = GameUI(lifebar, levelbar)
 
 # basic game loop
 while running:
-    print(clock.get_fps())
-
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False

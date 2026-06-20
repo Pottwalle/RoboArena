@@ -52,6 +52,7 @@ class SettingsMenu():
         self.menu_font.render_text(surface, "EDGE RENDERING", (15 * self.scale, 15 * self.scale), settings.UI_SCALE)
         self.ui.draw(surface)
 
+###################### changes of the actual global settings ######################
     def on_edge_rendering_changed(self, value: str):
         """gets called on change of the options button"""
         self.settings.EDGE_OVERLAYS = (value == "on")
