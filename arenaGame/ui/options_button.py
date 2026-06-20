@@ -1,5 +1,5 @@
 import pygame
-from settings import ASSET_DIR
+from settings import settings
 from .texture_button import TextureButton
 from .menu_font import MenuFont
 
@@ -25,7 +25,7 @@ class OptionsButton():
         self.selected = selected
         self.menu_font = menu_font
 
-        ui_elements = pygame.image.load(ASSET_DIR / "ui/ui_elements.png")
+        ui_elements = pygame.image.load(settings.ASSET_DIR / "ui/ui_elements.png")
         # scale of the arrows buttons is 7x10 px
         arrow_w = 7
         arrow_h = 10
@@ -59,11 +59,11 @@ class OptionsButton():
         self.menu_font.render_text_surface_unscaled(surface, self.options_surface_scaled[self.selected], (self.rect[0] * self.scale + text_x, self.rect[1] * self.scale))
     
     def option_right(self):
-        '''sets the selection to the next item'''
+        '''sets the selection to the next item and calls the callback function with the currently selected string'''
         self.selected = (self.selected + 1) % len(self.options)
-        print(self.options[self.selected])
+        self.callback(self.options[self.selected]) # transfers the new value to the callback function
     
     def option_left(self):
-        '''sets the selection to the previous item'''
+        '''sets the selection to the previous item  and calls the callback function with the currently selected string'''
         self.selected = (self.selected - 1) % len(self.options)
-        print(self.options[self.selected])
+        self.callback(self.options[self.selected]) # transfers the new value to the callback function

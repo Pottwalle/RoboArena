@@ -1,5 +1,5 @@
 import pygame
-from settings import ASSET_DIR
+from settings import settings
 
 class MenuFont():
     def __init__(self):
@@ -9,7 +9,7 @@ class MenuFont():
     def _load_font(self):
         '''loads the letters upper alphabet & 0 - 9 into the self.letters dict'''
         # letters are 6x10px with 2px margin 
-        letters_sheet = pygame.image.load(ASSET_DIR / "font/menu_font.png").convert_alpha()
+        letters_sheet = pygame.image.load(settings.ASSET_DIR / "font/menu_font.png").convert_alpha()
         alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         for index, letter in enumerate(alphabet):
             self.letters[letter] = letters_sheet.subsurface(0 + index * 8, 0, 6, 10)
