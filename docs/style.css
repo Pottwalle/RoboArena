@@ -76,3 +76,11 @@ img {
 #ingame-ui {
     border-radius: 0 5px 5px 0;
 }
+
+#levelbar {
+    border-radius: 5px 5px 0 0;
+}
+
+#options-btn {
+    border-radius: 0 0 5px 5px;
+}
