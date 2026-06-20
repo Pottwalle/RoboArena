@@ -39,6 +39,6 @@ class MenuFont():
         text_surface_scaled = pygame.transform.scale(text_surface, (text_surface.get_width() * scale, 10 * scale))
 
         surface.blit(text_surface_scaled, (coordinates[0], coordinates[1]))
-    
+
     def render_text_surface_unscaled(self, surface: pygame.Surface, text_surface: pygame.Surface, coordinates: tuple[int, int]):
         surface.blit(text_surface, (coordinates[0], coordinates[1]))
