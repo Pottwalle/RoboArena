@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meine GitHub.io Seite</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .sprint-target ul li p:first-child {
+            background-color: lightgray;
+            border-radius: 5px;
+            padding-left: 5px;
+        }
+        div img {
+            width: 50%;
+        }
+        #main-menu {
+            border-radius: 5px 0 0 5px;
+        }
+        #ingame-ui {
+            border-radius: 0 5px 5px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>RoboArena Team 3</h1>
+        <ul>
+            <li class="member"><a href="https://github.com/Pottwalle">Valk0</a></li>
+            <li class="member"><a href="https://github.com/500Block">500Block</a></li>
+            <li class="member"><a href="https://github.com/bidD007">dani_634</a></li>
+            <li class="member"><a href="https://github.com/BackForester">Backforster</a></li>
+        </ul>
+    </div>
+
+     <div class="sprint-target">
+        <div class="sprint-header">
+            <h1>Sprint 4</h1>
+            <ul>
+                <li>von: 03.06.2026</li>
+                <li>bis: 08.07.2026</li>
+            </ul>
+        </div>
+        <h3>Woche 1 (3.6. - 10.6.)</h3>
+        <ul>
+            <li>
+                <p><a href="https://github.com/500Block">500Block</a> hat das Tile Edge Rendering eingeführt & eine grundlegende Struktur für Ingame UI elemente eingeführt mitsammt einem beispiel Hauptmenü</p>
+                <p>+ Tile Edge rendering eingeführt, was momentan dazu dient, 3 Kantenübergänge zu malen</p> <a href="https://github.com/Pottwalle/RoboArena/pull/62#issue-4597053586">more details</a>
+                <p>+ erste Version an Gamestates eingeführt, welche es ermöglichen verschiedene UI Menüs zu malen (Playing, Esc_menü, Main_menu, Settings)</p>
+                <p>+ erste Version eines Hauptmenüs erstellt</p>
+                <p>+ UI Manager erstellt, der alle unterelemente managed, also die functionen update, draw, handle_event aufruft</p>
+                <p>+ Erstes Test UI element eingefügt, was ein basic UI Button ist mit sammt funktionalität</p>
+                <a href="https://github.com/Pottwalle/RoboArena/pull/64#issue-4599278656">more details</a>
+            </li>
+        </ul>
+        <h3>Woche 2 (10.6. - 17.6.)</h3>
+        <ul>
+            <li>
+                <p><a href="https://github.com/500Block">500Block</a> hat einige Texturen hinzugefügt, für verschiedene UI anwendungszwecke, sowie das Hauptmenü finalisiert, mit neu erstelltem Texturen Button</p>
+                <p>+ erste Texturenversion erstellt für Buffs, Inventar, Ingame UI, andere UI elemente & Hauptmenühintergrund</p>
+                <p>+ das Hauptmenü soweit überarbeitet, dass es in einem funktionalen, und erstmal finalen Zusatnd ist</p>
+                <p>+ Einen Textur Button hinzugefügt der statt mit Texten mit Texturen Arbeitet</p>
+                <p>+ Ein erstes Ingame UI erstellt, welches die bestehende lifebar einbaut</p>
+                <a href="https://github.com/Pottwalle/RoboArena/pull/64#issue-4599278656">more details</a>
+                <div style="display: flex;">
+                    <img id="main-menu" src="https://private-user-images.githubusercontent.com/204769068/605857108-567ffe12-98af-4495-a818-a94ccbbde466.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3ODE5NjU5MDcsIm5iZiI6MTc4MTk2NTYwNywicGF0aCI6Ii8yMDQ3NjkwNjgvNjA1ODU3MTA4LTU2N2ZmZTEyLTk4YWYtNDQ5NS1hODE4LWE5NGNjYmJkZTQ2Ni5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjYwNjIwJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI2MDYyMFQxNDI2NDdaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT03OTYyMTA5OTUwMDgzNGY0NDVhYzAyZDgxMmU5MTU3ODU2ZjY5MTU0MTE3NWE4MGUyMzU5M2FhMjJmMzc1ZWU4JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZyZXNwb25zZS1jb250ZW50LXR5cGU9aW1hZ2UlMkZwbmcifQ.Tf3UvU7rQgn33J9shbzqS3wU-neXZmB1lPQFotwFglE" alt="main menu">
+                    <img id="ingame-ui" src="https://private-user-images.githubusercontent.com/204769068/605857353-03c43955-3ce6-4096-b26b-296783fd1306.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3ODE5NjU5MDcsIm5iZiI6MTc4MTk2NTYwNywicGF0aCI6Ii8yMDQ3NjkwNjgvNjA1ODU3MzUzLTAzYzQzOTU1LTNjZTYtNDA5Ni1iMjZiLTI5Njc4M2ZkMTMwNi5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjYwNjIwJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI2MDYyMFQxNDI2NDdaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT0wZWIyZjdmOTU3YjNlNDM3MjNmMDhhNWMyOTZhYTFjNTRlOGFhN2I4OTkyZWMwMjAxMTVhNzRmN2JlYWUwODlmJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZyZXNwb25zZS1jb250ZW50LXR5cGU9aW1hZ2UlMkZwbmcifQ.3fQmZnzIBzwn38CPGKqmDGgEr8bsuJt1YRc702wW9zg" alt="ingame UI overlay">
+                </div>
+            </li>
+        </ul>
+        <h3>Woche 3 (17.6. - 24.6.)</h3>
+    </div>
+    <div class="sprint-target">
+        <a href="index.html">Zurück zur Übersicht</a>
+    </div>
+</body>
+
+</html>
