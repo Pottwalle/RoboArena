@@ -15,8 +15,12 @@ from levelbar import Levelbar
 from ui.menu_font import MenuFont
 from ui.settings_menu import SettingsMenu
 from ui.esc_menu import EscMenu
+<<<<<<< HEAD
 from musik_manager import spiele_hintergrundmusik
 from ObjectCollision import ObjectCollision
+=======
+from ui.inventory import Inventory
+>>>>>>> 646ba11 (firsts steps for inventory)
 
 
 pygame.init()
@@ -74,6 +78,7 @@ class GameState(Enum):
     PLAYING = auto()
     ESC_MENU = auto()
     SETTINGS = auto()
+    INVENTORY = auto()
 
 state = GameState.MAIN_MENU
 previous_state = GameState.MAIN_MENU
@@ -104,6 +109,7 @@ main_menu = MainMenu(set_playing, set_settings, set_quit)
 settings_menu = SettingsMenu(menu_font, set_back_from_settings)
 esc_menu = EscMenu(menu_font, set_playing, set_main_menu, set_settings)
 game_ui = GameUI(lifebar, levelbar)
+inventory = Inventory(player.inventory)
 
 # basic game loop
 while running:
@@ -111,13 +117,19 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-            if state == GameState.PLAYING:
-                state = GameState.ESC_MENU
-            elif state == GameState.ESC_MENU:
-                state = GameState.PLAYING
-            elif state == GameState.SETTINGS:
-                state = GameState.MAIN_MENU
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                if state == GameState.PLAYING:
+                    state = GameState.ESC_MENU
+                elif state == GameState.ESC_MENU:
+                    state = GameState.PLAYING
+                elif state == GameState.SETTINGS:
+                    state = GameState.MAIN_MENU
+            if event.key == pygame.K_i:
+                if state == GameState.PLAYING:
+                    state = GameState.INVENTORY
+                else:
+                    state = GameState.PLAYING
             
         # only pass events to active menu
         if state == GameState.MAIN_MENU:
@@ -126,6 +138,9 @@ while running:
             settings_menu.handle_event(event)
         elif state == GameState.ESC_MENU:
             esc_menu.handle_event(event)
+        elif state == GameState.INVENTORY:
+            inventory.handle_event(event)
+    
 
     # delta time (time elapsed since last frame)
     dt = clock.tick(settings.FPS) / 1000
@@ -175,16 +190,20 @@ while running:
 
     elif state == GameState.MAIN_MENU:
         # main_menu.handle_event(event)
-        main_menu.update(dt)
+        # main_menu.update(dt)
         main_menu.draw(screen)
     
     elif state == GameState.SETTINGS:
         settings_menu.draw(screen)
-        settings_menu.update(dt)
+        # settings_menu.update(dt)
 
     elif state == GameState.ESC_MENU:
         esc_menu.draw(screen)
-        esc_menu.update(dt)
+        # esc_menu.update(dt)
+    
+    elif state == GameState.INVENTORY:
+        inventory.draw(screen)
+        # inventory.update(dt)
     
     pygame.display.update()
     

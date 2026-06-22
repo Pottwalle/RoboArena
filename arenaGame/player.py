@@ -39,6 +39,11 @@ class Player:
 
         self.weapon: Weapon = None
 
+        self.inventory = [
+            ["", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", ""]]
+
         '''handles the updating of all player related methods changing the coordinates accordingly'''
     
     def update(self, dt, movement):

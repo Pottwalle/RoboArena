@@ -19,7 +19,7 @@ class SettingsMenu():
 
         # coordinates of the buttons are measuren in the original UI site 320x180 and than scaled by factor in settings to fit the Window
         self.ui.add(OptionsButton(
-            (31, 31, 79, 18),
+            (220, 15, 79, 18),
             ["off", "on"],
             menu_font,
             self.scale,
