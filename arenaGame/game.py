@@ -1,5 +1,5 @@
 import pygame
-from settings import SCREEN_HEIGHT, SCREEN_WIDTH, TILE_SIZE, FPS
+from settings import settings
 from arena import Arena
 from player import Player
 from movement import Movement
@@ -9,13 +9,18 @@ from enemy import Enemy
 from tile import load_tiles
 from club import Club
 from enum import Enum, auto
-from ui import main_menu
+from ui.main_menu import MainMenu
 from ui.game_ui import GameUI
+from levelbar import Levelbar
+from ui.menu_font import MenuFont
+from ui.settings_menu import SettingsMenu
+from ui.esc_menu import EscMenu
+
 
 pygame.init()
 
 # Game Window
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+screen = pygame.display.set_mode((settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
 # set window title & icon
 pygame.display.set_caption("Robot Arena")
 
@@ -24,9 +29,10 @@ background = ("gray")
 
 load_tiles()
 # Arena
-arena = Arena(SCREEN_WIDTH, SCREEN_HEIGHT, TILE_SIZE)
+arena = Arena(settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT, settings.TILE_SIZE)
 # Tilemap for movement
 movement = Movement(arena.grid)
+
 # create the player with its base stats
 player = Player(
     arena.offset_x + arena.grid_width // 2,
@@ -36,15 +42,16 @@ player = Player(
 player.setWeapon(Club(player))
 # Gegner-Liste erstellen
 enemies = [
-    Enemy(arena.offset_x + 100, arena.offset_y + 100, 10, 0, 60, movement, movementType="aggressive"),
-    Enemy(arena.offset_x + 200, arena.offset_y + 150, 10, 0, 40, movement, movementType="random"),
-    Enemy(arena.offset_x + 300, arena.offset_y + 200, 10, 0, 20, movement, movementType="passive"),
+    Enemy(arena.offset_x + 100, arena.offset_y + 100, 10, 0, 60, movement, movementType="aggressive", xp_reward=25),
+    Enemy(arena.offset_x + 200, arena.offset_y + 150, 10, 0, 40, movement, movementType="random", xp_reward=15),
+    Enemy(arena.offset_x + 300, arena.offset_y + 200, 10, 0, 20, movement, movementType="passive", xp_reward=10),
 ]
 
 # create damage handler
 damage = Damage(movement)
-# create lifebar
+# create lifebar & Levelbar
 lifebar = Lifebar(player)
+levelbar = Levelbar(player, settings.UI_SCALE)
 
 # gameloop parameters, need init before set_quit()
 clock = pygame.time.Clock()
@@ -58,39 +65,59 @@ class GameState(Enum):
     SETTINGS = auto()
 
 state = GameState.MAIN_MENU
+previous_state = GameState.MAIN_MENU
 
 # callback functions to set Game states
 def set_playing():
-    global state
+    global state, previous_state
+    previous_state = state
     state = GameState.PLAYING
 def set_settings():
-    global state
+    global state, previous_state
+    previous_state = state
     state = GameState.SETTINGS
+def set_back_from_settings():
+    global state, previous_state
+    state = previous_state
 def set_quit():
     global running
     running = False
+def set_main_menu():
+    global state, previous_state
+    previous_state = state
+    state = GameState.MAIN_MENU
 
 # Menus
-main_menu = main_menu.MainMenu(set_playing, set_settings, set_quit)
-game_ui = GameUI(lifebar)
+menu_font = MenuFont()
+main_menu = MainMenu(set_playing, set_settings, set_quit)
+settings_menu = SettingsMenu(menu_font, set_back_from_settings)
+esc_menu = EscMenu(menu_font, set_playing, set_main_menu, set_settings)
+game_ui = GameUI(lifebar, levelbar)
 
 # basic game loop
 while running:
-
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_ESCAPE:
-                if state == GameState.ESC_MENU:
-                    state = GameState.PLAYING
-                else:
-                    state = GameState.ESC_MENU
-        
-        main_menu.handle_event(event)
+
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            if state == GameState.PLAYING:
+                state = GameState.ESC_MENU
+            elif state == GameState.ESC_MENU:
+                state = GameState.PLAYING
+            elif state == GameState.SETTINGS:
+                state = GameState.MAIN_MENU
+            
+        # only pass events to active menu
+        if state == GameState.MAIN_MENU:
+            main_menu.handle_event(event)
+        elif state == GameState.SETTINGS:
+            settings_menu.handle_event(event)
+        elif state == GameState.ESC_MENU:
+            esc_menu.handle_event(event)
 
     # delta time (time elapsed since last frame)
-    dt = clock.tick(FPS) / 1000
+    dt = clock.tick(settings.FPS) / 1000
     # print("FPS: ", clock.get_fps())
 
     if state == GameState.PLAYING:
@@ -107,7 +134,7 @@ while running:
         damage.applyDamage(player, dt)
 
         # player camera, move the arena in the way that the player stays centered, represents the camera coordinates (center screen)
-        camera = player.position - pygame.Vector2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+        camera = player.position - pygame.Vector2(settings.SCREEN_WIDTH / 2, settings.SCREEN_HEIGHT / 2)
 
         # draw Background
         screen.fill(background)
@@ -121,7 +148,12 @@ while running:
         for enemy in enemies:
             enemy.draw(screen, camera)
 
-        # remove dead enemies
+        # remove dead enemies & handle rewards
+        killed_enemies = [enemy for enemy in enemies if enemy.health <= 0]
+        for enemy in killed_enemies:
+            if hasattr(enemy, 'reward'):
+                enemy.reward.apply_to_player(player)
+        
         enemies = [enemy for enemy in enemies if enemy.health > 0]
         # draw the whole game UI on top
         game_ui.draw(screen)
@@ -132,10 +164,12 @@ while running:
         main_menu.draw(screen)
     
     elif state == GameState.SETTINGS:
-        pass
+        settings_menu.draw(screen)
+        settings_menu.update(dt)
 
     elif state == GameState.ESC_MENU:
-        pass
+        esc_menu.draw(screen)
+        esc_menu.update(dt)
     
     pygame.display.update()
     

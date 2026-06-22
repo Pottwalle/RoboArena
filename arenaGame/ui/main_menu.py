@@ -1,17 +1,17 @@
 import pygame
 from .ui_manager import UIManager
 from .texture_button import TextureButton
-from settings import UI_SCALE, ASSET_DIR, SCREEN_WIDTH, SCREEN_HEIGHT
+from settings import settings
 
 class MainMenu():
     def __init__(self, set_playing, set_settings, set_quit):
 
         self.ui = UIManager()
-        self.scale = UI_SCALE
+        self.scale = settings.UI_SCALE
         
         # load textures, size in pixels is 79 x 18 px
-        self.ui_elements = pygame.image.load(ASSET_DIR / "ui/ui_elements.png")
-        self.bg_texture = pygame.transform.scale(pygame.image.load(ASSET_DIR / "ui/main_menu_bg.png"), (SCREEN_WIDTH, SCREEN_HEIGHT))
+        self.ui_elements = pygame.image.load(settings.ASSET_DIR / "ui/ui_elements.png")
+        self.bg_texture = pygame.transform.scale(pygame.image.load(settings.ASSET_DIR / "ui/main_menu_bg.png").convert(), (settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
         self.play_texture = self.ui_elements.subsurface((0, 18, 79, 18)).convert_alpha()
         self.settings_texture = self.ui_elements.subsurface((0, 0, 79, 18)).convert_alpha()
         self.quit_texture = self.ui_elements.subsurface((0, 36, 79, 18)).convert_alpha()
@@ -19,7 +19,7 @@ class MainMenu():
 
         # coordinates of the buttons are measuren in the original UI site 320x180 and than scaled by factor in settings to fit the Window
         self.ui.add(TextureButton(
-            (31 * self.scale, 31 * self.scale, 79 * self.scale, 18 * self.scale),
+            (31, 31, 79, 18),
             "play",
             self.play_texture,
             self.hover_texture,
@@ -28,7 +28,7 @@ class MainMenu():
             ))
         
         self.ui.add(TextureButton(
-            (31 * self.scale, 53 * self.scale, 79 * self.scale, 18 * self.scale),
+            (31, 53, 79, 18),
             "settings",
             self.settings_texture,
             self.hover_texture,
@@ -37,7 +37,7 @@ class MainMenu():
             ))
         
         self.ui.add(TextureButton(
-            (31 * self.scale, 75 * self.scale, 79 * self.scale, 18 * self.scale),
+            (31, 75, 79, 18),
             "play",
             self.quit_texture,
             self.hover_texture,
