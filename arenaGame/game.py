@@ -15,9 +15,14 @@ from levelbar import Levelbar
 from ui.menu_font import MenuFont
 from ui.settings_menu import SettingsMenu
 from ui.esc_menu import EscMenu
+from musik_manager import spiele_hintergrundmusik
+from ObjectCollision import ObjectCollision
 
 
 pygame.init()
+
+# hintergrundmusik
+spiele_hintergrundmusik()
 
 # Game Window
 screen = pygame.display.set_mode((settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
@@ -41,6 +46,7 @@ player = Player(
 )
 player.setWeapon(Club(player))
 # Gegner-Liste erstellen
+#  x, y, r, alpha, base_speed, movement, speed_modifier=1, health=10, damage=5, movementType="random"
 enemies = [
     Enemy(arena.offset_x + 100, arena.offset_y + 100, 10, 0, 60, movement, movementType="aggressive", xp_reward=25),
     Enemy(arena.offset_x + 200, arena.offset_y + 150, 10, 0, 40, movement, movementType="random", xp_reward=15),
@@ -49,9 +55,13 @@ enemies = [
 
 # create damage handler
 damage = Damage(movement)
+
 # create lifebar & Levelbar
 lifebar = Lifebar(player)
 levelbar = Levelbar(player, settings.UI_SCALE)
+
+#create collision handler
+collision = ObjectCollision()
 
 # gameloop parameters, need init before set_quit()
 clock = pygame.time.Clock()
@@ -129,6 +139,10 @@ while running:
         # apply weapon damage to enemies
         if player.weapon is not None:
             player.weapon.update(dt, enemies)
+
+        #detect & resolve object collision
+        collision.handle_player_enemy(player, enemies, damage_on_contact=True)
+        collision.handle_enemy_enemy(enemies)
 
         # apply damage to player based on current tile
         damage.applyDamage(player, dt)

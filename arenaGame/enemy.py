@@ -21,7 +21,7 @@ class Enemy:
         # --- movement Erweiterung ---
         self.velocity = pygame.Vector2(0, 0)
         self.acceleration = 800
-        self.max_speed = 200
+        self.max_speed = 80
         self.friction = 0.90
 
         self.reward = Reward(xp=xp_reward)
