@@ -8,9 +8,13 @@ from lifebar import Lifebar
 from enemy import Enemy
 from tile import load_tiles
 from club import Club
+from musik_manager import spiele_hintergrundmusik
 from ObjectCollision import ObjectCollision
 
 pygame.init()
+
+# hintergrundmusik
+spiele_hintergrundmusik()
 
 # Game Window
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
