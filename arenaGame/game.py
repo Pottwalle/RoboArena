@@ -34,7 +34,8 @@ background = ("gray")
 
 load_tiles()
 # Arena
-arena = Arena(settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT, settings.TILE_SIZE)
+arena = Arena(settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT, settings.TILE_SIZE, "arenaGame/level3.txt")
+
 # Tilemap for movement
 movement = Movement(arena.grid)
 
