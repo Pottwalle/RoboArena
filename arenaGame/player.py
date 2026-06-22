@@ -1,5 +1,6 @@
 import pygame
 import math
+from weapon import Weapon
 # Roboter Klasse mit Attributen, Position, Radius und Richtung
 class Player:
     def __init__(self, x, y, r, alpha, base_speed, speed_modifier = 1):
@@ -23,6 +24,10 @@ class Player:
         self.hp = 100
         self.max_hp = 100
 
+        self.xp = 0
+        self.level = 0
+        self.xp_breakpoints = [0, 50, 100, 180, 300, 500, 750, 1200, 922337203685477580] # summed up xp needed per level
+
         self.base_speed = base_speed
         self.speed_modifier = speed_modifier
 
@@ -32,7 +37,7 @@ class Player:
         self.max_speed = 300
         self.friction = 0.90
 
-        self.weapon = None
+        self.weapon: Weapon = None
 
         '''handles the updating of all player related methods changing the coordinates accordingly'''
     
@@ -79,3 +84,23 @@ class Player:
 
     def setWeapon(self, weapon):
         self.weapon = weapon
+
+    def add_xp(self, amount):
+        '''adds amount of xp to the players current level, needs to be >= 0 and checks if the players level needs to be updated'''
+        if amount >= 0:
+            self.xp += amount
+            self.update_level()
+
+    def update_level(self):
+        '''increases the players level by 1 level if he has more xp than required for the next level'''
+        if self.xp >= self.xp_breakpoints[self.level + 1]:
+            self.level += 1
+            self.update_level() # in case more xp than 1 level is gained
+
+    def get_level_progress(self) -> float:
+        '''returns the percentage of the way of the players level to the next level, clamped between 0 and 1'''
+        current_lvl = self.level
+        current_lvl_xp = self.xp_breakpoints[current_lvl]
+        next_lvl_xp = self.xp_breakpoints[current_lvl + 1]
+
+        return max(0.0, min(1.0, (self.xp - current_lvl_xp) / max(1, (next_lvl_xp - current_lvl_xp))))
