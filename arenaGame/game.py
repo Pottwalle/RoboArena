@@ -15,12 +15,9 @@ from levelbar import Levelbar
 from ui.menu_font import MenuFont
 from ui.settings_menu import SettingsMenu
 from ui.esc_menu import EscMenu
-<<<<<<< HEAD
+from ui.inventory import Inventory
 from musik_manager import spiele_hintergrundmusik
 from ObjectCollision import ObjectCollision
-=======
-from ui.inventory import Inventory
->>>>>>> 646ba11 (firsts steps for inventory)
 
 
 pygame.init()
@@ -147,7 +144,10 @@ while running:
     # print("FPS: ", clock.get_fps())
 
     if state == GameState.PLAYING:
-        player.update(dt, movement)
+        # player camera, move the arena in the way that the player stays centered, represents the camera coordinates (center screen)
+        camera = player.position - pygame.Vector2(settings.SCREEN_WIDTH / 2, settings.SCREEN_HEIGHT / 2)
+
+        player.update(dt, movement, camera)
 
         for enemy in enemies:
             enemy.update(dt, player, clock)
@@ -162,9 +162,6 @@ while running:
 
         # apply damage to player based on current tile
         damage.applyDamage(player, dt)
-
-        # player camera, move the arena in the way that the player stays centered, represents the camera coordinates (center screen)
-        camera = player.position - pygame.Vector2(settings.SCREEN_WIDTH / 2, settings.SCREEN_HEIGHT / 2)
 
         # draw Background
         screen.fill(background)

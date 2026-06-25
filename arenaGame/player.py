@@ -3,7 +3,7 @@ import math
 from weapon import Weapon
 # Roboter Klasse mit Attributen, Position, Radius und Richtung
 class Player:
-    def __init__(self, x, y, r, alpha, base_speed, speed_modifier = 1):
+    def __init__(self, x, y, r, alpha, base_speed, speed_modifier = 1, hp=100, max_hp=100):
         '''Represents the Player in the game holding the position, handling the movement and drawing of the player
 
         Attributes:
@@ -21,8 +21,9 @@ class Player:
         self.r = r
         self.alpha = alpha
         self.direction = pygame.Vector2()
-        self.hp = 100
-        self.max_hp = 100
+        self.attack_direction = pygame.Vector2()
+        self.hp = hp
+        self.max_hp = max_hp
 
         self.xp = 0
         self.level = 0
@@ -46,8 +47,8 @@ class Player:
 
         '''handles the updating of all player related methods changing the coordinates accordingly'''
     
-    def update(self, dt, movement):
-        self.input()
+    def update(self, dt, movement, camera):
+        self.input(camera)
         self.position = movement.move(self, dt)
 
 
@@ -67,7 +68,7 @@ class Player:
         # zeichnen Richtungslinie
         pygame.draw.line(screen, (0, 0, 0), (screen_position.x, screen_position.y), (int(end_x), int(end_y)), 2)
 
-    def input(self):
+    def input(self, camera):
         '''handles the inputs for the player movement and sets the direction value accordingly
 
         sets the direction y to w = -1, s = 1, and x to a = -1, d = 1'''
@@ -86,6 +87,15 @@ class Player:
 
         if self.direction.length() > 0:
             self.direction = self.direction.normalize()
+        
+        mouse_pos = pygame.mouse.get_pos()
+        mouse_world_pos = mouse_pos + camera
+        to_mouse = mouse_world_pos - self.position
+
+        if to_mouse.length() > 0:
+            self.attack_direction = to_mouse.normalize()
+        else:
+            self.attack_direction = pygame.Vector2(1, 0)
 
     def setWeapon(self, weapon):
         self.weapon = weapon
