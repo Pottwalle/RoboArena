@@ -1,5 +1,4 @@
 from item import Item, Consumable
-from player import Player
 
 class InventoryManager():
     def __init__(self, rows, cols):
@@ -17,7 +16,7 @@ class InventoryManager():
                     return True
         return False
     
-    def use_item_at(self, row, col, player: Player) -> bool:
+    def use_item_at(self, row, col, player) -> bool:
         '''uses the Consumable at the Place in the inventory on the player returns true if sucessfull, else false'''
         item: Consumable = self.slots[row][col]
         if item and hasattr(item, "use"):

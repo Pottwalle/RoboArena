@@ -1,5 +1,4 @@
 import pygame
-from player import Player
 from ui.ui_element import UIElement
 from settings import settings
 
@@ -20,7 +19,7 @@ class Consumable(Item):
         super().__init__(name, icon, description)
         self.heal_amount = heal_amount
 
-    def use(self, player: Player) -> bool:
+    def use(self, player) -> bool:
         '''uses the item in the inventory, and applied its effects on the player'''
         player.hp = min(player.max_hp, player.hp + self.heal_amount)
         return True
