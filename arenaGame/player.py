@@ -44,6 +44,7 @@ class Player:
     
     def update(self, dt, movement, camera):
         self.input(camera)
+        self.alpha = math.degrees(math.atan2(-self.direction.y, self.direction.x))
         self.position = movement.move(self, dt)
 
 
