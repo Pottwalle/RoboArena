@@ -26,8 +26,8 @@ class Inventory():
                 item: Item = self.inventory.get_item(r, c)
                 if item:
                     # inventory item start is at 5x97
-                    pos_x = 5 * settings.UI_SCALE + c * settings.UI_SCALE * settings.ITEM_SIZE
-                    pos_y = 97 * settings.UI_SCALE + r * settings.UI_SCALE * settings.ITEM_SIZE
+                    pos_x = (175 + 5) * settings.UI_SCALE + c * settings.UI_SCALE * settings.ITEM_SIZE
+                    pos_y = (7 + 97) * settings.UI_SCALE + r * settings.UI_SCALE * settings.ITEM_SIZE
                     surface.blit(item.icon, (pos_x, pos_y))
         self.ui.draw(surface)
 

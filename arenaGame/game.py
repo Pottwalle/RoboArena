@@ -54,9 +54,9 @@ player.setWeapon(Club(player))
 # Gegner-Liste erstellen
 #  x, y, r, alpha, base_speed, movement, speed_modifier=1, health=10, damage=5, movementType="random"
 enemies = [
-    Enemy(arena.offset_x + 100, arena.offset_y + 100, 10, 0, 60, movement, movementType="aggressive", xp_reward=25),
-    Enemy(arena.offset_x + 200, arena.offset_y + 150, 10, 0, 40, movement, movementType="random", xp_reward=15),
-    Enemy(arena.offset_x + 300, arena.offset_y + 200, 10, 0, 20, movement, movementType="passive", xp_reward=10),
+    Enemy(arena.offset_x + 100, arena.offset_y + 100, 10, 0, 60, movement, movementType="aggressive", xp_reward=25, item_reward=[items["barbarian_helmet"]]),
+    Enemy(arena.offset_x + 200, arena.offset_y + 150, 10, 0, 40, movement, movementType="random", xp_reward=15, item_reward=[items["barbarian_helmet"], items["barbarian_chestplate"]]),
+    Enemy(arena.offset_x + 300, arena.offset_y + 200, 10, 0, 20, movement, movementType="passive", xp_reward=10, item_reward=[items["barbarian_sword"]]),
 ]
 
 # create damage handler

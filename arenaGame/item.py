@@ -1,4 +1,3 @@
-import pygame
 from ui.ui_element import UIElement
 from settings import settings
 
