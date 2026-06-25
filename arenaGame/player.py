@@ -1,6 +1,7 @@
 import pygame
 import math
 from weapon import Weapon
+from inventory_manager import InventoryManager
 # Roboter Klasse mit Attributen, Position, Radius und Richtung
 class Player:
     def __init__(self, x, y, r, alpha, base_speed, speed_modifier = 1, hp=100, max_hp=100):
@@ -40,10 +41,7 @@ class Player:
 
         self.weapon: Weapon = None
 
-        self.inventory = [
-            ["", "", "", "", "", "", "", ""],
-            ["", "", "", "", "", "", "", ""],
-            ["", "", "", "", "", "", "", ""]]
+        self.inventory = InventoryManager(3, 8)
 
         '''handles the updating of all player related methods changing the coordinates accordingly'''
     

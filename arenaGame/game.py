@@ -18,6 +18,7 @@ from ui.esc_menu import EscMenu
 from ui.inventory import Inventory
 from musik_manager import spiele_hintergrundmusik
 from ObjectCollision import ObjectCollision
+from item_loader import load_items
 
 
 pygame.init()
@@ -36,6 +37,9 @@ background = ("gray")
 load_tiles()
 # Arena
 arena = Arena(settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT, settings.TILE_SIZE, "arenaGame/level3.txt")
+
+# init Items dictionary sorted by item names contained in assets/data/items.json
+items = load_items()
 
 # Tilemap for movement
 movement = Movement(arena.grid)
