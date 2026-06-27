@@ -1,3 +1,5 @@
+from ftplib import print_line
+
 import pygame
 from settings import settings
 from arena import Arena
@@ -17,7 +19,7 @@ from ui.settings_menu import SettingsMenu
 from ui.esc_menu import EscMenu
 from musik_manager import spiele_hintergrundmusik
 from ObjectCollision import ObjectCollision
-
+from interactable import InteractableManager
 
 pygame.init()
 
@@ -34,7 +36,7 @@ background = ("gray")
 
 load_tiles()
 # Arena
-arena = Arena(settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT, settings.TILE_SIZE, "arenaGame/level3.txt")
+arena = Arena(settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT, settings.TILE_SIZE, "./level3.txt")
 
 # Tilemap for movement
 movement = Movement(arena.grid)
@@ -50,7 +52,7 @@ player.setWeapon(Club(player))
 #  x, y, r, alpha, base_speed, movement, speed_modifier=1, health=10, damage=5, movementType="random"
 enemies = [
     Enemy(arena.offset_x + 100, arena.offset_y + 100, 10, 0, 60, movement, movementType="aggressive", xp_reward=25),
-    Enemy(arena.offset_x + 200, arena.offset_y + 150, 10, 0, 40, movement, movementType="random", xp_reward=15),
+    Enemy(arena.offset_x + 200, arena.offset_y + 150, 10, 0, 40, movement, movementType="random", xp_reward=15,places_traps=True, trap_cooldown=4.0),
     Enemy(arena.offset_x + 300, arena.offset_y + 200, 10, 0, 20, movement, movementType="passive", xp_reward=10),
 ]
 
@@ -61,12 +63,20 @@ damage = Damage(movement)
 lifebar = Lifebar(player)
 levelbar = Levelbar(player, settings.UI_SCALE)
 
-#create collision handler
+# create collision handler
 collision = ObjectCollision()
+
+# create interactables manager (health packs, traps, ...), platzierbar von Spieler & Gegnern
+interactables = InteractableManager()
+
+# Beispiel: 3 Health Packs zufällig auf "dirt"-Tiles platzieren (z.B. beim Levelstart)
+for spawn_pos in arena.get_random_tile_positions("dirt", count=3):
+    interactables.spawn_health_pack(spawn_pos.x, spawn_pos.y)
 
 # gameloop parameters, need init before set_quit()
 clock = pygame.time.Clock()
 running = True
+
 
 # Game states
 class GameState(Enum):
@@ -75,28 +85,39 @@ class GameState(Enum):
     ESC_MENU = auto()
     SETTINGS = auto()
 
+
 state = GameState.MAIN_MENU
 previous_state = GameState.MAIN_MENU
+
 
 # callback functions to set Game states
 def set_playing():
     global state, previous_state
     previous_state = state
     state = GameState.PLAYING
+
+
 def set_settings():
     global state, previous_state
     previous_state = state
     state = GameState.SETTINGS
+
+
 def set_back_from_settings():
     global state, previous_state
     state = previous_state
+
+
 def set_quit():
     global running
     running = False
+
+
 def set_main_menu():
     global state, previous_state
     previous_state = state
     state = GameState.MAIN_MENU
+
 
 # Menus
 menu_font = MenuFont()
@@ -118,7 +139,7 @@ while running:
                 state = GameState.PLAYING
             elif state == GameState.SETTINGS:
                 state = GameState.MAIN_MENU
-            
+
         # only pass events to active menu
         if state == GameState.MAIN_MENU:
             main_menu.handle_event(event)
@@ -136,17 +157,25 @@ while running:
 
         for enemy in enemies:
             enemy.update(dt, player, clock)
+            # Gegner mit places_traps=True legen automatisch in festen Abständen eine Falle
+            if enemy.should_place_trap():
+                interactables.spawn_at_entity("trap", enemy, owner="enemy")
 
         # apply weapon damage to enemies
         if player.weapon is not None:
             player.weapon.update(dt, enemies)
 
-        #detect & resolve object collision
+        # detect & resolve object collision
         collision.handle_player_enemy(player, enemies, damage_on_contact=True)
         collision.handle_enemy_enemy(enemies)
 
         # apply damage to player based on current tile
         damage.applyDamage(player, dt)
+
+        # update interactables (health packs, traps, ...): wendet Effekte an
+        # Berührung an und entfernt verbrauchte/abgelaufene Objekte
+        interactables.update(dt, player, enemies,arena)
+
 
         # player camera, move the arena in the way that the player stays centered, represents the camera coordinates (center screen)
         camera = player.position - pygame.Vector2(settings.SCREEN_WIDTH / 2, settings.SCREEN_HEIGHT / 2)
@@ -155,11 +184,13 @@ while running:
         screen.fill(background)
         # draw game map and player
         arena.draw_map(screen, camera)
+        # draw interactables (health packs, traps, ...) unterhalb der Einheiten
+        interactables.draw(screen, camera)
         player.draw(screen, camera)
-        # draw weapon 
+        # draw weapon
         if player.weapon is not None:
             player.weapon.draw(screen, camera)
-        #draw enemies
+        # draw enemies
         for enemy in enemies:
             enemy.draw(screen, camera)
 
@@ -168,7 +199,7 @@ while running:
         for enemy in killed_enemies:
             if hasattr(enemy, 'reward'):
                 enemy.reward.apply_to_player(player)
-        
+
         enemies = [enemy for enemy in enemies if enemy.health > 0]
         # draw the whole game UI on top
         game_ui.draw(screen)
@@ -177,7 +208,7 @@ while running:
         # main_menu.handle_event(event)
         main_menu.update(dt)
         main_menu.draw(screen)
-    
+
     elif state == GameState.SETTINGS:
         settings_menu.draw(screen)
         settings_menu.update(dt)
@@ -185,6 +216,5 @@ while running:
     elif state == GameState.ESC_MENU:
         esc_menu.draw(screen)
         esc_menu.update(dt)
-    
+
     pygame.display.update()
-    
