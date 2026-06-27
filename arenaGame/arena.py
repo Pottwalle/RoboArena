@@ -32,7 +32,7 @@ class Arena:
             }
         return [[type_mapping[char] for char in row] for row in raw_map]
     
-    def get_tile(self, map: list[list[str]], row: int, col: int) -> str | None:
+    def get_tile(self, map: list[list[str]], row: int, col: int):
         '''
         Returns the tile Type at the position row, col in the map with None if out of bounds
         Args:
