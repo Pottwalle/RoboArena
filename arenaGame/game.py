@@ -149,7 +149,6 @@ while running:
 
         for enemy in enemies:
             enemy.update(dt, player, clock)
-            # Gegner mit places_traps=True legen automatisch in festen Abständen eine Falle
 
 
         # apply weapon damage to enemies
