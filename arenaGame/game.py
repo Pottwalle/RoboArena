@@ -1,5 +1,3 @@
-from ftplib import print_line
-
 import pygame
 from settings import settings
 from arena import Arena

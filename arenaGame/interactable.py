@@ -1,6 +1,6 @@
 import pygame
 import math
-import random
+
 
 class Interactable:
     """Basisklasse für alle interagierbaren Objekte in der Arena (z.B. Health Packs, Fallen).
