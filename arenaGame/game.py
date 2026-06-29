@@ -129,6 +129,7 @@ while running:
             if event.key == pygame.K_i:
                 if state == GameState.PLAYING:
                     state = GameState.INVENTORY
+                    inventory.last_gamestate_bg = screen
                 else:
                     state = GameState.PLAYING
             

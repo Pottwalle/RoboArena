@@ -34,3 +34,8 @@ class InventoryManager():
         item = self.slots[row][col]
         self.slots[row][col] = None
         return item
+    
+    def swap_slots(self, r1, c1, r2, c2):
+        item1 = self.get_item(r1, c1)
+        self.slots[r1][c1] = self.slots[r2][c2]
+        self.slots[r2][c2] = item1
