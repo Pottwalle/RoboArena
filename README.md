@@ -3,7 +3,17 @@
 > `[W] -> move up`\
 > `[S] -> move down`\
 > `[A] -> move left`\
-> `[D] -> move right`
+> `[D] -> move right`\
+>
+> ingame:\
+> `[ESC] -> enters escape menu`
+> `[I] -> enters / exits the Inventory`
+>
+> in escape menu:\
+> `[ESC] -> exits escape menu`
+>
+> in settings menu:\
+> `[ESC] -> exits to main menu`
 
 ### GitHub IO Page: 
 > https://pottwalle.github.io/RoboArena/

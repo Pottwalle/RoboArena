@@ -4,8 +4,9 @@ import random
 from reward import Reward
 
 class Enemy:
-    def __init__(self, x, y, r, alpha, base_speed, movement, speed_modifier=1, health=10, damage=5, movementType="random", xp_reward = 10,
+    def __init__(self, x, y, r, alpha, base_speed, movement, speed_modifier=1, health=10, damage=5, movementType="random", xp_reward = 10, item_reward = [],
                  places_traps=False, trap_cooldown=4.0):
+
         self.position = pygame.Vector2(x, y)
         self.r = r
         self.alpha = alpha
@@ -25,7 +26,7 @@ class Enemy:
         self.max_speed = 80
         self.friction = 0.90
 
-        self.reward = Reward(xp=xp_reward)
+        self.reward = Reward(xp=xp_reward, items=item_reward)
 
         self.weapon = None
 

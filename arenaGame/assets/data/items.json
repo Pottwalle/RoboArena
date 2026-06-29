@@ -1,0 +1,62 @@
+{
+    "barbarian_helmet": {
+        "name": "Barbarian Helmet",
+        "type": "item",
+        "sprite": {
+            "x": 0,
+            "y": 0
+        },
+        "description": "A rugged iron helmet, scarred from countless battles. It offers solid protection while marking its wearer as a fearless warrior of the wild lands.",
+        "stats": {}
+    },
+    "barbarian_chestplate": {
+        "name": "Barbarian Chestplate",
+        "type": "item",
+        "sprite": {
+            "x": 16,
+            "y": 0
+        },
+        "description": "A heavy chestplate forged from crude iron and reinforced with thick leather straps. Built to absorb brutal blows, it favors raw durability over refined craftsmanship.",
+        "stats": {}
+    },
+    "barbarian_pants": {
+        "name": "Barbarian Pants",
+        "type": "item",
+        "sprite": {
+            "x": 32,
+            "y": 0
+        },
+        "description": "Rough, battle-worn trousers made from thick leather and fur. They provide solid protection while allowing the freedom needed for relentless combat.",
+        "stats": {}
+    },
+    "barbarian_boots": {
+        "name": "Barbarian Boots",
+        "type": "item",
+        "sprite": {
+            "x": 48,
+            "y": 0
+        },
+        "description": "Heavy boots reinforced with iron and stitched hide. Designed to endure harsh terrain, they grant stability and resilience in the heat of battle.",
+        "stats": {}
+    },
+    "barbarian_sword": {
+        "name": "Barbarian Sword",
+        "type": "item",
+        "sprite": {
+            "x": 64,
+            "y": 0
+        },
+        "description": "A massive, brutally forged blade that favors strength over finesse. Each swing delivers devastating force, capable of cleaving through armor and bone alike.",
+        "stats": {}
+    },
+    "barbarian_amulet": {
+        "name": "Barbarian Amulet",
+        "type": "item",
+        "sprite": {
+            "x": 80,
+            "y": 0
+        },
+        "description": "A primitive talisman imbued with the spirit of ancient warriors. It bolsters vitality and awakens a savage battle instinct within its wearer.",
+        "stats": {}
+    }
+}

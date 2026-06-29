@@ -15,8 +15,10 @@ from levelbar import Levelbar
 from ui.menu_font import MenuFont
 from ui.settings_menu import SettingsMenu
 from ui.esc_menu import EscMenu
+from ui.inventory import Inventory
 from musik_manager import spiele_hintergrundmusik
 from ObjectCollision import ObjectCollision
+from item_loader import load_items
 from interactable import InteractableManager
 
 pygame.init()
@@ -36,6 +38,9 @@ load_tiles()
 # Arena
 arena = Arena(settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT, settings.TILE_SIZE, settings.BASE_DIR / "level3.txt")
 
+# init Items dictionary sorted by item names contained in assets/data/items.json
+items = load_items()
+
 # Tilemap for movement
 movement = Movement(arena.grid)
 
@@ -49,9 +54,9 @@ player.setWeapon(Club(player))
 # Gegner-Liste erstellen
 #  x, y, r, alpha, base_speed, movement, speed_modifier=1, health=10, damage=5, movementType="random"
 enemies = [
-    Enemy(arena.offset_x + 100, arena.offset_y + 100, 10, 0, 60, movement, movementType="aggressive", xp_reward=25),
-    Enemy(arena.offset_x + 200, arena.offset_y + 150, 10, 0, 40, movement, movementType="random", xp_reward=15,places_traps=True, trap_cooldown=4.0),
-    Enemy(arena.offset_x + 300, arena.offset_y + 200, 10, 0, 20, movement, movementType="passive", xp_reward=10),
+    Enemy(arena.offset_x + 100, arena.offset_y + 100, 10, 0, 60, movement, movementType="aggressive", xp_reward=25, item_reward=[items["barbarian_helmet"]]),
+    Enemy(arena.offset_x + 200, arena.offset_y + 150, 10, 0, 40, movement, movementType="random", xp_reward=15, item_reward=[items["barbarian_helmet"], items["barbarian_chestplate"]], places_traps=True, trap_cooldown=4.0),
+    Enemy(arena.offset_x + 300, arena.offset_y + 200, 10, 0, 20, movement, movementType="passive", xp_reward=10, item_reward=[items["barbarian_sword"]])
 ]
 
 # create damage handler
@@ -82,6 +87,7 @@ class GameState(Enum):
     PLAYING = auto()
     ESC_MENU = auto()
     SETTINGS = auto()
+    INVENTORY = auto()
 
 
 state = GameState.MAIN_MENU
@@ -123,6 +129,7 @@ main_menu = MainMenu(set_playing, set_settings, set_quit)
 settings_menu = SettingsMenu(menu_font, set_back_from_settings)
 esc_menu = EscMenu(menu_font, set_playing, set_main_menu, set_settings)
 game_ui = GameUI(lifebar, levelbar)
+inventory = Inventory(player.inventory)
 
 # basic game loop
 while running:
@@ -130,13 +137,20 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-            if state == GameState.PLAYING:
-                state = GameState.ESC_MENU
-            elif state == GameState.ESC_MENU:
-                state = GameState.PLAYING
-            elif state == GameState.SETTINGS:
-                state = GameState.MAIN_MENU
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                if state == GameState.PLAYING:
+                    state = GameState.ESC_MENU
+                elif state == GameState.ESC_MENU:
+                    state = GameState.PLAYING
+                elif state == GameState.SETTINGS:
+                    state = GameState.MAIN_MENU
+            if event.key == pygame.K_i:
+                if state == GameState.PLAYING:
+                    state = GameState.INVENTORY
+                    inventory.last_gamestate_bg = screen
+                else:
+                    state = GameState.PLAYING
 
         # only pass events to active menu
         if state == GameState.MAIN_MENU:
@@ -145,6 +159,9 @@ while running:
             settings_menu.handle_event(event)
         elif state == GameState.ESC_MENU:
             esc_menu.handle_event(event)
+        elif state == GameState.INVENTORY:
+            inventory.handle_event(event)
+    
 
     # delta time (time elapsed since last frame)
     dt = clock.tick(settings.FPS) / 1000
@@ -178,7 +195,6 @@ while running:
         # Berührung an und entfernt verbrauchte/abgelaufene Objekte
         interactables.update(dt, player, enemies,arena)
 
-
         # player camera, move the arena in the way that the player stays centered, represents the camera coordinates (center screen)
         camera = player.position - pygame.Vector2(settings.SCREEN_WIDTH / 2, settings.SCREEN_HEIGHT / 2)
 
@@ -208,15 +224,19 @@ while running:
 
     elif state == GameState.MAIN_MENU:
         # main_menu.handle_event(event)
-        main_menu.update(dt)
+        # main_menu.update(dt)
         main_menu.draw(screen)
 
     elif state == GameState.SETTINGS:
         settings_menu.draw(screen)
-        settings_menu.update(dt)
+        # settings_menu.update(dt)
 
     elif state == GameState.ESC_MENU:
         esc_menu.draw(screen)
         esc_menu.update(dt)
+    
+    elif state == GameState.INVENTORY:
+        inventory.draw(screen)
+        inventory.update(dt)
 
     pygame.display.update()

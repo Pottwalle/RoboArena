@@ -12,6 +12,9 @@ class GameSettings:
     # Tiles
     TILE_SIZE = 32
     EDGE_OVERLAYS = True
+
+    # Inventory
+    ITEM_SIZE = 16
     
     # base rescource path
     BASE_DIR = Path(__file__).parent
