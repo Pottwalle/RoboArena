@@ -3,7 +3,7 @@ from ui.menu_font import MenuFont
 from ui.ui_element import UIElement
 
 class TextureButton():
-    def __init__(self, rect: pygame.rect.Rect, text: str, texture: pygame.Surface, hover_texture: pygame.Surface, scale: int, callback, text_button = False):
+    def __init__(self, rect: pygame.rect.Rect, text: str, texture: pygame.Surface, hover_texture: pygame.Surface, scale: int, callback, text_button = False, text_offset=(4, 4)):
         '''Represents an UI element button with a texture, with the typical handle_event, update, draw functions
         
         Args:
@@ -18,6 +18,8 @@ class TextureButton():
         self.scale = scale
         self.text_button = text_button
         self.callback = callback
+
+        self.text_offset = text_offset
 
         if text_button:
             self.texture = UIElement.scale_surface(MenuFont.create_text_surface(MenuFont(), text).convert_alpha(), scale)
@@ -40,7 +42,7 @@ class TextureButton():
     
     def draw(self, surface: pygame.Surface):
         if self.text_button:
-            surface.blit(self.texture, (self.rect[0]  + (4 * self.scale), self.rect[1] + (4 * self.scale)))
+            surface.blit(self.texture, (self.rect[0]  + (self.text_offset[0] * self.scale), self.rect[1] + (self.text_offset[1] * self.scale)))
         else:
             surface.blit(self.texture, self.rect[:2])
 
