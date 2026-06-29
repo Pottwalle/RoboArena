@@ -92,6 +92,7 @@ class SettingsMenu():
     def on_edge_rendering_changed(self, value: str):
         """gets called on change of the options button"""
         self.settings.EDGE_OVERLAYS = (value == "on")
+        settings.save()
         print(f"Edge Rendering: {self.settings.EDGE_OVERLAYS}")
     
     def set_audio(self):
