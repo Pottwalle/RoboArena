@@ -62,7 +62,7 @@ lifebar = Lifebar(player)
 levelbar = Levelbar(player, settings.UI_SCALE)
 
 # create collision handler
-collision = ObjectCollision()
+collision = ObjectCollision(arena.grid)
 
 # create interactables manager (health packs, traps, ...), platzierbar von Spieler & Gegnern
 interactables = InteractableManager()
@@ -151,13 +151,17 @@ while running:
     # print("FPS: ", clock.get_fps())
 
     if state == GameState.PLAYING:
-        player.update(dt, movement)
+        # player camera, move the arena in the way that the player stays centered, represents the camera coordinates (center screen)
+        camera = player.position - pygame.Vector2(settings.SCREEN_WIDTH / 2, settings.SCREEN_HEIGHT / 2)
+
+        player.update(dt, movement, camera)
 
         for enemy in enemies:
             enemy.update(dt, player, clock)
             # Gegner mit places_traps=True legen automatisch in festen Abständen eine Falle
             if enemy.should_place_trap():
                 interactables.spawn_at_entity("trap", enemy, owner="enemy")
+
 
         # apply weapon damage to enemies
         if player.weapon is not None:
