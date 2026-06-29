@@ -4,7 +4,9 @@ import random
 from reward import Reward
 
 class Enemy:
-    def __init__(self, x, y, r, alpha, base_speed, movement, speed_modifier=1, health=10, damage=5, movementType="random", xp_reward = 10, item_reward = []):
+    def __init__(self, x, y, r, alpha, base_speed, movement, speed_modifier=1, health=10, damage=5, movementType="random", xp_reward = 10, item_reward = [],
+                 places_traps=False, trap_cooldown=4.0):
+
         self.position = pygame.Vector2(x, y)
         self.r = r
         self.alpha = alpha
@@ -28,11 +30,32 @@ class Enemy:
 
         self.weapon = None
 
+        # --- Interactables: Gegner kann automatisch Fallen platzieren ---
+        # places_traps: schaltet das automatische Platzieren von Fallen frei
+        # trap_cooldown: Sekunden zwischen zwei automatisch gelegten Fallen
+        self.places_traps = places_traps
+        self.trap_cooldown = trap_cooldown
+        self._trap_timer = trap_cooldown  # erste Falle erst nach einem vollen Cooldown
+
         '''handles the updating of all player related methods changing the coordinates accordingly'''
 
     def update(self, dt, player, clock):
         self.move(dt, player, clock)
         self.alpha = math.degrees(math.atan2(-self.direction.y, self.direction.x))
+
+        if self.places_traps:
+            self._trap_timer -= dt
+
+    def should_place_trap(self) -> bool:
+        '''Gibt True zurück, sobald der Cooldown für das automatische Platzieren
+        einer Falle abgelaufen ist, und setzt den Timer direkt zurück.
+
+        Die eigentliche Erzeugung der Falle übernimmt der InteractableManager
+        in der Game-Loop, damit Enemy keine Abhängigkeit zu Interactables hat.'''
+        if not self.places_traps or self._trap_timer > 0:
+            return False
+        self._trap_timer = self.trap_cooldown
+        return True
 
     def draw(self, screen, camera):
         screen_position = self.position - camera
