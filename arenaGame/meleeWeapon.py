@@ -25,7 +25,7 @@ class MeleeWeapon(Weapon):
 
     def _perform_attack(self, targets: list):
         origin = self.owner.position
-        dir_vec = self.owner.direction
+        dir_vec = self.owner.attack_direction
 
         if dir_vec.length_squared() == 0:
             return
