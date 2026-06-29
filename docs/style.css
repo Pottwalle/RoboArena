@@ -57,3 +57,35 @@ img {
     list-style-type: none;
     margin: 0px;
 }
+
+.description {
+    background-color: lightgray;
+    border-radius: 5px;
+    padding-left: 5px;
+}
+
+#main-menu,
+#ingame-ui {
+    width: 50%;
+}
+
+#main-menu {
+    border-radius: 5px 0 0 5px;
+}
+
+#ingame-ui {
+    border-radius: 0 5px 5px 0;
+}
+
+#levelbar {
+    border-radius: 5px 5px 0 0;
+}
+
+#options-btn {
+    border-radius: 0 0 5px 5px;
+}
+
+#inventory-items {
+    border-radius: 5px;
+    max-height: 300px;
+}
