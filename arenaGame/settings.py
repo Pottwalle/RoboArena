@@ -8,6 +8,7 @@ class GameSettings:
         self.SCREEN_WIDTH = 1280
         self.SCREEN_HEIGHT = 720
         self.FPS = 60
+        self.SHOW_FPS = True
 
         # ui
         self.UI_SCALE = int(self.SCREEN_WIDTH / 320)
@@ -48,6 +49,7 @@ class GameSettings:
                     "SCREEN_WIDTH": self.SCREEN_WIDTH,
                     "SCREEN_HEIGHT": self.SCREEN_HEIGHT,
                     "FPS": self.FPS,
+                    "SHOW_FPS": self.SHOW_FPS,
                     "UI_SCALE": self.UI_SCALE,
                     "TILE_SIZE": self.TILE_SIZE,
                     "EDGE_OVERLAYS": self.EDGE_OVERLAYS,
@@ -79,6 +81,10 @@ class GameSettings:
             pygame.mixer.music.unpause()
         elif value == "off":
             pygame.mixer.music.pause()
+        self.save()
+    
+    def set_show_fps(self, value: str):
+        self.SHOW_FPS = (value == "on")
         self.save()
 
 # global settings instance

@@ -22,7 +22,7 @@ class TextureButton():
         self.text_offset = text_offset
 
         if text_button:
-            self.texture = UIElement.scale_surface(MenuFont.create_text_surface(MenuFont(), text).convert_alpha(), scale)
+            self.texture = UIElement.scale_surface(MenuFont.create_text_surface(MenuFont("menu_font"), text).convert_alpha(), scale)
         else:
             self.texture = UIElement.scale_surface(texture, scale)
         self.hover_texture = UIElement.scale_surface(hover_texture, scale)

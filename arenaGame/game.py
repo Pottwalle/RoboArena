@@ -124,11 +124,12 @@ def set_main_menu():
 
 
 # Menus
-menu_font = MenuFont()
+menu_font = MenuFont("menu_font")
+small_font = MenuFont("small_font", 4, 6, 1, 10, 4)
 main_menu = MainMenu(set_playing, set_settings, set_quit)
 settings_menu = SettingsMenu(menu_font, set_back_from_settings)
 esc_menu = EscMenu(menu_font, set_playing, set_main_menu, set_settings)
-game_ui = GameUI(lifebar, levelbar)
+game_ui = GameUI(lifebar, levelbar, small_font)
 inventory = Inventory(player.inventory)
 
 # basic game loop
@@ -145,6 +146,8 @@ while running:
                     state = GameState.PLAYING
                 elif state == GameState.SETTINGS:
                     state = GameState.MAIN_MENU
+                elif state == GameState.INVENTORY:
+                    state = GameState.PLAYING
             if event.key == pygame.K_i:
                 if state == GameState.PLAYING:
                     state = GameState.INVENTORY
@@ -165,7 +168,6 @@ while running:
 
     # delta time (time elapsed since last frame)
     dt = clock.tick(settings.FPS) / 1000
-    # print("FPS: ", clock.get_fps())
 
     if state == GameState.PLAYING:
         # player camera, move the arena in the way that the player stays centered, represents the camera coordinates (center screen)
@@ -220,7 +222,7 @@ while running:
 
         enemies = [enemy for enemy in enemies if enemy.health > 0]
         # draw the whole game UI on top
-        game_ui.draw(screen)
+        game_ui.draw(screen, clock)
 
     elif state == GameState.MAIN_MENU:
         # main_menu.handle_event(event)

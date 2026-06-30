@@ -2,7 +2,16 @@ import pygame
 from settings import settings
 
 class MenuFont():
-    def __init__(self):
+    def __init__(self, filename: str, text_size=6, text_height=10, text_spacing=2, icon_size=10, icon_spacing=4):
+        self.filename = filename
+
+        self.icon_size = icon_size
+        self.icon_spacing = icon_spacing
+        self.text_size = text_size
+        self.text_spacing = text_spacing
+        self.space_width = self.text_size + self.text_spacing
+        self.text_height = text_height
+
         self.letters = {}
         self.icons = {}
         self._load_font()
@@ -11,29 +20,23 @@ class MenuFont():
     def _load_font(self):
         '''loads the letters upper alphabet & 0 - 9 into the self.letters dict'''
         # letters are 6x10px with 2px margin 
-        letters_sheet = pygame.image.load(settings.ASSET_DIR / "font/menu_font.png").convert_alpha()
+        letters_sheet = pygame.image.load(settings.ASSET_DIR / f"font/{self.filename}.png").convert_alpha()
         alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         for index, letter in enumerate(alphabet):
-            self.letters[letter] = letters_sheet.subsurface(0 + index * 8, 0, 6, 10)
+            self.letters[letter] = letters_sheet.subsurface(0 + index * (self.text_size + self.text_spacing), 0, self.text_size, self.text_height)
     
     def _load_icons(self):
         '''loads the Symbols 10x10px into the self.icons dict'''
         symbols_sheet = pygame.image.load(settings.ASSET_DIR / "font/icons.png").convert_alpha()
         symbol_keys = ["[GRAPHICS]", "[AUDIO]", "[SETTINGS]", "[PLAY]", "[QUIT]", "[SAVE]", "[DISK]", "[LOAD]", "[BACK]", "[X]", "[COIN]"]
         for index, key in enumerate(symbol_keys):
-            self.icons[key] = symbols_sheet.subsurface(0 + index * 10, 0, 10, 10) # letters are 10x10px with 0px margin
+            self.icons[key] = symbols_sheet.subsurface(0 + index * self.icon_size, 0, self.icon_size, self.icon_size) # letters are 10x10px with 0px margin
     
     def create_text_surface(self, text: str) -> pygame.Surface:
         '''creates a pygame Surface containg the Text written in the menu font, charsize 6x10 with 2px margin, Symbolsize 10x10px with 4px margin renders in Upper case
         
         Args:
             text: can contain A-Z, 0-9, Symbol descriptions from ["[GRAPHICS]", "[AUDIO]", "[SETTINGS]", "[PLAY]", "[QUIT]", "[SAVE]", "[DISK]", "[LOAD]", "[BACK]", "[X]", "[COIN]"], seperated by space'''
-        icon_size = 10
-        icon_spacing = 4
-        text_size = 6
-        text_spacing = 2
-        space_width = text_size + text_spacing
-        
         text_length = 0
         i = 0
 
@@ -43,18 +46,18 @@ class MenuFont():
                 if end != -1:
                     token = text[i: end + 1]
                     if token in self.icons:
-                        text_length += icon_size + icon_spacing
+                        text_length += self.icon_size + self.icon_spacing
                         i = end + 1
                         continue
             if text[i] == " ":
-                text_length += space_width
+                text_length += self.space_width
             else:
-                text_length += text_size
+                text_length += self.text_size
                 if i < len(text) - 1 and text[i + 1] not in ["]"]:
-                    text_length += text_spacing
+                    text_length += self.text_spacing
             i += 1
         
-        surface = pygame.Surface((text_length, 10), pygame.SRCALPHA)
+        surface = pygame.Surface((text_length, self.text_height), pygame.SRCALPHA)
 
         i = 0
         x = 0
@@ -65,21 +68,21 @@ class MenuFont():
                     token = text[i: end + 1]
                     if token in self.icons:
                         surface.blit(self.icons[token], (x, 0))
-                        x += icon_size + icon_spacing
+                        x += self.icon_size + self.icon_spacing
                         i = end + 1
                         continue
             char = text[i]
 
             if char == " ":
-                x += space_width
+                x += self.space_width
             else:
                 if char.upper() in self.letters:
                     surface.blit(self.letters[char.upper()], (x, 0))
                 
-                x += text_size
+                x += self.text_size
 
                 if i < len(text) - 1 and text[i + 1] not in ["]"]:
-                    x += text_spacing
+                    x += self.text_spacing
             i += 1
         
         return surface
@@ -96,7 +99,7 @@ class MenuFont():
         self.render_text_surface(surface, text_surface, coordinates, scale)
     
     def render_text_surface(self, surface: pygame.Surface, text_surface: pygame.Surface, coordinates: tuple[int, int], scale: int):
-        text_surface_scaled = pygame.transform.scale(text_surface, (text_surface.get_width() * scale, 10 * scale))
+        text_surface_scaled = pygame.transform.scale(text_surface, (text_surface.get_width() * scale, self.text_height * scale))
 
         surface.blit(text_surface_scaled, (coordinates[0], coordinates[1]))
 

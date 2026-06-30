@@ -2,9 +2,8 @@ from settings import settings
 from .ui_manager import UIManager
 import pygame
 from ui.menu_font import MenuFont
-from .options_button import OptionsButton
 from .texture_button import TextureButton
-from enum import Enum, auto
+from enum import Enum
 from ui.setting import Setting
 
 class SettingsState(Enum):
@@ -60,9 +59,13 @@ class SettingsMenu():
         ))
 
         # coordinates of the buttons are measuren in the original UI site 320x180 and than scaled by factor in settings to fit the Window
+        # GRAPHICS
+        x_base = 16
+        y_base = 28
+        y_offset = 19
         self.pages[SettingsState.GRAPHICS.value].add(
             Setting(
-                (16, 28),
+                (x_base, y_base),
                 "EDGE RENDERING",
                 ["off", "on"],
                 menu_font,
@@ -71,10 +74,22 @@ class SettingsMenu():
             )
         )
 
+        self.pages[SettingsState.GRAPHICS.value].add(
+            Setting(
+                (x_base, y_base + y_offset),
+                "SHOW FPS",
+                ["off", "on"],
+                menu_font,
+                settings.set_show_fps,
+                selected=1 if self.settings.SHOW_FPS else 0
+            )
+        )
+
+        # AUDIO
         options_music = ["off", "on"]
         self.pages[SettingsState.AUDIO.value].add(
             Setting(
-                (16, 28),
+                (x_base, y_base),
                 "MUSIC",
                 options_music,
                 menu_font,
@@ -86,7 +101,7 @@ class SettingsMenu():
         options_music_volume = ["00", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"]
         self.pages[SettingsState.AUDIO.value].add(
             Setting(
-                (16, 47),
+                (x_base, y_base + y_offset),
                 "MUSIC VOLUME",
                 options_music_volume,
                 menu_font,
@@ -99,7 +114,7 @@ class SettingsMenu():
         hover_texture = ui_elements.subsurface((0, 54, 79, 18)).convert_alpha()
         self.ui.add(
             TextureButton(
-                (15, 147, 79, 18),
+                (x_base, 147, 79, 18),
                 "[BACK]BACK",
                 None,
                 hover_texture,
