@@ -1,5 +1,6 @@
 from pathlib import Path
 import json
+import pygame
 
 class GameSettings:
     def __init__(self):   
@@ -17,6 +18,10 @@ class GameSettings:
 
         # Inventory
         self.ITEM_SIZE = 16
+
+        # Music
+        self.MUSIC_VOLUME = 1.0
+        self.MUSIC = "on"
 
         # base rescource path
         self.BASE_DIR = Path(__file__).parent
@@ -46,10 +51,35 @@ class GameSettings:
                     "UI_SCALE": self.UI_SCALE,
                     "TILE_SIZE": self.TILE_SIZE,
                     "EDGE_OVERLAYS": self.EDGE_OVERLAYS,
-                    "ITEM_SIZE": self.ITEM_SIZE
+                    "ITEM_SIZE": self.ITEM_SIZE,
+                    "MUSIC_VOLUME": self.MUSIC_VOLUME,
+                    "MUSIC": self.MUSIC
                 }, f, indent=4)
         except Exception as e:
             print(f"Error at saving settings: {e}")
+    
+    def set_music_volume(self, volume: str):
+        '''changes the ingame Music
+
+        changes the global settings.MUSIC_VOLUME setting'''
+        float_volume = max(0.0, min(1.0, float(volume) / 100))
+        pygame.mixer.music.set_volume(float_volume)
+        self.MUSIC_VOLUME = float_volume
+        self.save()
+    
+    def set_music(self, value: str):
+        '''pauses / unpauses the music
+        
+        changes the global acessibla settings.MUSIC setting
+        
+        Args:
+            value: "on" or "off" un / pauses the music'''
+        self.MUSIC = value
+        if value == "on":
+            pygame.mixer.music.unpause()
+        elif value == "off":
+            pygame.mixer.music.pause()
+        self.save()
 
 # global settings instance
 settings = GameSettings()

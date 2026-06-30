@@ -60,7 +60,7 @@ class SettingsMenu():
         ))
 
         # coordinates of the buttons are measuren in the original UI site 320x180 and than scaled by factor in settings to fit the Window
-        self.pages[SettingsState.GENERAL.value].add(
+        self.pages[SettingsState.GRAPHICS.value].add(
             Setting(
                 (16, 28),
                 "EDGE RENDERING",
@@ -68,6 +68,30 @@ class SettingsMenu():
                 menu_font,
                 self.on_edge_rendering_changed,
                 selected=1 if self.settings.EDGE_OVERLAYS else 0
+            )
+        )
+
+        options_music = ["off", "on"]
+        self.pages[SettingsState.AUDIO.value].add(
+            Setting(
+                (16, 28),
+                "MUSIC",
+                options_music,
+                menu_font,
+                settings.set_music,
+                options_music.index(settings.MUSIC)
+            )
+        )
+
+        options_music_volume = ["00", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"]
+        self.pages[SettingsState.AUDIO.value].add(
+            Setting(
+                (16, 47),
+                "MUSIC VOLUME",
+                options_music_volume,
+                menu_font,
+                settings.set_music_volume,
+                options_music_volume.index(str(int(settings.MUSIC_VOLUME * 100)))
             )
         )
         
