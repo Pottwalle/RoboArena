@@ -20,6 +20,7 @@ from musik_manager import spiele_hintergrundmusik
 from ObjectCollision import ObjectCollision
 from item_loader import load_items
 from interactable import InteractableManager
+from ui.death_menu import DeathMenu
 
 pygame.init()
 
@@ -88,6 +89,7 @@ class GameState(Enum):
     ESC_MENU = auto()
     SETTINGS = auto()
     INVENTORY = auto()
+    DEATH_MENU = auto()
 
 
 state = GameState.MAIN_MENU
@@ -148,6 +150,8 @@ while running:
                     state = GameState.MAIN_MENU
                 elif state == GameState.INVENTORY:
                     state = GameState.PLAYING
+                elif state == GameState.DEATH_MENU:
+                    state = GameState.MAIN_MENU
             if event.key == pygame.K_i:
                 if state == GameState.PLAYING:
                     state = GameState.INVENTORY
@@ -164,6 +168,8 @@ while running:
             esc_menu.handle_event(event)
         elif state == GameState.INVENTORY:
             inventory.handle_event(event)
+        elif state == GameState.DEATH_MENU:
+            death_menu.handle_event(event)
     
 
     # delta time (time elapsed since last frame)
@@ -174,6 +180,9 @@ while running:
         camera = player.position - pygame.Vector2(settings.SCREEN_WIDTH / 2, settings.SCREEN_HEIGHT / 2)
 
         player.update(dt, movement, camera)
+        if player.hp <= 0:
+            state = GameState.DEATH_MENU
+            death_menu = DeathMenu(menu_font, set_main_menu)
 
         for enemy in enemies:
             enemy.update(dt, player, clock)
@@ -240,5 +249,10 @@ while running:
     elif state == GameState.INVENTORY:
         inventory.draw(screen)
         inventory.update(dt)
+
+    elif state == GameState.DEATH_MENU:
+        death_menu.draw(screen)
+        death_menu.update(dt)
+
 
     pygame.display.update()
