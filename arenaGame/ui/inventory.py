@@ -3,7 +3,7 @@ import pygame
 from settings import settings
 from .ui_element import UIElement
 from inventory_manager import InventoryManager
-from item import Item
+from item import Item, Equipment
 
 class Inventory():
     def __init__(self, inventory_manager: InventoryManager):
@@ -31,6 +31,14 @@ class Inventory():
                     r, c = slot
                     self.dragged_item = self.inventory.get_item(r, c)
                     self.dragged_slot = (r, c)
+            if event.button == 3:
+                slot = self._get_slot_at_pos(event.pos)
+                if slot:
+                    r, c = slot
+                    item = self.inventory.get_item(r, c)
+                    if item:
+                        self.inventory.equip_item(r, c)
+
         elif event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1 and self.dragged_item:
                 new_slot = self._get_slot_at_pos(event.pos)
@@ -42,16 +50,37 @@ class Inventory():
 
 
     def draw(self, surface: pygame.Surface):
+        inventory_x = 175
+        inventory_y = 7
         surface.blit(self.last_gamestate_bg, (0, 0))
-        surface.blit(self.inventory_bg, (175 * self.scale, 7 * self.scale))
+        surface.blit(self.inventory_bg, (inventory_x * self.scale, inventory_y * self.scale))
         for r in range(self.inventory.rows):
             for c in range(self.inventory.cols):
                 item: Item = self.inventory.get_item(r, c)
                 if item:
                     # inventory item start is at 5x97
-                    pos_x = (175 + 5) * settings.UI_SCALE + c * settings.UI_SCALE * settings.ITEM_SIZE
-                    pos_y = (7 + 97) * settings.UI_SCALE + r * settings.UI_SCALE * settings.ITEM_SIZE
+                    pos_x = (inventory_x + 5) * self.scale + c * self.scale * settings.ITEM_SIZE
+                    pos_y = (inventory_y + 97) * self.scale + r * self.scale * settings.ITEM_SIZE
                     surface.blit(item.icon, (pos_x, pos_y))
+        
+        for slot in self.inventory.equipment_slots:
+            item = self.inventory.equipment_slots[slot]
+            if item:
+                if slot == "helmet":
+                    offset = (85, 10)
+                if slot == "chestplate":
+                    offset = (85, 32)
+                if slot == "pants":
+                    offset = (85, 54)
+                if slot == "boots":
+                    offset = (85, 76)
+                if slot == "weapon":
+                    offset = (63, 21)
+                if slot == "ring":
+                    offset = (107, 43)
+                if slot == "amulet":
+                    offset = (107, 21)
+                surface.blit(item.icon, ((inventory_x + offset[0]) * self.scale, (inventory_y + offset[1]) * self.scale))
         self.ui.draw(surface)
 
         if self.dragged_item:

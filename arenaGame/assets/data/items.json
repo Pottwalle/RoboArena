@@ -1,17 +1,19 @@
 {
     "barbarian_helmet": {
         "name": "Barbarian Helmet",
-        "type": "item",
+        "type": "equipment",
+        "slot": "helmet",
         "sprite": {
             "x": 0,
             "y": 0
         },
         "description": "A rugged iron helmet, scarred from countless battles. It offers solid protection while marking its wearer as a fearless warrior of the wild lands.",
-        "stats": {}
+        "stats": { "max_hp": 20 }
     },
     "barbarian_chestplate": {
         "name": "Barbarian Chestplate",
-        "type": "item",
+        "type": "equipment",
+        "slot": "chestplate",
         "sprite": {
             "x": 16,
             "y": 0
@@ -21,7 +23,8 @@
     },
     "barbarian_pants": {
         "name": "Barbarian Pants",
-        "type": "item",
+        "type": "equipment",
+        "slot": "pants",
         "sprite": {
             "x": 32,
             "y": 0
@@ -31,7 +34,8 @@
     },
     "barbarian_boots": {
         "name": "Barbarian Boots",
-        "type": "item",
+        "type": "equipment",
+        "slot": "boots",
         "sprite": {
             "x": 48,
             "y": 0
@@ -41,7 +45,8 @@
     },
     "barbarian_sword": {
         "name": "Barbarian Sword",
-        "type": "item",
+        "type": "equipment",
+        "slot": "weapon",
         "sprite": {
             "x": 64,
             "y": 0
@@ -51,7 +56,8 @@
     },
     "barbarian_amulet": {
         "name": "Barbarian Amulet",
-        "type": "item",
+        "type": "equipment",
+        "slot": "amulet",
         "sprite": {
             "x": 80,
             "y": 0
