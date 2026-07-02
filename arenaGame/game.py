@@ -181,7 +181,7 @@ while running:
                 interactables.spawn_at_entity("trap", enemy, owner="enemy")
             if enemy.weapon is not None:
                 enemy.weapon.update(dt, [player])
-            if enemy.weapon is None and enemy.movement_type is "passive":
+            if enemy.weapon is None and enemy.movement_type == "passive":
                 enemy.setWeapon(RangedWeapon(enemy, damage=3, projectile_speed=400, cooldown=1.5))
 
         # apply weapon damage to enemies
