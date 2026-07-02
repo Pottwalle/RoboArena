@@ -21,7 +21,7 @@ from ObjectCollision import ObjectCollision
 from item_loader import load_items
 from interactable import InteractableManager
 import enemyTypes
-from rangedWeapon import RangedWeapon
+
 
 pygame.init()
 
