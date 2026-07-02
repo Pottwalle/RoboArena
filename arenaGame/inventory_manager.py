@@ -1,4 +1,4 @@
-from item import Item, Consumable
+from item import Item, Consumable, Equipment
 
 class InventoryManager():
     def __init__(self, rows, cols):
@@ -6,6 +6,16 @@ class InventoryManager():
         self.cols = cols
 
         self.slots = [[None for _ in range(cols)] for _ in range(rows)]
+        self.equipment_slots = {
+            "helmet": None,
+            "chestplate": None,
+            "pants": None,
+            "boots": None,
+            "weapon": None,
+            "ring": None,
+            "amulet": None
+        }
+
     
     def add_item(self, item: Item) -> bool:
         '''adds an item to the first free slot of the Inventory and returns if the Placement was sucessful'''
@@ -35,7 +45,56 @@ class InventoryManager():
         self.slots[row][col] = None
         return item
     
-    def swap_slots(self, r1, c1, r2, c2):
-        item1 = self.get_item(r1, c1)
-        self.slots[r1][c1] = self.slots[r2][c2]
+    def swap_slots(self, slot, r2, c2):
+        '''swaps items at the given inventory slots
+        
+        Args:
+            slot: (r, c) or string from the !equipment slots!
+            r2, c2: 2nd item row / col'''
+        if isinstance(slot, str):
+            item1 = self.equipment_slots[slot]
+            self.equipment_slots[slot] = self.slots[r2][c2]
+        else:
+            r1, c1 = slot
+            item1 = self.get_item(r1, c1)
+            self.slots[r1][c1] = self.slots[r2][c2]
         self.slots[r2][c2] = item1
+    
+    def equip_item(self, row, col) -> bool:
+        '''equips the item at the given row, col position in the inventory'''
+        item = self.slots[row][col]
+
+        if isinstance(item, Equipment):
+            type = item.type
+
+            if type in self.equipment_slots:
+                old_item = self.equipment_slots[type]
+
+                self.equipment_slots[type] = item
+                self.slots[row][col] = None
+
+                if old_item:
+                    self.slots[row][col] = old_item
+                return True
+        return False
+    
+    def unequip_item(self, slot_name: str) -> bool:
+        '''unequips the item from the given equipment slot and returns it to the inventory'''
+        item = self.equipment_slots[slot_name]
+
+        if item:
+            if self.add_item(item):
+                self.equipment_slots[slot_name] = None
+                return True
+        return False
+    
+    def get_stat_bonus(self, stat: str) -> float:
+        '''gets the stat bonus of the given stat from the whole equipment
+        
+        Args:
+            stat: stat name in the format like max_hp, damage, ...'''
+        total_bonus = 0
+        for slot, item in self.equipment_slots.items():
+            if item and stat in item.stats:
+                total_bonus += item.stats[stat]
+        return total_bonus
