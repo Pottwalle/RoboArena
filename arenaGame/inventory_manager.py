@@ -45,10 +45,18 @@ class InventoryManager():
         self.slots[row][col] = None
         return item
     
-    def swap_slots(self, r1, c1, r2, c2):
-        '''swaps items at the given inventory slots'''
-        item1 = self.get_item(r1, c1)
-        self.slots[r1][c1] = self.slots[r2][c2]
+    def swap_slots(self, slot, r2, c2):
+        '''swaps items at the given inventory slots
+        
+        Args:
+            with 3 Args:'''
+        if isinstance(slot, str):
+            item1 = self.equipment_slots[slot]
+            self.equipment_slots[slot] = self.slots[r2][c2]
+        else:
+            r1, c1 = slot
+            item1 = self.get_item(r1, c1)
+            self.slots[r1][c1] = self.slots[r2][c2]
         self.slots[r2][c2] = item1
     
     def equip_item(self, row, col) -> bool:
