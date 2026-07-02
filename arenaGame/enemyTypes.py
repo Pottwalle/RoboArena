@@ -12,9 +12,9 @@ class MeleeEnemy(enemy.Enemy):
                  damage= 5,
                  movementType="aggressive",
                  xp_reward = 10, item_reward = [],
-                 places_traps=False, trap_cooldown=4.0):
+                 places_traps=False, trap_cooldown=4.0, enemytype = "melee"):
         super().__init__( x, y, r, alpha, base_speed, movement, speed_modifier, hp, damage, movementType, xp_reward, item_reward,
-                 places_traps, trap_cooldown)
+                 places_traps, trap_cooldown, enemytype)
 
 
 class RangedEnemy(enemy.Enemy):
@@ -27,9 +27,9 @@ class RangedEnemy(enemy.Enemy):
                  damage= 5,
                  movementType="passive",
                  xp_reward = 10, item_reward = [],
-                 places_traps=False, trap_cooldown=4.0):
+                 places_traps=False, trap_cooldown=4.0, enemytype = "ranged"):
         super().__init__( x, y, r, alpha, base_speed, movement, speed_modifier, hp, damage, movementType, xp_reward, item_reward,
-                 places_traps, trap_cooldown)
+                 places_traps, trap_cooldown, enemytype)
 
 class TrapperEnemy(enemy.Enemy):
     def __init__(self,x, y, movement,
@@ -41,6 +41,6 @@ class TrapperEnemy(enemy.Enemy):
                  damage= 5,
                  movementType="random",
                  xp_reward = 10, item_reward = [],
-                 places_traps=True, trap_cooldown=4.0):
+                 places_traps=True, trap_cooldown=4.0, enemytype = "trapper"):
         super().__init__( x, y, r, alpha, base_speed, movement, speed_modifier, hp, damage, movementType, xp_reward, item_reward,
-                 places_traps, trap_cooldown)
+                 places_traps, trap_cooldown, enemytype)
