@@ -1,7 +1,6 @@
-import pygame
+
 import enemy
-from weapon import Weapon
-from rangedWeapon import RangedWeapon
+
 
 class MeleeEnemy(enemy.Enemy):
     def __init__(self,x, y, movement,

@@ -5,7 +5,6 @@ from player import Player
 from movement import Movement
 from damage import Damage
 from lifebar import Lifebar
-from enemy import Enemy
 from tile import load_tiles
 from club import Club
 from enum import Enum, auto
