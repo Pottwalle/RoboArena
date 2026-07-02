@@ -4,7 +4,7 @@ import random
 from reward import Reward
 
 class Enemy:
-    def __init__(self, x, y, r, alpha, base_speed, movement, speed_modifier=1, health=10, damage=5, movementType="random", xp_reward = 10, item_reward = [],
+    def __init__(self, x, y, r, alpha, base_speed, movement, speed_modifier=1, hp=10, damage=5, movementType="random", xp_reward = 10, item_reward = [],
                  places_traps=False, trap_cooldown=4.0):
 
         self.position = pygame.Vector2(x, y)
@@ -14,8 +14,8 @@ class Enemy:
 
         self.base_speed = base_speed
         self.speed_modifier = speed_modifier
-        self.health = health
-        self.max_health = health
+        self.hp = hp
+        self.max_hp = hp
         self.damage = damage
         self.movement_type = movementType
         self.movement = movement  # Movement-Objekt übergeben
@@ -82,7 +82,7 @@ class Enemy:
         pygame.draw.rect(screen, (255,0,0), bg_rect)
 
         # current life
-        hp_ratio = self.health / self.max_health
+        hp_ratio = self.hp / self.max_hp
         fg_rect = pygame.Rect(
             screen_position.x - bar_width // 2,
             screen_position.y - bar_offset,

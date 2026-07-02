@@ -29,7 +29,7 @@ class InventoryManager():
         '''returns item at given position'''
         return self.slots[row][col]
     
-    def remove_item(self, row, col) -> Item | None:
+    def remove_item(self, row, col):
         '''retuns the Item at the given position and removes the item from there'''
         item = self.slots[row][col]
         self.slots[row][col] = None

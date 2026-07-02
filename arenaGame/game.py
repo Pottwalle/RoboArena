@@ -52,7 +52,7 @@ player = Player(
 )
 player.setWeapon(Club(player))
 # Gegner-Liste erstellen
-#  x, y, r, alpha, base_speed, movement, speed_modifier=1, health=10, damage=5, movementType="random"
+#  x, y, r, alpha, base_speed, movement, speed_modifier=1, hp=10, damage=5, movementType="random"
 enemies = [
     Enemy(arena.offset_x + 100, arena.offset_y + 100, 10, 0, 60, movement, movementType="aggressive", xp_reward=25, item_reward=[items["barbarian_helmet"]]),
     Enemy(arena.offset_x + 200, arena.offset_y + 150, 10, 0, 40, movement, movementType="random", xp_reward=15, item_reward=[items["barbarian_helmet"], items["barbarian_chestplate"]], places_traps=True, trap_cooldown=4.0),
@@ -69,7 +69,7 @@ levelbar = Levelbar(player, settings.UI_SCALE)
 # create collision handler
 collision = ObjectCollision(arena.grid)
 
-# create interactables manager (health packs, traps, ...), platzierbar von Spieler & Gegnern
+# create interactables manager (hp packs, traps, ...), platzierbar von Spieler & Gegnern
 interactables = InteractableManager()
 
 # Beispiel: 3 Health Packs zufällig auf "dirt"-Tiles platzieren (z.B. beim Levelstart)
@@ -213,12 +213,12 @@ while running:
             enemy.draw(screen, camera)
 
         # remove dead enemies & handle rewards
-        killed_enemies = [enemy for enemy in enemies if enemy.health <= 0]
+        killed_enemies = [enemy for enemy in enemies if enemy.hp <= 0]
         for enemy in killed_enemies:
             if hasattr(enemy, 'reward'):
                 enemy.reward.apply_to_player(player)
 
-        enemies = [enemy for enemy in enemies if enemy.health > 0]
+        enemies = [enemy for enemy in enemies if enemy.hp > 0]
         # draw the whole game UI on top
         game_ui.draw(screen)
 

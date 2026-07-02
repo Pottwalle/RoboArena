@@ -81,11 +81,6 @@ class HealthPack(Interactable):
                 return False
             entity.hp = min(entity.max_hp, entity.hp + self.heal_amount)
             return True
-        if hasattr(entity, "health") and hasattr(entity, "max_health"):
-            if entity.health >= entity.max_health:
-                return False
-            entity.health = min(entity.max_health, entity.health + self.heal_amount)
-            return True
         return False
 
     def draw(self, screen, camera):
@@ -147,9 +142,6 @@ class Trap(Interactable):
         applied = False
         if hasattr(entity, "hp"):
             entity.hp -= self.damage
-            applied = True
-        elif hasattr(entity, "health"):
-            entity.health -= self.damage
             applied = True
 
         if not applied:
