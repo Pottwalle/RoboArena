@@ -9,6 +9,9 @@
 > `[ESC] -> enters escape menu`
 > `[I] -> enters / exits the Inventory`
 >
+> in inventory:\
+> `[RMB] -> equips / unequips item in inventory`
+>
 > in escape menu:\
 > `[ESC] -> exits escape menu`
 >

@@ -49,7 +49,8 @@ class InventoryManager():
         '''swaps items at the given inventory slots
         
         Args:
-            with 3 Args:'''
+            slot: (r, c) or string from the !equipment slots!
+            r2, c2: 2nd item row / col'''
         if isinstance(slot, str):
             item1 = self.equipment_slots[slot]
             self.equipment_slots[slot] = self.slots[r2][c2]

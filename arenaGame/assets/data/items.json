@@ -52,7 +52,12 @@
             "y": 0
         },
         "description": "A massive, brutally forged blade that favors strength over finesse. Each swing delivers devastating force, capable of cleaving through armor and bone alike.",
-        "stats": {}
+        "stats": {
+            "damage": 2,
+            "attack_range": 60,
+            "cone_angle_deg": 60,
+            "cooldown": 0.8
+        }
     },
     "barbarian_amulet": {
         "name": "Barbarian Amulet",
