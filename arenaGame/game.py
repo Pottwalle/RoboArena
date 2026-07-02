@@ -7,6 +7,7 @@ from damage import Damage
 from lifebar import Lifebar
 from tile import load_tiles
 from club import Club
+from bow import Bow
 from enum import Enum, auto
 from ui.main_menu import MainMenu
 from ui.game_ui import GameUI
@@ -182,7 +183,7 @@ while running:
             if enemy.weapon is not None:
                 enemy.weapon.update(dt, [player])
             if enemy.weapon is None and enemy.movement_type == "passive":
-                enemy.setWeapon(RangedWeapon(enemy, damage=3, projectile_speed=400, cooldown=1.5))
+                enemy.setWeapon(Bow(enemy))
 
         # apply weapon damage to enemies
         if player.weapon is not None:
@@ -251,5 +252,5 @@ while running:
         inventory.draw(screen)
         inventory.update(dt)
 
-    print(enemies[1].weapon)
+
     pygame.display.update()
