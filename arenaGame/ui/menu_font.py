@@ -21,14 +21,14 @@ class MenuFont():
         '''loads the letters upper alphabet & 0 - 9 into the self.letters dict'''
         # letters are 6x10px with 2px margin 
         letters_sheet = pygame.image.load(settings.ASSET_DIR / f"font/{self.filename}.png").convert_alpha()
-        alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.+-"
         for index, letter in enumerate(alphabet):
             self.letters[letter] = letters_sheet.subsurface(0 + index * (self.text_size + self.text_spacing), 0, self.text_size, self.text_height)
     
     def _load_icons(self):
         '''loads the Symbols 10x10px into the self.icons dict'''
         symbols_sheet = pygame.image.load(settings.ASSET_DIR / "font/icons.png").convert_alpha()
-        symbol_keys = ["[GRAPHICS]", "[AUDIO]", "[SETTINGS]", "[PLAY]", "[QUIT]", "[SAVE]", "[DISK]", "[LOAD]", "[BACK]", "[X]", "[COIN]"]
+        symbol_keys = ["[GRAPHICS]", "[AUDIO]", "[SETTINGS]", "[PLAY]", "[QUIT]", "[SAVE]", "[DISK]", "[LOAD]", "[BACK]", "[X]", "[COIN]", "[HELMET]", "[CHESTPLATE]", "[PANTS]", "[BOOTS]", "[WEAPON]", "[RING]", "[AMULET]"]
         for index, key in enumerate(symbol_keys):
             self.icons[key] = symbols_sheet.subsurface(0 + index * self.icon_size, 0, self.icon_size, self.icon_size) # letters are 10x10px with 0px margin
     
