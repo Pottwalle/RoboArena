@@ -6,6 +6,7 @@ class InventoryManager():
         self.cols = cols
 
         self.slots = [[None for _ in range(cols)] for _ in range(rows)]
+        
     
     def add_item(self, item: Item) -> bool:
         '''adds an item to the first free slot of the Inventory and returns if the Placement was sucessful'''
@@ -29,7 +30,7 @@ class InventoryManager():
         '''returns item at given position'''
         return self.slots[row][col]
     
-    def remove_item(self, row, col) -> Item | None:
+    def remove_item(self, row, col):
         '''retuns the Item at the given position and removes the item from there'''
         item = self.slots[row][col]
         self.slots[row][col] = None

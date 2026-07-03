@@ -12,7 +12,7 @@ class OptionsButton():
             options: list of strings where the you can cycle through with left / right arrow
             menu_font: text style with which the middle text (current option) is displayed as
             scale: Menu UI sclae used for scaling buttons / text
-            callback: function to change the state at the confirmation of the menu #TODO
+            callback: function to change the state at the confirmation of the menu
             selected: current selected option, should be inside the list
         '''
         self.rect = pygame.Rect(rect)
