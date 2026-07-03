@@ -11,10 +11,16 @@ class Reward():
         if not self.applied:
             if self.xp > 0:
                 player.add_xp(self.xp)
+
+            failed_items = []
             for item in self.items:
                 if isinstance(item, Item):
-                    player.inventory.add_item(item)
-                    # TODO drop item if inv is full
-                    print(f"Player received reward: {item.name}")
+                    if player.inventory.add_item(item):
+                        print(f"Player received reward: {item.name}")
+                    else:
+                        failed_items.append(item)
                 
-            self.applied = True
+            self.applied = len(failed_items) == 0
+            if not self.applied:
+                self.xp = 0
+                self.items = failed_items

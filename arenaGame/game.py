@@ -134,6 +134,7 @@ def set_playing(level=None, difficulty=None):
     player.setWeapon(Club(player))
 
     # Gegner abhängig von Difficulty laden
+    enemies = []
     arena.generate_enemy(enemies, movement, items)
 
     # Damage, UI, Collision, Interactables neu erzeugen
@@ -306,6 +307,8 @@ while running:
         for enemy in killed_enemies:
             if hasattr(enemy, 'reward'):
                 enemy.reward.apply_to_player(player)
+                if enemy.reward.xp != 0 or enemy.reward.items != []: # spawns the reward at the players ground if it couldnt get applied
+                    interactables.spawn_reward_at_player(player, enemy.reward)
 
         enemies = [enemy for enemy in enemies if enemy.hp > 0]
 
