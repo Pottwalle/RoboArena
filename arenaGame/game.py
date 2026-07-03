@@ -20,6 +20,9 @@ from musik_manager import spiele_hintergrundmusik
 from ObjectCollision import ObjectCollision
 from item_loader import load_items
 from interactable import InteractableManager
+from ui.death_menu import DeathMenu
+from ui.level_menu import LevelSelectMenu
+from ui.victory_menu import VictoryMenu
 
 pygame.init()
 
@@ -36,7 +39,7 @@ background = ("gray")
 
 load_tiles()
 # Arena
-arena = Arena(settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT, settings.TILE_SIZE, settings.BASE_DIR / "level3.txt")
+arena = Arena(settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT, settings.TILE_SIZE, "Level 3", "Easy")
 
 # init Items dictionary sorted by item names contained in assets/data/items.json
 items = load_items()
@@ -88,6 +91,9 @@ class GameState(Enum):
     ESC_MENU = auto()
     SETTINGS = auto()
     INVENTORY = auto()
+    DEATH_MENU = auto()
+    SELECT_LEVEL_MENU = auto()
+    VICTORY_MENU = auto()
 
 
 state = GameState.MAIN_MENU
@@ -95,16 +101,66 @@ previous_state = GameState.MAIN_MENU
 
 
 # callback functions to set Game states
-def set_playing():
-    global state, previous_state
+def set_playing(level=None, difficulty=None):
+    global state, previous_state, arena, movement, player, enemies, damage, lifebar, levelbar, collision, interactables, game_ui, inventory
+
     previous_state = state
     state = GameState.PLAYING
+
+    # Default-Werte falls direkt aus MainMenu gestartet
+    if level is None:
+        level = "Level 1"
+    if difficulty is None:
+        difficulty = "Easy"
+
+    print("Starting:", level, difficulty)
+
+    # Arena NEU LADEN basierend auf Level
+    arena = Arena(
+        settings.SCREEN_WIDTH,
+        settings.SCREEN_HEIGHT,
+        settings.TILE_SIZE,
+        level_path=level,
+        difficulty=difficulty
+    )
+
+    # Movement neu erzeugen
+    movement = Movement(arena.grid)
+
+    # Player neu erzeugen
+    player = Player(
+        arena.offset_x + arena.grid_width // 2,
+        arena.offset_y + arena.grid_height // 2,
+        10, 0, 100
+    )
+    player.setWeapon(Club(player))
+
+    # Gegner abhängig von Difficulty laden
+    enemies = arena.generate_enemies(movement)
+
+    # Damage, UI, Collision, Interactables neu erzeugen
+    damage = Damage(movement)
+    lifebar = Lifebar(player)
+    levelbar = Levelbar(player, settings.UI_SCALE)
+    collision = ObjectCollision(arena.grid)
+    interactables = InteractableManager()
+    inventory = Inventory(player.inventory)
+
+    # Health Packs spawnen
+    for spawn_pos in arena.get_random_tile_positions("dirt", count=3):
+        interactables.spawn_health_pack(spawn_pos.x, spawn_pos.y)
+    game_ui = GameUI(lifebar, levelbar, small_font)
 
 
 def set_settings():
     global state, previous_state
     previous_state = state
     state = GameState.SETTINGS
+
+def set_select_level():
+    global state, previous_state
+    previous_state = state
+    state = GameState.SELECT_LEVEL_MENU
 
 
 def set_back_from_settings():
@@ -126,11 +182,14 @@ def set_main_menu():
 # Menus
 menu_font = MenuFont("menu_font")
 small_font = MenuFont("small_font", 4, 6, 1, 10, 4)
-main_menu = MainMenu(set_playing, set_settings, set_quit)
+main_menu = MainMenu(set_select_level, set_settings, set_quit)
 settings_menu = SettingsMenu(menu_font, set_back_from_settings)
 esc_menu = EscMenu(menu_font, set_playing, set_main_menu, set_settings)
 game_ui = GameUI(lifebar, levelbar, small_font)
 inventory = Inventory(player.inventory)
+death_menu = DeathMenu(menu_font, set_main_menu)
+level_select_menu = LevelSelectMenu(menu_font, set_main_menu, set_playing)
+victory_menu = VictoryMenu(menu_font, set_main_menu)
 
 # basic game loop
 while running:
@@ -148,6 +207,12 @@ while running:
                     state = GameState.MAIN_MENU
                 elif state == GameState.INVENTORY:
                     state = GameState.PLAYING
+                elif state == GameState.DEATH_MENU:
+                    state = GameState.MAIN_MENU
+                elif state == GameState.SELECT_LEVEL_MENU:
+                    state = GameState.MAIN_MENU
+                elif state == GameState.VICTORY_MENU:
+                    state = GameState.MAIN_MENU
             if event.key == pygame.K_i:
                 if state == GameState.PLAYING:
                     state = GameState.INVENTORY
@@ -164,6 +229,12 @@ while running:
             esc_menu.handle_event(event)
         elif state == GameState.INVENTORY:
             inventory.handle_event(event)
+        elif state == GameState.DEATH_MENU:
+            death_menu.handle_event(event)
+        elif state  == GameState.SELECT_LEVEL_MENU:
+            level_select_menu.handle_event(event)
+        elif state == GameState.VICTORY_MENU:
+            victory_menu.handle_event(event)
     
 
     # delta time (time elapsed since last frame)
@@ -174,12 +245,20 @@ while running:
         camera = player.position - pygame.Vector2(settings.SCREEN_WIDTH / 2, settings.SCREEN_HEIGHT / 2)
 
         player.update(dt, movement, camera)
+        if player.hp <= 0 and dt > 0:
+            state = GameState.DEATH_MENU
+            death_menu = DeathMenu(menu_font, set_main_menu)
 
         for enemy in enemies:
             enemy.update(dt, player, clock)
             # Gegner mit places_traps=True legen automatisch in festen Abständen eine Falle
             if enemy.should_place_trap():
                 interactables.spawn_at_entity("trap", enemy, owner="enemy")
+
+        if len(enemies) == 0:
+            state = GameState.VICTORY_MENU
+            victory_menu = VictoryMenu(menu_font, set_main_menu)
+
 
 
         # apply weapon damage to enemies
@@ -219,6 +298,7 @@ while running:
         for enemy in killed_enemies:
             if hasattr(enemy, 'reward'):
                 enemy.reward.apply_to_player(player)
+                print("Player received reward: ")
 
         enemies = [enemy for enemy in enemies if enemy.health > 0]
         # draw the whole game UI on top
@@ -240,5 +320,17 @@ while running:
     elif state == GameState.INVENTORY:
         inventory.draw(screen)
         inventory.update(dt)
+
+    elif state == GameState.DEATH_MENU:
+        death_menu.draw(screen)
+        death_menu.update(dt)
+
+    elif state == GameState.SELECT_LEVEL_MENU:
+        level_select_menu.draw(screen)
+        level_select_menu.update(dt)
+
+    elif state == GameState.VICTORY_MENU:
+        victory_menu.draw(screen)
+        victory_menu.update(dt)
 
     pygame.display.update()
