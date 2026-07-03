@@ -102,7 +102,7 @@ previous_state = GameState.MAIN_MENU
 
 # callback functions to set Game states
 def set_playing(level=None, difficulty=None):
-    global state, previous_state, arena, movement, player, enemies, damage, lifebar, levelbar, collision, interactables, game_ui
+    global state, previous_state, arena, movement, player, enemies, damage, lifebar, levelbar, collision, interactables, game_ui, inventory
 
     previous_state = state
     state = GameState.PLAYING
@@ -144,6 +144,7 @@ def set_playing(level=None, difficulty=None):
     levelbar = Levelbar(player, settings.UI_SCALE)
     collision = ObjectCollision(arena.grid)
     interactables = InteractableManager()
+    inventory = Inventory(player.inventory)
 
     # Health Packs spawnen
     for spawn_pos in arena.get_random_tile_positions("dirt", count=3):
@@ -297,6 +298,7 @@ while running:
         for enemy in killed_enemies:
             if hasattr(enemy, 'reward'):
                 enemy.reward.apply_to_player(player)
+                print("Player received reward: ")
 
         enemies = [enemy for enemy in enemies if enemy.health > 0]
         # draw the whole game UI on top
