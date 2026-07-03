@@ -80,7 +80,6 @@ class Arena:
     
     # create enemy Array
     def generate_enemies(self, movement):
-        items = load_items()
         enemy_sets = {
             "Easy": [
                 Enemy(self.offset_x + 100, self.offset_y + 100, 10, 0, 40, movement,

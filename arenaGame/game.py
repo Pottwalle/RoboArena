@@ -186,6 +186,7 @@ settings_menu = SettingsMenu(menu_font, set_back_from_settings)
 esc_menu = EscMenu(menu_font, set_playing, set_main_menu, set_settings)
 game_ui = GameUI(lifebar, levelbar, small_font)
 inventory = Inventory(player.inventory)
+death_menu = DeathMenu(menu_font, set_main_menu)
 level_select_menu = LevelSelectMenu(menu_font, set_main_menu, set_playing)
 victory_menu = VictoryMenu(menu_font, set_main_menu)
 
