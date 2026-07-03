@@ -2,13 +2,8 @@ import pygame
 import math
 from weapon import Weapon
 from inventory_manager import InventoryManager
+from stats import Stats
 from settings import settings
-
-# -------------------------
-# Bild vorbereiten
-# -------------------------
-pygame.init()
-
 
 class Player:
     # Idle-Pose: wird gezeigt, wenn sich der Spieler nicht bewegt
@@ -91,8 +86,6 @@ class Player:
         self.alpha = alpha
         self.direction = pygame.Vector2()
         self.attack_direction = pygame.Vector2()
-        self.hp = hp
-        self.max_hp = max_hp
 
         self.xp = 0
         self.level = 0
@@ -111,6 +104,25 @@ class Player:
 
         self.weapon: Weapon = None
         self.inventory = InventoryManager(3, 8)
+        self.stats = Stats({
+            "max_hp": max_hp,
+            "speed": base_speed,
+            "damage": 10
+        }, self.inventory)
+
+        '''handles the updating of all player related methods changing the coordinates accordingly'''
+    # backwards compatability for now
+    @property
+    def max_hp(self):
+        return self.stats.get("max_hp")
+    
+    @property
+    def hp(self):
+        return self.stats.hp
+    
+    @hp.setter
+    def hp(self, value):
+        self.stats.hp = max(0, min(self.max_hp, value))
 
     def update(self, dt, movement, camera):
         self.input(camera)

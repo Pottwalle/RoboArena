@@ -1,4 +1,4 @@
-from item import Item, Consumable
+from item import Item, Consumable, Equipment
 from settings import settings
 import json
 import pygame
@@ -25,6 +25,14 @@ def load_items():
                     icon,
                     info["description"],
                     info["stats"].get("heal_amount", 0)
+                )
+            elif info["type"] == "equipment":
+                item = Equipment(
+                    info["name"],
+                    info["slot"],
+                    info["stats"],
+                    icon,
+                    info["description"]
                 )
             else:
                 item = Item(
