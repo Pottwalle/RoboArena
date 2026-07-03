@@ -80,6 +80,10 @@ class Arena:
     
     # create enemy Array
     def generate_enemy(self, enemies: list, movement):
+        '''adds one enemy to the enemies list containing the given movement, 
+        enemy split is according to the list in the method, 
+        always exist the given number of a type according to difficulty
+        enemies also get items at 1: 25%, 2: 6.25%, 3: 3.125%'''
         items = load_items()
         enemy_sets = {
             "Easy": {
