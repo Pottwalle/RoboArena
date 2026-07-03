@@ -232,6 +232,18 @@ while running:
                 enemy.reward.apply_to_player(player)
 
         enemies = [enemy for enemy in enemies if enemy.hp > 0]
+
+        if sum(1 for enemy in enemies) < 6:
+            if sum(1 for enemy in enemies if enemy.enemytype == "trapper") < 2:
+                pos = arena.get_random_tile_positions("dirt", count=1)
+                enemies.append(enemyTypes.TrapperEnemy(pos[0].x, pos[0].y, movement, xp_reward=10))
+            if sum(1 for enemy in enemies if enemy.enemytype == "ranged") < 2:
+                pos = arena.get_random_tile_positions("dirt", count=1)
+                enemies.append(enemyTypes.RangedEnemy(pos[0].x, pos[0].y, movement, xp_reward=10))
+            if sum(1 for enemy in enemies if enemy.enemytype == "melee") < 2:
+                pos = arena.get_random_tile_positions("dirt", count=1)
+                enemies.append(enemyTypes.MeleeEnemy(pos[0].x, pos[0].y, movement, xp_reward=10))
+
         # draw the whole game UI on top
         game_ui.draw(screen)
 
@@ -251,6 +263,5 @@ while running:
     elif state == GameState.INVENTORY:
         inventory.draw(screen)
         inventory.update(dt)
-
 
     pygame.display.update()
