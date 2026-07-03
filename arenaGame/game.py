@@ -20,8 +20,6 @@ from musik_manager import spiele_hintergrundmusik
 from ObjectCollision import ObjectCollision
 from item_loader import load_items
 from interactable import InteractableManager
-import enemyTypes
-
 from ui.death_menu import DeathMenu
 from ui.level_menu import LevelSelectMenu
 from ui.victory_menu import VictoryMenu
@@ -134,7 +132,7 @@ def set_playing(level=None, difficulty=None):
     player.setWeapon(Club(player))
 
     # Gegner abhängig von Difficulty laden
-    arena.generate_enemies(enemies, movement)
+    arena.generate_enemy(enemies, movement)
 
     # Damage, UI, Collision, Interactables neu erzeugen
     damage = Damage(movement)
@@ -308,11 +306,10 @@ while running:
         for enemy in killed_enemies:
             if hasattr(enemy, 'reward'):
                 enemy.reward.apply_to_player(player)
-                print("Player received reward: ")
 
         enemies = [enemy for enemy in enemies if enemy.hp > 0]
 
-        arena.generate_enemies(enemies, movement)
+        arena.generate_enemy(enemies, movement)
 
         # draw the whole game UI on top
         game_ui.draw(screen, clock)

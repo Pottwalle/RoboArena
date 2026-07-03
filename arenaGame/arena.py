@@ -79,7 +79,7 @@ class Arena:
         return grid
     
     # create enemy Array
-    def generate_enemies(self, enemies: list, movement):
+    def generate_enemy(self, enemies: list, movement):
         items = load_items()
         enemy_sets = {
             "Easy": {
@@ -101,17 +101,25 @@ class Arena:
                 "trapper": 3
             }
         }
+        item_reward = []
+        if random.random() < 0.25:
+            items_list = list(items.values())
+            item_reward.append(random.choice(items_list))
+            if random.random() < 0.25:
+                item_reward.append(random.choice(items_list))
+                if random.random() < 0.5:
+                    item_reward.append(random.choice(items_list))
 
         if sum(1 for enemy in enemies) <= enemy_sets[self.difficulty]["total"]:
             if sum(1 for enemy in enemies if enemy.enemytype == "trapper") < enemy_sets[self.difficulty]["trapper"]:
                 pos = self.get_random_tile_positions("dirt", count=1)
-                enemies.append(TrapperEnemy(pos[0].x, pos[0].y, movement, xp_reward=10))
+                enemies.append(TrapperEnemy(pos[0].x, pos[0].y, movement, xp_reward=10, item_reward=item_reward))
             if sum(1 for enemy in enemies if enemy.enemytype == "ranged") < enemy_sets[self.difficulty]["ranged"]:
                 pos = self.get_random_tile_positions("dirt", count=1)
-                enemies.append(RangedEnemy(pos[0].x, pos[0].y, movement, xp_reward=10))
+                enemies.append(RangedEnemy(pos[0].x, pos[0].y, movement, xp_reward=10, item_reward=item_reward))
             if sum(1 for enemy in enemies if enemy.enemytype == "melee") < enemy_sets[self.difficulty]["melee"]:
                 pos = self.get_random_tile_positions("dirt", count=1)
-                enemies.append(MeleeEnemy(pos[0].x, pos[0].y, movement, xp_reward=10))
+                enemies.append(MeleeEnemy(pos[0].x, pos[0].y, movement, xp_reward=10, item_reward=item_reward))
 
     # draw game map
     def draw_map(self, screen, camera):
