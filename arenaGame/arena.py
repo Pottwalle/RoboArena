@@ -3,9 +3,8 @@ import pygame
 from settings import settings
 from tile import Tile
 from enemy import Enemy
-from item_loader import load_items
 import edges
-
+ 
 
 class Arena:
     def __init__(self, screen_width, screen_height, tile_size, level_path, difficulty):
