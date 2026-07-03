@@ -2,18 +2,19 @@ from settings import settings
 from .ui_manager import UIManager
 import pygame
 from ui.menu_font import MenuFont
-from .options_button import OptionsButton
 from .texture_button import TextureButton
-from enum import Enum, auto
+from enum import Enum
+from ui.setting import Setting
 
 class SettingsState(Enum):
-    GENERAL = auto()
-    AUDIO = auto()
-    GRAPHICS = auto()
+    GENERAL = 0
+    GRAPHICS = 1
+    AUDIO = 2
 
 class SettingsMenu():
     def __init__(self, menu_font: MenuFont, on_back):
         self.ui = UIManager()
+        self.pages = [UIManager(), UIManager(), UIManager()]
         self.scale = settings.UI_SCALE
         self.menu_font = menu_font
         self.state = SettingsState.GENERAL
@@ -23,52 +24,98 @@ class SettingsMenu():
         
         ui_elements = pygame.image.load(settings.ASSET_DIR / "ui/ui_elements.png")
         self.settings_bg = pygame.transform.scale(pygame.image.load(settings.ASSET_DIR / "ui/settings_bg.png").convert(), (settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
+        self.page_hover = ui_elements.subsurface((0, 91, 18, 12)).convert_alpha()
 
         # changes between the different Setting pages
         self.ui.add(TextureButton(
-            (15, 10, 79, 18),
-            "GENERAL",
+            (18, 11, 18, 12),
+            "[SETTINGS]",
             None,
-            self.settings_bg,
+            self.page_hover,
             self.scale,
             self.set_general,
-            text_button=True
+            text_button=True,
+            text_offset=(4, 1)
         ))
         self.ui.add(TextureButton(
-            (115, 10, 79, 18),
-            "GRAPHICS",
+            (41, 11, 18, 12),
+            "[GRAPHICS]",
             None,
-            self.settings_bg,
+            self.page_hover,
             self.scale,
-            self.set_general,
-            text_button=True
+            self.set_graphics,
+            text_button=True,
+            text_offset=(4, 1)
         ))
         self.ui.add(TextureButton(
-            (215, 10, 79, 18),
-            "AUDIO",
+            (64, 11, 18, 12),
+            "[AUDIO]",
             None,
-            self.settings_bg,
+            self.page_hover,
             self.scale,
-            self.set_general,
-            text_button=True
+            self.set_audio,
+            text_button=True,
+            text_offset=(4, 1)
         ))
 
         # coordinates of the buttons are measuren in the original UI site 320x180 and than scaled by factor in settings to fit the Window
-        self.ui.add(OptionsButton(
-            (220, 15, 79, 18),
-            ["off", "on"],
-            menu_font,
-            self.scale,
-            self.on_edge_rendering_changed,
-            selected=1 if self.settings.EDGE_OVERLAYS else 0
-            ))
+        # GRAPHICS
+        x_base = 16
+        y_base = 28
+        y_offset = 19
+        self.pages[SettingsState.GRAPHICS.value].add(
+            Setting(
+                (x_base, y_base),
+                "EDGE RENDERING",
+                ["off", "on"],
+                menu_font,
+                self.on_edge_rendering_changed,
+                selected=1 if self.settings.EDGE_OVERLAYS else 0
+            )
+        )
+
+        self.pages[SettingsState.GRAPHICS.value].add(
+            Setting(
+                (x_base, y_base + y_offset),
+                "SHOW FPS",
+                ["off", "on"],
+                menu_font,
+                settings.set_show_fps,
+                selected=1 if self.settings.SHOW_FPS else 0
+            )
+        )
+
+        # AUDIO
+        options_music = ["off", "on"]
+        self.pages[SettingsState.AUDIO.value].add(
+            Setting(
+                (x_base, y_base),
+                "MUSIC",
+                options_music,
+                menu_font,
+                settings.set_music,
+                options_music.index(settings.MUSIC)
+            )
+        )
+
+        options_music_volume = ["00", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"]
+        self.pages[SettingsState.AUDIO.value].add(
+            Setting(
+                (x_base, y_base + y_offset),
+                "MUSIC VOLUME",
+                options_music_volume,
+                menu_font,
+                settings.set_music_volume,
+                options_music_volume.index(str(int(settings.MUSIC_VOLUME * 100)))
+            )
+        )
         
         # additional back button to return to the main menu
         hover_texture = ui_elements.subsurface((0, 54, 79, 18)).convert_alpha()
         self.ui.add(
             TextureButton(
-                (15, 147, 79, 18),
-                "back",
+                (x_base, 147, 79, 18),
+                "[BACK]BACK",
                 None,
                 hover_texture,
                 self.scale,
@@ -79,19 +126,22 @@ class SettingsMenu():
     
     def handle_event(self, event):
         self.ui.handle_event(event)
+        self.pages[self.state.value].handle_event(event)
     
     def update(self, dt):
         pass
     
     def draw(self, surface: pygame.Surface):
         surface.blit(self.settings_bg, (0, 0))
-        self.menu_font.render_text(surface, "EDGE RENDERING", (15 * self.scale, 15 * self.scale), settings.UI_SCALE)
+        self.ui.elements[self.state.value].hovered = True
+        self.pages[self.state.value].draw(surface)
         self.ui.draw(surface)
 
 ###################### changes of the actual global settings ######################
     def on_edge_rendering_changed(self, value: str):
         """gets called on change of the options button"""
         self.settings.EDGE_OVERLAYS = (value == "on")
+        settings.save()
         print(f"Edge Rendering: {self.settings.EDGE_OVERLAYS}")
     
     def set_audio(self):

@@ -6,6 +6,7 @@ class InventoryManager():
         self.cols = cols
 
         self.slots = [[None for _ in range(cols)] for _ in range(rows)]
+        
     
     def add_item(self, item: Item) -> bool:
         '''adds an item to the first free slot of the Inventory and returns if the Placement was sucessful'''
