@@ -254,7 +254,7 @@ while running:
             if enemy.should_place_trap():
                 interactables.spawn_at_entity("trap", enemy, owner="enemy")
 
-        if enemies and len(enemies) == 0:
+        if len(enemies) == 0:
             state = GameState.VICTORY_MENU
             victory_menu = VictoryMenu(menu_font, set_main_menu)
 
