@@ -4,7 +4,7 @@ from settings import settings
 from tile import Tile
 from enemy import Enemy
 import edges
- 
+from item_loader import load_items
 
 class Arena:
     def __init__(self, screen_width, screen_height, tile_size, level_path, difficulty):
@@ -24,6 +24,7 @@ class Arena:
         self.offset_y = (self.screen_height - self.grid_height) // 2
 
         self.grid = self.generate_grid(self.mapped_map)
+
 
     def load_level(self, level_path):
         with open(level_path, 'r') as file:
@@ -79,6 +80,7 @@ class Arena:
     
     # create enemy Array
     def generate_enemies(self, movement):
+        items = load_items()
         enemy_sets = {
             "Easy": [
                 Enemy(self.offset_x + 100, self.offset_y + 100, 10, 0, 40, movement,
@@ -86,17 +88,17 @@ class Arena:
             ],
             "Medium": [
                 Enemy(self.offset_x + 100, self.offset_y + 100, 10, 0, 60, movement,
-                      movementType="aggressive", xp_reward=25),
+                      movementType="aggressive", xp_reward=25,item_reward=[items["barbarian_helmet"]]),
                 Enemy(self.offset_x + 200, self.offset_y + 150, 10, 0, 40, movement,
-                      movementType="random", xp_reward=15),
+                      movementType="random", xp_reward=15, item_reward=[items["barbarian_chestplate"]]),
             ],
             "Hard": [
                 Enemy(self.offset_x + 100, self.offset_y + 100, 10, 0, 80, movement,
-                      movementType="aggressive", xp_reward=35),
+                      movementType="aggressive", xp_reward=35, item_reward=[items["barbarian_chestplate"]]),
                 Enemy(self.offset_x + 200, self.offset_y + 150, 10, 0, 60, movement,
-                      movementType="random", xp_reward=25),
+                      movementType="random", xp_reward=25, item_reward=[items["barbarian_sword"]]),
                 Enemy(self.offset_x + 300, self.offset_y + 200, 10, 0, 40, movement,
-                      movementType="passive", xp_reward=20),
+                      movementType="passive", xp_reward=20, item_reward=[items["barbarian_helmet"]]),
             ]
         }
         return enemy_sets.get(self.difficulty, enemy_sets["Easy"])
