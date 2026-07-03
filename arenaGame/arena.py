@@ -83,7 +83,11 @@ class Arena:
         '''adds one enemy to the enemies list containing the given movement, 
         enemy split is according to the list in the method, 
         always exist the given number of a type according to difficulty
-        enemies also get items at 1: 25%, 2: 6.25%, 3: 3.125%'''
+        enemies also get items at 1: 25%, 2: 6.25%, 3: 3.125%
+        
+        Args:
+            enemies: list of enemies Enemy type or subtypes
+            movement: instance of Movement'''
         items = load_items()
         enemy_sets = {
             "Easy": {

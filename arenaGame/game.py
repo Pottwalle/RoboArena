@@ -309,6 +309,7 @@ while running:
 
         enemies = [enemy for enemy in enemies if enemy.hp > 0]
 
+        # generates enemies according to the number via difficulty in arena.py method 1 a loop, until the count is correct
         arena.generate_enemy(enemies, movement)
 
         # draw the whole game UI on top
