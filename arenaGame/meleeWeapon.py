@@ -52,7 +52,7 @@ class MeleeWeapon(Weapon):
             # compare directly with cos
             if dot >= self._cos_half_cone:
                 # Treffer
-                if hasattr(target, "health"):
-                    target.health -= self.damage
+                if hasattr(target, "hp"):
+                    target.hp -= self.damage
                     # Optional: Debug
                     # print(f"Hit {target} for {self.damage} damage")
