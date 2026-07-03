@@ -102,7 +102,7 @@ previous_state = GameState.MAIN_MENU
 
 # callback functions to set Game states
 def set_playing(level=None, difficulty=None):
-    global state, previous_state, arena, movement, player, enemies, damage, lifebar, levelbar, collision, interactables
+    global state, previous_state, arena, movement, player, enemies, damage, lifebar, levelbar, collision, interactables, game_ui
 
     previous_state = state
     state = GameState.PLAYING
@@ -148,7 +148,7 @@ def set_playing(level=None, difficulty=None):
     # Health Packs spawnen
     for spawn_pos in arena.get_random_tile_positions("dirt", count=3):
         interactables.spawn_health_pack(spawn_pos.x, spawn_pos.y)
-
+    game_ui = GameUI(lifebar, levelbar, small_font)
 
 
 def set_settings():
@@ -244,7 +244,7 @@ while running:
         camera = player.position - pygame.Vector2(settings.SCREEN_WIDTH / 2, settings.SCREEN_HEIGHT / 2)
 
         player.update(dt, movement, camera)
-        if player.hp <= 0:
+        if player.hp <= 0 and dt > 0:
             state = GameState.DEATH_MENU
             death_menu = DeathMenu(menu_font, set_main_menu)
 
@@ -254,7 +254,7 @@ while running:
             if enemy.should_place_trap():
                 interactables.spawn_at_entity("trap", enemy, owner="enemy")
 
-        if len(enemies) == 0:
+        if enemies and len(enemies) == 0:
             state = GameState.VICTORY_MENU
             victory_menu = VictoryMenu(menu_font, set_main_menu)
 

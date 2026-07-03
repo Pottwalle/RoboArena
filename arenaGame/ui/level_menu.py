@@ -12,7 +12,7 @@ class LevelSelectMenu:
         self.menu_font = menu_font
         self.scale = settings.UI_SCALE
 
-        self.bg = pygame.transform.scale(pygame.image.load(settings.ASSET_DIR/"ui/settings_bg.png").convert_alpha(), (settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
+        self.bg = pygame.transform.scale(pygame.image.load(settings.ASSET_DIR/"ui/settings_bg.png").convert(), (settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
 
         ui_elements = pygame.image.load(settings.ASSET_DIR/"ui/ui_elements.png")
 
