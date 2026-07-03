@@ -5,9 +5,9 @@ from player import Player
 from movement import Movement
 from damage import Damage
 from lifebar import Lifebar
-from enemy import Enemy
 from tile import load_tiles
 from club import Club
+from bow import Bow
 from enum import Enum, auto
 from ui.main_menu import MainMenu
 from ui.game_ui import GameUI
@@ -20,6 +20,8 @@ from musik_manager import spiele_hintergrundmusik
 from ObjectCollision import ObjectCollision
 from item_loader import load_items
 from interactable import InteractableManager
+import enemyTypes
+
 
 pygame.init()
 
@@ -54,9 +56,9 @@ player.setWeapon(Club(player))
 # Gegner-Liste erstellen
 #  x, y, r, alpha, base_speed, movement, speed_modifier=1, hp=10, damage=5, movementType="random"
 enemies = [
-    Enemy(arena.offset_x + 100, arena.offset_y + 100, 10, 0, 60, movement, movementType="aggressive", xp_reward=25, item_reward=[items["barbarian_helmet"]]),
-    Enemy(arena.offset_x + 200, arena.offset_y + 150, 10, 0, 40, movement, movementType="random", xp_reward=15, item_reward=[items["barbarian_helmet"], items["barbarian_chestplate"]], places_traps=True, trap_cooldown=4.0),
-    Enemy(arena.offset_x + 300, arena.offset_y + 200, 10, 0, 20, movement, movementType="passive", xp_reward=10, item_reward=[items["barbarian_sword"]])
+    enemyTypes.MeleeEnemy(arena.offset_x + 100, arena.offset_y + 100, movement, xp_reward=25, item_reward=[items["barbarian_helmet"]]),
+    enemyTypes.RangedEnemy(arena.offset_x + 200, arena.offset_y + 150, movement, xp_reward=15, item_reward=[items["barbarian_helmet"], items["barbarian_chestplate"]]),
+    enemyTypes.TrapperEnemy(arena.offset_x + 300, arena.offset_y + 200, movement, xp_reward=10, item_reward=[items["barbarian_sword"]])
 ]
 
 # create damage handler
@@ -178,11 +180,17 @@ while running:
             # Gegner mit places_traps=True legen automatisch in festen Abständen eine Falle
             if enemy.should_place_trap():
                 interactables.spawn_at_entity("trap", enemy, owner="enemy")
-
+            if enemy.weapon is not None:
+                enemy.weapon.update(dt, [player])
+            if enemy.weapon is None and enemy.movement_type == "passive":
+                enemy.setWeapon(Bow(enemy))
 
         # apply weapon damage to enemies
         if player.weapon is not None:
             player.weapon.update(dt, enemies)
+
+
+
 
         # detect & resolve object collision
         collision.handle_player_enemy(player, enemies, damage_on_contact=True)
@@ -208,6 +216,11 @@ while running:
         # draw weapon
         if player.weapon is not None:
             player.weapon.draw(screen, camera)
+
+        for enemy in enemies:
+            if enemy.weapon is not None:
+                enemy.weapon.draw(screen, camera)
+
         # draw enemies
         for enemy in enemies:
             enemy.draw(screen, camera)
@@ -238,5 +251,6 @@ while running:
     elif state == GameState.INVENTORY:
         inventory.draw(screen)
         inventory.update(dt)
+
 
     pygame.display.update()
