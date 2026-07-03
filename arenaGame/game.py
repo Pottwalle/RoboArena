@@ -22,6 +22,7 @@ from item_loader import load_items
 from interactable import InteractableManager
 from ui.death_menu import DeathMenu
 from ui.level_menu import LevelSelectMenu
+from ui.victory_menu import VictoryMenu
 
 pygame.init()
 
@@ -92,6 +93,7 @@ class GameState(Enum):
     INVENTORY = auto()
     DEATH_MENU = auto()
     SELECT_LEVEL_MENU = auto()
+    VICTORY_MENU = auto()
 
 
 state = GameState.MAIN_MENU
@@ -185,6 +187,7 @@ esc_menu = EscMenu(menu_font, set_playing, set_main_menu, set_settings)
 game_ui = GameUI(lifebar, levelbar, small_font)
 inventory = Inventory(player.inventory)
 level_select_menu = LevelSelectMenu(menu_font, set_main_menu, set_playing)
+victory_menu = VictoryMenu(menu_font, set_main_menu)
 
 # basic game loop
 while running:
@@ -206,6 +209,8 @@ while running:
                     state = GameState.MAIN_MENU
                 elif state == GameState.SELECT_LEVEL_MENU:
                     state = GameState.MAIN_MENU
+                elif state == GameState.VICTORY_MENU:
+                    state = GameState.MAIN_MENU
             if event.key == pygame.K_i:
                 if state == GameState.PLAYING:
                     state = GameState.INVENTORY
@@ -226,6 +231,8 @@ while running:
             death_menu.handle_event(event)
         elif state  == GameState.SELECT_LEVEL_MENU:
             level_select_menu.handle_event(event)
+        elif state == GameState.VICTORY_MENU:
+            victory_menu.handle_event(event)
     
 
     # delta time (time elapsed since last frame)
@@ -245,6 +252,11 @@ while running:
             # Gegner mit places_traps=True legen automatisch in festen Abständen eine Falle
             if enemy.should_place_trap():
                 interactables.spawn_at_entity("trap", enemy, owner="enemy")
+
+        if len(enemies) == 0:
+            state = GameState.VICTORY_MENU
+            victory_menu = VictoryMenu(menu_font, set_main_menu)
+
 
 
         # apply weapon damage to enemies
@@ -313,5 +325,9 @@ while running:
     elif state == GameState.SELECT_LEVEL_MENU:
         level_select_menu.draw(screen)
         level_select_menu.update(dt)
+
+    elif state == GameState.VICTORY_MENU:
+        victory_menu.draw(screen)
+        victory_menu.update(dt)
 
     pygame.display.update()
