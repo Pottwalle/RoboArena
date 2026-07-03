@@ -13,7 +13,7 @@ class Item():
         self.name = name
         self.icon = UIElement.scale_surface(icon, settings.UI_SCALE)
         self.description = description
-        self.tooltip = Tooltip(self, menu_font, small_font, settings.UI_SCALE)
+        self.tooltip = Tooltip(self, menu_font, small_font, settings.UI_SCALE).create_tooltip_surface()
 
 class Consumable(Item):
     def __init__(self, name, icon, menu_font, small_font, description="", heal_amount = 0):
@@ -40,3 +40,4 @@ class Equipment(Item):
         super().__init__(name, icon, menu_font, small_font, description)
         self.type = type
         self.stats = stats if stats else {}
+        self.tooltip = Tooltip(self, menu_font, small_font, settings.UI_SCALE).create_tooltip_surface()

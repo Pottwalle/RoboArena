@@ -23,7 +23,8 @@ class Tooltip:
 
         x_offset = 3
         y_offset = 3
-        tooltip_bg = pygame.Surface((max_len + x_offset*2, self.menu_font.text_height + 3*y_offset + (self.small_font.text_height + y_offset) * len(stats_surfaces)))
+        end_row = 1 if len(stats_surfaces) > 0 else 0
+        tooltip_bg = pygame.Surface((max_len + x_offset*2, self.menu_font.text_height + 2*y_offset + (self.small_font.text_height + y_offset) * len(stats_surfaces) + end_row * y_offset))
         tooltip_bg.blit(name_surface, (x_offset, y_offset))
 
         for i, surface in enumerate(stats_surfaces):
