@@ -2,6 +2,7 @@ import pygame
 import math
 from weapon import Weapon
 from inventory_manager import InventoryManager
+from settings import settings
 
 # -------------------------
 # Bild vorbereiten
@@ -48,7 +49,7 @@ class Player:
 
     def __init__(self, x, y, r, alpha, base_speed, speed_modifier=1, hp=100, max_hp=100):
         def laden(pfad):
-            bild = pygame.image.load(pfad).convert_alpha()
+            bild = pygame.image.load(settings.BASE_DIR / pfad).convert_alpha()
             durchmesser = int(r * 2 * self.SPRITE_SCALE)
             return pygame.transform.smoothscale(bild, (durchmesser, durchmesser))
 

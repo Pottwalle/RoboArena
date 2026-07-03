@@ -3,6 +3,7 @@ import math
 import random
 from weapon import Weapon
 from reward import Reward
+from settings import settings
 
 class Enemy:
     # Sprite-Bild für den Gegner (ersetzt den roten Kreis)
@@ -25,7 +26,7 @@ class Enemy:
 
         # Sprite laden und größer als die Hitbox skalieren (SPRITE_SCALE),
         # damit die Figur trotz kleinem Kollisionsradius erkennbar bleibt
-        rohbild = pygame.image.load(self.SPRITE_PATH).convert_alpha()
+        rohbild = pygame.image.load(settings.BASE_DIR / self.SPRITE_PATH).convert_alpha()
         durchmesser = int(self.r * 2 * self.SPRITE_SCALE)
         self.sprite = pygame.transform.smoothscale(rohbild, (durchmesser, durchmesser))
 
