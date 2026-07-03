@@ -3,8 +3,18 @@ import math
 import random
 from weapon import Weapon
 from reward import Reward
+from settings import settings
 
 class Enemy:
+    # Sprite-Bild für den Gegner (ersetzt den roten Kreis)
+    SPRITE_PATH = 'assets/character/enemy1.png'
+
+    # Wie viel größer das Sprite im Vergleich zum Kollisionsradius (r) gezeichnet wird.
+    # r bleibt für Kollision/Hitbox unverändert - nur die Optik wird skaliert.
+    # 1.0 = Sprite-Durchmesser == 2*r (alte Größe, kaum erkennbar)
+    # Höher = größer/erkennbarer, ohne die Hitbox zu verändern
+    SPRITE_SCALE = 3.0
+
     def __init__(self, x, y, r, alpha, base_speed, movement, speed_modifier=1, hp=10, damage=5, movementType="random", xp_reward = 10, item_reward = [],
                  places_traps=False, trap_cooldown=4.0, attack_direction = pygame.Vector2(0, 0), enemytype = None):
 
@@ -13,6 +23,13 @@ class Enemy:
         self.alpha = alpha
         self.direction = pygame.Vector2()
         self.attack_direction = attack_direction
+
+        # Sprite laden und größer als die Hitbox skalieren (SPRITE_SCALE),
+        # damit die Figur trotz kleinem Kollisionsradius erkennbar bleibt
+        rohbild = pygame.image.load(settings.BASE_DIR / self.SPRITE_PATH).convert_alpha()
+        durchmesser = int(self.r * 2 * self.SPRITE_SCALE)
+        self.sprite = pygame.transform.smoothscale(rohbild, (durchmesser, durchmesser))
+
         self.base_speed = base_speed
         self.speed_modifier = speed_modifier
         self.hp = hp
@@ -30,7 +47,6 @@ class Enemy:
         self.weapon: Weapon = None
         self.enemytype = enemytype
         self.reward = Reward(xp=xp_reward, items=item_reward)
-
 
         # --- Interactables: Gegner kann automatisch Fallen platzieren ---
         # places_traps: schaltet das automatische Platzieren von Fallen frei
@@ -65,8 +81,10 @@ class Enemy:
 
     def draw(self, screen, camera):
         screen_position = self.position - camera
-        pygame.draw.circle(screen, "red", (screen_position.x, screen_position.y), self.r)
-        pygame.draw.circle(screen, (0, 0, 0), (screen_position.x, screen_position.y), self.r, 2)
+
+        # Sprite statt rotem Kreis zeichnen
+        rect = self.sprite.get_rect(center=(int(screen_position.x), int(screen_position.y)))
+        screen.blit(self.sprite, rect)
 
         rad = math.radians(self.alpha)
         end_x = screen_position.x + math.cos(rad) * self.r
@@ -76,7 +94,9 @@ class Enemy:
         # Lifebar
         bar_width = 40
         bar_height = 6
-        bar_offset = self.r + 10
+        # Offset an die sichtbare Sprite-Höhe koppeln (nicht mehr an den kleinen
+        # Kollisionsradius r), sonst hängt die Leiste mitten im Sprite
+        bar_offset = (self.sprite.get_height() // 2) + 10
 
         # background
         bg_rect = pygame.Rect(
