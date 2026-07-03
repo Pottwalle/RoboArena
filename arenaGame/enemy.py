@@ -1,21 +1,22 @@
 import pygame
 import math
 import random
+from weapon import Weapon
 from reward import Reward
 
 class Enemy:
-    def __init__(self, x, y, r, alpha, base_speed, movement, speed_modifier=1, health=10, damage=5, movementType="random", xp_reward = 10, item_reward = [],
-                 places_traps=False, trap_cooldown=4.0):
+    def __init__(self, x, y, r, alpha, base_speed, movement, speed_modifier=1, hp=10, damage=5, movementType="random", xp_reward = 10, item_reward = [],
+                 places_traps=False, trap_cooldown=4.0, attack_direction = pygame.Vector2(0, 0), enemytype = None):
 
         self.position = pygame.Vector2(x, y)
         self.r = r
         self.alpha = alpha
         self.direction = pygame.Vector2()
-
+        self.attack_direction = attack_direction
         self.base_speed = base_speed
         self.speed_modifier = speed_modifier
-        self.health = health
-        self.max_health = health
+        self.hp = hp
+        self.max_hp = hp
         self.damage = damage
         self.movement_type = movementType
         self.movement = movement  # Movement-Objekt übergeben
@@ -26,9 +27,10 @@ class Enemy:
         self.max_speed = 80
         self.friction = 0.90
 
+        self.weapon: Weapon = None
+        self.enemytype = enemytype
         self.reward = Reward(xp=xp_reward, items=item_reward)
 
-        self.weapon = None
 
         # --- Interactables: Gegner kann automatisch Fallen platzieren ---
         # places_traps: schaltet das automatische Platzieren von Fallen frei
@@ -42,6 +44,10 @@ class Enemy:
     def update(self, dt, player, clock):
         self.move(dt, player, clock)
         self.alpha = math.degrees(math.atan2(-self.direction.y, self.direction.x))
+
+        to_player = player.position - self.position
+        if to_player.length_squared() > 0:
+            self.attack_direction = to_player.normalize()
 
         if self.places_traps:
             self._trap_timer -= dt
@@ -82,7 +88,7 @@ class Enemy:
         pygame.draw.rect(screen, (255,0,0), bg_rect)
 
         # current life
-        hp_ratio = self.health / self.max_health
+        hp_ratio = self.hp / self.max_hp
         fg_rect = pygame.Rect(
             screen_position.x - bar_width // 2,
             screen_position.y - bar_offset,
