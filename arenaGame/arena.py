@@ -2,7 +2,7 @@ import random
 import pygame
 from settings import settings
 from tile import Tile
-from enemy import Enemy
+from enemyTypes import MeleeEnemy, RangedEnemy, TrapperEnemy
 import edges
 from item_loader import load_items
 
@@ -79,30 +79,39 @@ class Arena:
         return grid
     
     # create enemy Array
-    def generate_enemies(self, movement):
+    def generate_enemies(self, enemies: list, movement):
         items = load_items()
         enemy_sets = {
-            "Easy": [
-                Enemy(self.offset_x + 100, self.offset_y + 100, 10, 0, 40, movement,
-                      movementType="passive", xp_reward=10),
-            ],
-            "Medium": [
-                Enemy(self.offset_x + 100, self.offset_y + 100, 10, 0, 60, movement,
-                      movementType="aggressive", xp_reward=25,item_reward=[items["barbarian_helmet"]]),
-                Enemy(self.offset_x + 200, self.offset_y + 150, 10, 0, 40, movement,
-                      movementType="random", xp_reward=15, item_reward=[items["barbarian_chestplate"]]),
-            ],
-            "Hard": [
-                Enemy(self.offset_x + 100, self.offset_y + 100, 10, 0, 80, movement,
-                      movementType="aggressive", xp_reward=35, item_reward=[items["barbarian_chestplate"]]),
-                Enemy(self.offset_x + 200, self.offset_y + 150, 10, 0, 60, movement,
-                      movementType="random", xp_reward=25, item_reward=[items["barbarian_sword"]]),
-                Enemy(self.offset_x + 300, self.offset_y + 200, 10, 0, 40, movement,
-                      movementType="passive", xp_reward=20, item_reward=[items["barbarian_helmet"]]),
-            ]
+            "Easy": {
+                "total": 3,
+                "melee": 1,
+                "ranged": 1,
+                "trapper": 1
+            },
+            "Medium": {
+                "total": 6,
+                "melee": 2,
+                "ranged": 2,
+                "trapper": 2
+            },
+            "Hard": {
+                "total": 8,
+                "melee": 3,
+                "ranged": 2,
+                "trapper": 3
+            }
         }
-        return enemy_sets.get(self.difficulty, enemy_sets["Easy"])
 
+        if sum(1 for enemy in enemies) <= enemy_sets[self.difficulty]["total"]:
+            if sum(1 for enemy in enemies if enemy.enemytype == "trapper") < enemy_sets[self.difficulty]["trapper"]:
+                pos = self.get_random_tile_positions("dirt", count=1)
+                enemies.append(TrapperEnemy(pos[0].x, pos[0].y, movement, xp_reward=10))
+            if sum(1 for enemy in enemies if enemy.enemytype == "ranged") < enemy_sets[self.difficulty]["ranged"]:
+                pos = self.get_random_tile_positions("dirt", count=1)
+                enemies.append(RangedEnemy(pos[0].x, pos[0].y, movement, xp_reward=10))
+            if sum(1 for enemy in enemies if enemy.enemytype == "melee") < enemy_sets[self.difficulty]["melee"]:
+                pos = self.get_random_tile_positions("dirt", count=1)
+                enemies.append(MeleeEnemy(pos[0].x, pos[0].y, movement, xp_reward=10))
 
     # draw game map
     def draw_map(self, screen, camera):

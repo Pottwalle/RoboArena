@@ -58,11 +58,7 @@ player = Player(
 player.setWeapon(Club(player))
 # Gegner-Liste erstellen
 #  x, y, r, alpha, base_speed, movement, speed_modifier=1, hp=10, damage=5, movementType="random"
-enemies = [
-    enemyTypes.MeleeEnemy(arena.offset_x + 100, arena.offset_y + 100, movement, xp_reward=25, item_reward=[items["barbarian_helmet"]]),
-    enemyTypes.RangedEnemy(arena.offset_x + 200, arena.offset_y + 150, movement, xp_reward=15, item_reward=[items["barbarian_helmet"], items["barbarian_chestplate"]]),
-    enemyTypes.TrapperEnemy(arena.offset_x + 300, arena.offset_y + 200, movement, xp_reward=10, item_reward=[items["barbarian_sword"]])
-]
+enemies = []
 
 # create damage handler
 damage = Damage(movement)
@@ -138,7 +134,7 @@ def set_playing(level=None, difficulty=None):
     player.setWeapon(Club(player))
 
     # Gegner abhängig von Difficulty laden
-    enemies = arena.generate_enemies(movement)
+    arena.generate_enemies(enemies, movement)
 
     # Damage, UI, Collision, Interactables neu erzeugen
     damage = Damage(movement)
@@ -316,16 +312,7 @@ while running:
 
         enemies = [enemy for enemy in enemies if enemy.hp > 0]
 
-        if sum(1 for enemy in enemies) < 6:
-            if sum(1 for enemy in enemies if enemy.enemytype == "trapper") < 2:
-                pos = arena.get_random_tile_positions("dirt", count=1)
-                enemies.append(enemyTypes.TrapperEnemy(pos[0].x, pos[0].y, movement, xp_reward=10))
-            if sum(1 for enemy in enemies if enemy.enemytype == "ranged") < 2:
-                pos = arena.get_random_tile_positions("dirt", count=1)
-                enemies.append(enemyTypes.RangedEnemy(pos[0].x, pos[0].y, movement, xp_reward=10))
-            if sum(1 for enemy in enemies if enemy.enemytype == "melee") < 2:
-                pos = arena.get_random_tile_positions("dirt", count=1)
-                enemies.append(enemyTypes.MeleeEnemy(pos[0].x, pos[0].y, movement, xp_reward=10))
+        arena.generate_enemies(enemies, movement)
 
         # draw the whole game UI on top
         game_ui.draw(screen, clock)
