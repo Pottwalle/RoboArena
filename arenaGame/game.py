@@ -42,7 +42,9 @@ load_tiles()
 arena = Arena(settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT, settings.TILE_SIZE, "Level 3", "Easy")
 
 # init Items dictionary sorted by item names contained in assets/data/items.json
-items = load_items()
+menu_font = MenuFont("menu_font")
+small_font = MenuFont("small_font", 4, 6, 1, 10, 4)
+items = load_items(menu_font, small_font)
 
 # Tilemap for movement
 movement = Movement(arena.grid)
@@ -132,7 +134,7 @@ def set_playing(level=None, difficulty=None):
     player.setWeapon(Club(player))
 
     # Gegner abhängig von Difficulty laden
-    arena.generate_enemy(enemies, movement)
+    arena.generate_enemy(enemies, movement, items)
 
     # Damage, UI, Collision, Interactables neu erzeugen
     damage = Damage(movement)
@@ -176,8 +178,6 @@ def set_main_menu():
 
 
 # Menus
-menu_font = MenuFont("menu_font")
-small_font = MenuFont("small_font", 4, 6, 1, 10, 4)
 main_menu = MainMenu(set_select_level, set_settings, set_quit)
 settings_menu = SettingsMenu(menu_font, set_back_from_settings)
 esc_menu = EscMenu(menu_font, set_playing, set_main_menu, set_settings)
@@ -310,7 +310,7 @@ while running:
         enemies = [enemy for enemy in enemies if enemy.hp > 0]
 
         # generates enemies according to the number via difficulty in arena.py method 1 a loop, until the count is correct
-        arena.generate_enemy(enemies, movement)
+        arena.generate_enemy(enemies, movement, items)
 
         # draw the whole game UI on top
         game_ui.draw(screen, clock)

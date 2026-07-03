@@ -1,10 +1,9 @@
-from item import Item, Equipment
 from ui.menu_font import MenuFont
 import pygame
 from .ui_element import UIElement
 
 class Tooltip:
-    def __init__(self, item: Item, menu_font: MenuFont, small_font: MenuFont, scale: int):
+    def __init__(self, item, menu_font: MenuFont, small_font: MenuFont, scale: int):
         self.item = item
         self.menu_font = menu_font
         self.small_font = small_font
@@ -12,7 +11,7 @@ class Tooltip:
 
     def create_tooltip_surface(self):
         stats_surfaces: list[pygame.Surface] = []
-        if isinstance(self.item, Equipment):
+        if hasattr(self.item, "stats"):
             name_surface = self.menu_font.create_text_surface(f"[{self.item.type.upper()}]" + self.item.name)
             for stat, value in self.item.stats.items():
                 sign = "+" if value >= 0 else "-"

@@ -1,8 +1,9 @@
 from ui.ui_element import UIElement
 from settings import settings
+from ui.tooltip import Tooltip
 
 class Item():
-    def __init__(self, name, icon, description = ""):
+    def __init__(self, name, icon, menu_font, small_font, description = ""):
         '''Represents an Item in the Game
         
         Args:
@@ -12,10 +13,11 @@ class Item():
         self.name = name
         self.icon = UIElement.scale_surface(icon, settings.UI_SCALE)
         self.description = description
+        self.tooltip = Tooltip(self, menu_font, small_font, settings.UI_SCALE)
 
 class Consumable(Item):
-    def __init__(self, name, icon, description="", heal_amount = 0):
-        super().__init__(name, icon, description)
+    def __init__(self, name, icon, menu_font, small_font, description="", heal_amount = 0):
+        super().__init__(name, icon, menu_font, small_font, description)
         self.heal_amount = heal_amount
 
     def use(self, player) -> bool:
@@ -24,7 +26,7 @@ class Consumable(Item):
         return True
 
 class Equipment(Item):
-    def __init__(self, name, type, stats, icon, description=""):
+    def __init__(self, name, type, stats, icon, menu_font, small_font, description=""):
         '''an Item type which can get equipped in the players Inventory
 
         Args:
@@ -35,6 +37,6 @@ class Equipment(Item):
             description: item description
 
             '''
-        super().__init__(name, icon, description)
+        super().__init__(name, icon, menu_font, small_font, description)
         self.type = type
         self.stats = stats if stats else {}
