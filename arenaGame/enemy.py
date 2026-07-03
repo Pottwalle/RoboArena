@@ -1,7 +1,7 @@
 import pygame
 import math
 import random
-from arenaGame.weapon import Weapon
+from weapon import Weapon
 from reward import Reward
 
 class Enemy:
