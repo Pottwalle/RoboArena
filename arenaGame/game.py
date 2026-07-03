@@ -132,6 +132,7 @@ def set_playing(level=None, difficulty=None):
     player.setWeapon(Club(player))
 
     # Gegner abhängig von Difficulty laden
+    enemies = []
     arena.generate_enemy(enemies, movement)
 
     # Damage, UI, Collision, Interactables neu erzeugen
