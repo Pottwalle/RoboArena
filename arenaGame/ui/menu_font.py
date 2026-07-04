@@ -1,5 +1,16 @@
 import pygame
 from settings import settings
+from enum import Enum
+
+class Colors(Enum):
+    '''Colors used throughout the project in RGB values'''
+    DARK_GOLD = (121, 95, 19) # dark base color of the font (basecolor small_font)
+    GOLD = (156, 119, 11) # base light color of the normal font
+    DARK_RED = (189, 5, 10)
+    DARK_GREEN = (134, 149, 61)
+    LIGHT_GOLD = (190, 145, 12)
+    YELLOW = (251, 200, 83)
+    ORANGE = (243, 174, 72)
 
 class MenuFont():
     def __init__(self, filename: str, text_size=6, text_height=10, text_spacing=2, icon_size=10, icon_spacing=4):
@@ -105,3 +116,19 @@ class MenuFont():
 
     def render_text_surface_unscaled(self, surface: pygame.Surface, text_surface: pygame.Surface, coordinates: tuple[int, int]):
         surface.blit(text_surface, (coordinates[0], coordinates[1]))
+
+    def recolor_image(self, image: pygame.Surface, to_color: pygame.Color, from_color: pygame.Color = Colors.DARK_GOLD.value):
+        '''recolors the pixels from a color to a color
+        
+        Args:
+            image: the image where to replace the color at
+            to_colot: destionation color, where the function replaces to (R, G, B)
+            from_color: color which gets replaced by the new color, (R, G, B), default is dark gold'''
+        pixels = pygame.PixelArray(image)
+
+        pixels.replace(
+            image.map_rgb(from_color),
+            image.map_rgb(to_color)
+        )
+        del pixels
+        return image

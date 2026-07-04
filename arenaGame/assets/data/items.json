@@ -8,7 +8,7 @@
             "y": 0
         },
         "description": "A rugged iron helmet, scarred from countless battles. It offers solid protection while marking its wearer as a fearless warrior of the wild lands.",
-        "stats": { "max_hp": 20 }
+        "stats": { "max_hp": 10, "defence": 5 }
     },
     "barbarian_chestplate": {
         "name": "Barbarian Chestplate",
@@ -19,7 +19,7 @@
             "y": 0
         },
         "description": "A heavy chestplate forged from crude iron and reinforced with thick leather straps. Built to absorb brutal blows, it favors raw durability over refined craftsmanship.",
-        "stats": {}
+        "stats": {"max_hp": 12, "defence": 7}
     },
     "barbarian_pants": {
         "name": "Barbarian Pants",
@@ -30,7 +30,7 @@
             "y": 0
         },
         "description": "Rough, battle-worn trousers made from thick leather and fur. They provide solid protection while allowing the freedom needed for relentless combat.",
-        "stats": {}
+        "stats": { "max_hp": 10, "defence": 5 }
     },
     "barbarian_boots": {
         "name": "Barbarian Boots",
@@ -41,7 +41,7 @@
             "y": 0
         },
         "description": "Heavy boots reinforced with iron and stitched hide. Designed to endure harsh terrain, they grant stability and resilience in the heat of battle.",
-        "stats": {}
+        "stats": { "max_hp": 8, "defence": 4 }
     },
     "barbarian_sword": {
         "name": "Barbarian Sword",
@@ -68,6 +68,6 @@
             "y": 0
         },
         "description": "A primitive talisman imbued with the spirit of ancient warriors. It bolsters vitality and awakens a savage battle instinct within its wearer.",
-        "stats": {}
+        "stats": { "max_hp": 5 }
     }
 }

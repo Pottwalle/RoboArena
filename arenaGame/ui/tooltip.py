@@ -1,6 +1,14 @@
-from ui.menu_font import MenuFont
+from ui.menu_font import MenuFont, Colors
 import pygame
 from .ui_element import UIElement
+
+color_mapping = {
+    "damage": Colors.DARK_RED.value,
+    "attack_range": Colors.LIGHT_GOLD.value,
+    "cooldown": Colors.YELLOW.value,
+    "max_hp": Colors.DARK_GREEN.value,
+    "defence": Colors.ORANGE.value
+}
 
 class Tooltip:
     def __init__(self, item, menu_font: MenuFont, small_font: MenuFont, scale: int):
@@ -15,7 +23,11 @@ class Tooltip:
             name_surface = self.menu_font.create_text_surface(f"[{self.item.type.upper()}]" + self.item.name)
             for stat, value in self.item.stats.items():
                 sign = "+" if value >= 0 else "-"
-                stats_surfaces.append(self.small_font.create_text_surface(f"{sign}{value} {self.format_name(stat)}"))
+                text_surface = self.small_font.create_text_surface(f"{sign}{value} {self.format_name(stat)}")
+                
+                if stat in color_mapping:
+                    self.small_font.recolor_image(text_surface, color_mapping[stat])
+                stats_surfaces.append(text_surface)
         else:
             name_surface = self.menu_font.create_text_surface(self.item.name)
         
