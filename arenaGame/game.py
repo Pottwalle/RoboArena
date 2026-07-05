@@ -54,9 +54,10 @@ player = Player(
     10, 0, 100
 )
 player.setWeapon(Club(player))
-# Gegner-Liste erstellen
+# Gegner-Liste erstellen, getötete Gegner Zählen
 #  x, y, r, alpha, base_speed, movement, speed_modifier=1, hp=10, damage=5, movementType="random"
 enemies = []
+overall_killed_enemies = 0
 
 # create damage handler
 damage = Damage(movement)
@@ -98,7 +99,7 @@ previous_state = GameState.MAIN_MENU
 
 # callback functions to set Game states
 def set_playing(level=None, difficulty=None):
-    global state, previous_state, arena, movement, player, enemies, damage, lifebar, levelbar, collision, interactables, game_ui, inventory
+    global state, previous_state, arena, movement, player, enemies, damage, lifebar, levelbar, collision, interactables, game_ui, inventory, overall_killed_enemies
 
     previous_state = state
     state = GameState.PLAYING
@@ -133,6 +134,7 @@ def set_playing(level=None, difficulty=None):
 
     # Gegner abhängig von Difficulty laden
     enemies = []
+    overall_killed_enemies = 0
     arena.generate_enemy(enemies, movement)
 
     # Damage, UI, Collision, Interactables neu erzeugen
@@ -256,10 +258,6 @@ while running:
             if enemy.weapon is None and enemy.movement_type == "passive":
                 enemy.setWeapon(Bow(enemy))
 
-        if len(enemies) == 0:
-            state = GameState.VICTORY_MENU
-            victory_menu = VictoryMenu(menu_font, set_main_menu)
-
 
 
         # apply weapon damage to enemies
@@ -307,6 +305,11 @@ while running:
         for enemy in killed_enemies:
             if hasattr(enemy, 'reward'):
                 enemy.reward.apply_to_player(player)
+
+        overall_killed_enemies += len(killed_enemies)
+        if overall_killed_enemies >= arena.get_kill_requirement():
+            state = GameState.VICTORY_MENU
+            victory_menu = VictoryMenu(menu_font, set_main_menu)
 
         enemies = [enemy for enemy in enemies if enemy.hp > 0]
 

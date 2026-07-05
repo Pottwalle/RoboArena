@@ -8,6 +8,11 @@ from item_loader import load_items
 
 class Arena:
     def __init__(self, screen_width, screen_height, tile_size, level_path, difficulty):
+        KILL_REQUIREMENTS = {
+            "easy": 3,
+            "medium": 4,
+            "hard": 5
+        }
         self.file_name = level_path.lower().replace(' ', '') + ".txt"
         self.level_path = settings.BASE_DIR / self.file_name
         self.map = self.load_level(self.level_path)
@@ -16,6 +21,7 @@ class Arena:
         self.tile_size = tile_size
         self.screen_width = screen_width
         self.screen_height = screen_height
+        self.kill_requirement = KILL_REQUIREMENTS[self.difficulty.lower()]
 
         # offset for map placement
         self.grid_width = len(self.map[0]) * self.tile_size
@@ -30,6 +36,9 @@ class Arena:
         with open(level_path, 'r') as file:
             lines = file.read().splitlines()
         return [list(line) for line in lines]
+    
+    def get_kill_requirement(self):
+        return self.kill_requirement
 
     def build_mapped_map(self, raw_map):
         type_mapping = {
@@ -128,6 +137,8 @@ class Arena:
             if sum(1 for enemy in enemies if enemy.enemytype == "melee") < enemy_sets[self.difficulty]["melee"]:
                 pos = self.get_random_tile_positions("dirt", count=1)
                 enemies.append(MeleeEnemy(pos[0].x, pos[0].y, movement, xp_reward=10, item_reward=item_reward))
+
+
 
     # draw game map
     def draw_map(self, screen, camera):
