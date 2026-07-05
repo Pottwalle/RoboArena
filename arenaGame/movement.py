@@ -1,22 +1,23 @@
 import pygame
 
-
 class Movement:
     def __init__(self, tilemap):
         self.tilemap = tilemap
 
     def move(self, player, dt):
+        # echte Spielerposition (Sprite-Mitte)
         pos = player.position
-        direction = player.direction
         radius = player.r
+        offset = player.hitbox_offset
 
+        direction = player.direction
         velocity = player.velocity
         acceleration = player.acceleration
         max_speed = player.max_speed
         friction = player.friction
 
         # --- Tile Speed Modifier ---
-        speed_mod = self.handleMoveSpeed(pos, radius)
+        speed_mod = self.handleMoveSpeed(pos + offset, radius)
 
         # --- Beschleunigung ---
         if direction.length() > 0:
@@ -28,7 +29,6 @@ class Movement:
                 if vel_dir.dot(dir_norm) < 0:
                     velocity *= 0.5
 
-            # Beschleunigung (inkl. Tile-Speed)
             velocity += dir_norm * acceleration * speed_mod * dt
 
         # --- Max Speed ---
@@ -44,16 +44,14 @@ class Movement:
 
         # --- erst X-Achse bewegen ---
         test_pos_x = pygame.Vector2(new_pos.x + delta.x, new_pos.y)
-        if self.handleCollision(test_pos_x, radius):
-            # X blockiert → X-Geschwindigkeit stoppen
+        if self.handleCollision(test_pos_x + offset, radius):
             velocity.x = 0
         else:
             new_pos.x = test_pos_x.x
 
         # --- dann Y-Achse bewegen ---
         test_pos_y = pygame.Vector2(new_pos.x, new_pos.y + delta.y)
-        if self.handleCollision(test_pos_y, radius):
-            # Y blockiert → Y-Geschwindigkeit stoppen
+        if self.handleCollision(test_pos_y + offset, radius):
             velocity.y = 0
         else:
             new_pos.y = test_pos_y.y
@@ -62,10 +60,15 @@ class Movement:
         return new_pos
 
 
-    def getCollidingTiles(self, pos, radius):
-        player_rect = pygame.Rect(pos.x - radius, pos.y - radius, radius*2, radius*2)
-        tiles = []
+    # ---------------------------------------------------------
+    # Kollisionen — immer mit pos + offset arbeiten!
+    # ---------------------------------------------------------
 
+    def getCollidingTiles(self, pos, radius):
+        hit_pos = pos + player.hitbox_offset
+        player_rect = pygame.Rect(hit_pos.x - radius, hit_pos.y - radius, radius*2, radius*2)
+
+        tiles = []
         for row in self.tilemap:
             for tile in row:
                 if tile.solid and tile.rect.colliderect(player_rect):
@@ -73,7 +76,8 @@ class Movement:
         return tiles
 
     def getCollisionNormal(self, pos, radius, tile_rect):
-        player_rect = pygame.Rect(pos.x - radius, pos.y - radius, radius*2, radius*2)
+        hit_pos = pos + player.hitbox_offset
+        player_rect = pygame.Rect(hit_pos.x - radius, hit_pos.y - radius, radius*2, radius*2)
 
         dx = (player_rect.centerx - tile_rect.centerx) / tile_rect.width
         dy = (player_rect.centery - tile_rect.centery) / tile_rect.height
@@ -82,9 +86,10 @@ class Movement:
             return pygame.Vector2(1 if dx > 0 else -1, 0)
         else:
             return pygame.Vector2(0, 1 if dy > 0 else -1)
-        
+
     def getCollisionTile(self, pos, radius):
-        player_rect = pygame.Rect(pos.x - radius, pos.y - radius, radius*2, radius*2)
+        hit_pos = pos + player.hitbox_offset
+        player_rect = pygame.Rect(hit_pos.x - radius, hit_pos.y - radius, radius*2, radius*2)
 
         for row in self.tilemap:
             for tile in row:
@@ -93,7 +98,8 @@ class Movement:
         return None
 
     def handleCollision(self, pos, radius):
-        player_rect = pygame.Rect(pos.x - radius, pos.y - radius, radius*2, radius*2)
+        hit_pos = pos  # pos ist bereits pos + offset in move()
+        player_rect = pygame.Rect(hit_pos.x - radius, hit_pos.y - radius, radius*2, radius*2)
 
         for row in self.tilemap:
             for tile in row:
@@ -102,7 +108,8 @@ class Movement:
         return False
 
     def handleMoveSpeed(self, pos, radius):
-        player_rect = pygame.Rect(pos.x - radius, pos.y - radius, radius*2, radius*2)
+        hit_pos = pos
+        player_rect = pygame.Rect(hit_pos.x - radius, hit_pos.y - radius, radius*2, radius*2)
 
         for row in self.tilemap:
             for tile in row:
@@ -111,7 +118,8 @@ class Movement:
         return 1.0
 
     def getCurrentTile(self, pos, radius):
-        player_rect = pygame.Rect(pos.x - radius, pos.y - radius, radius*2, radius*2)
+        hit_pos = pos
+        player_rect = pygame.Rect(hit_pos.x - radius, hit_pos.y - radius, radius*2, radius*2)
 
         for row in self.tilemap:
             for tile in row:
