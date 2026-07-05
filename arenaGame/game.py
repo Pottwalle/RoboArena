@@ -23,6 +23,7 @@ from interactable import InteractableManager
 from ui.death_menu import DeathMenu
 from ui.level_menu import LevelSelectMenu
 from ui.victory_menu import VictoryMenu
+from ui.intro_game import IntroScreen
 
 pygame.init()
 
@@ -83,6 +84,7 @@ running = True
 # Game states
 class GameState(Enum):
     MAIN_MENU = auto()
+    INTRO = auto()
     PLAYING = auto()
     ESC_MENU = auto()
     SETTINGS = auto()
@@ -97,7 +99,11 @@ previous_state = GameState.MAIN_MENU
 
 
 # callback functions to set Game states
-def set_playing(level=None, difficulty=None):
+
+def start_game(level=None, difficulty=None):
+    """Baut Arena/Player/Enemies etc. neu auf und wechselt in den PLAYING-State.
+    Wird NICHT direkt vom Menu aufgerufen, sondern erst nachdem die Intro durchgelaufen ist
+    (siehe set_playing weiter unten)."""
     global state, previous_state, arena, movement, player, enemies, damage, lifebar, levelbar, collision, interactables, game_ui, inventory
 
     previous_state = state
@@ -149,10 +155,27 @@ def set_playing(level=None, difficulty=None):
     game_ui = GameUI(lifebar, levelbar, small_font)
 
 
+def set_playing(level=None, difficulty=None):
+    """Wird vom MainMenu / LevelSelectMenu aufgerufen. Zeigt zuerst die Intro,
+    start_game() wird erst aufgerufen, wenn die Intro fertig durchgeklickt wurde."""
+    global state, previous_state
+    previous_state = state
+    state = GameState.INTRO
+    intro_screen.reset()
+    intro_screen.on_finished = lambda: start_game(level, difficulty)
+
+
+def resume_game():
+    """Wird vom EscMenu benutzt, um OHNE Intro und OHNE Reset einfach weiterzuspielen."""
+    global state
+    state = GameState.PLAYING
+
+
 def set_settings():
     global state, previous_state
     previous_state = state
     state = GameState.SETTINGS
+
 
 def set_select_level():
     global state, previous_state
@@ -176,12 +199,24 @@ def set_main_menu():
     state = GameState.MAIN_MENU
 
 
+# Intro content
+INTRO_PAGES = [
+    "Vor langer Zeit, als die Wikinger noch das Sagen hatten, war die Welt noch in Ordnung. "
+    "Doch eines Tages kamen finstere Mächte ins Land, um die Welt an sich zu reißen. "
+    "Die Monster schienen jede Schlacht zu gewinnen. Es gab keine Überlebenden – bis auf einen: "
+    "Olaf, den ehemaligen Stammesführer der Wikinger.\n\n"
+    "Er sah seine einzige Chance darin, sich in einen Cyborg zu verwandeln, und schwor Rache an denen, "
+    "die sein geliebtes Land zerstört hatten.\n\n"
+    "\"Deine Reise beginnt jetzt...\""
+]
+
 # Menus
 menu_font = MenuFont("menu_font")
 small_font = MenuFont("small_font", 4, 6, 1, 10, 4)
+intro_screen = IntroScreen(INTRO_PAGES)
 main_menu = MainMenu(set_select_level, set_settings, set_quit)
 settings_menu = SettingsMenu(menu_font, set_back_from_settings)
-esc_menu = EscMenu(menu_font, set_playing, set_main_menu, set_settings)
+esc_menu = EscMenu(menu_font, resume_game, set_main_menu, set_settings)
 game_ui = GameUI(lifebar, levelbar, small_font)
 inventory = Inventory(player.inventory)
 death_menu = DeathMenu(menu_font, set_main_menu)
@@ -220,6 +255,8 @@ while running:
         # only pass events to active menu
         if state == GameState.MAIN_MENU:
             main_menu.handle_event(event)
+        elif state == GameState.INTRO:
+            intro_screen.handle_event(event)
         elif state == GameState.SETTINGS:
             settings_menu.handle_event(event)
         elif state == GameState.ESC_MENU:
@@ -228,11 +265,10 @@ while running:
             inventory.handle_event(event)
         elif state == GameState.DEATH_MENU:
             death_menu.handle_event(event)
-        elif state  == GameState.SELECT_LEVEL_MENU:
+        elif state == GameState.SELECT_LEVEL_MENU:
             level_select_menu.handle_event(event)
         elif state == GameState.VICTORY_MENU:
             victory_menu.handle_event(event)
-    
 
     # delta time (time elapsed since last frame)
     dt = clock.tick(settings.FPS) / 1000
@@ -260,14 +296,9 @@ while running:
             state = GameState.VICTORY_MENU
             victory_menu = VictoryMenu(menu_font, set_main_menu)
 
-
-
         # apply weapon damage to enemies
         if player.weapon is not None:
             player.weapon.update(dt, enemies)
-
-
-
 
         # detect & resolve object collision
         collision.handle_player_enemy(player, enemies, damage_on_contact=True)
@@ -278,7 +309,7 @@ while running:
 
         # update interactables (health packs, traps, ...): wendet Effekte an
         # Berührung an und entfernt verbrauchte/abgelaufene Objekte
-        interactables.update(dt, player, enemies,arena)
+        interactables.update(dt, player, enemies, arena)
 
         # player camera, move the arena in the way that the player stays centered, represents the camera coordinates (center screen)
         camera = player.position - pygame.Vector2(settings.SCREEN_WIDTH / 2, settings.SCREEN_HEIGHT / 2)
@@ -321,6 +352,10 @@ while running:
         # main_menu.update(dt)
         main_menu.draw(screen)
 
+    elif state == GameState.INTRO:
+        intro_screen.update(dt)
+        intro_screen.draw(screen)
+
     elif state == GameState.SETTINGS:
         settings_menu.draw(screen)
         # settings_menu.update(dt)
@@ -328,7 +363,7 @@ while running:
     elif state == GameState.ESC_MENU:
         esc_menu.draw(screen)
         esc_menu.update(dt)
-    
+
     elif state == GameState.INVENTORY:
         inventory.draw(screen)
         inventory.update(dt)
