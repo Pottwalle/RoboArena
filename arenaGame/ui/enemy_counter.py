@@ -1,6 +1,4 @@
 import pygame
-from .menu_font import MenuFont
-from settings import settings
 
 class EnemyCounter:
     def __init__(self, scale, menu_font):
