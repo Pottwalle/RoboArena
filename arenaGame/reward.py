@@ -15,5 +15,6 @@ class Reward():
                 if isinstance(item, Item):
                     player.inventory.add_item(item)
                     # TODO drop item if inv is full
+                    print(f"Player received reward: {item.name}")
                 
             self.applied = True
