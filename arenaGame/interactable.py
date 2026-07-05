@@ -1,7 +1,6 @@
 import pygame
 import math
 from player import Player
-from reward import Reward
 
 class Interactable:
     """Basisklasse für alle interagierbaren Objekte in der Arena (z.B. Health Packs, Fallen).
