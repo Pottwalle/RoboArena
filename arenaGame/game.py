@@ -23,6 +23,7 @@ from interactable import InteractableManager
 from ui.death_menu import DeathMenu
 from ui.level_menu import LevelSelectMenu
 from ui.victory_menu import VictoryMenu
+from ui.enemy_counter import EnemyCounter
 
 pygame.init()
 
@@ -65,6 +66,7 @@ damage = Damage(movement)
 # create lifebar & Levelbar
 lifebar = Lifebar(player)
 levelbar = Levelbar(player, settings.UI_SCALE)
+enemy_counter = EnemyCounter(settings.UI_SCALE, MenuFont("small_font", 4, 6, 1, 10, 4))
 
 # create collision handler
 collision = ObjectCollision(arena.grid)
@@ -148,7 +150,7 @@ def set_playing(level=None, difficulty=None):
     # Health Packs spawnen
     for spawn_pos in arena.get_random_tile_positions("dirt", count=3):
         interactables.spawn_health_pack(spawn_pos.x, spawn_pos.y)
-    game_ui = GameUI(lifebar, levelbar, small_font)
+    game_ui = GameUI(lifebar, levelbar, small_font, enemy_counter)
 
 
 def set_settings():
@@ -184,7 +186,7 @@ small_font = MenuFont("small_font", 4, 6, 1, 10, 4)
 main_menu = MainMenu(set_select_level, set_settings, set_quit)
 settings_menu = SettingsMenu(menu_font, set_back_from_settings)
 esc_menu = EscMenu(menu_font, set_playing, set_main_menu, set_settings)
-game_ui = GameUI(lifebar, levelbar, small_font)
+game_ui = GameUI(lifebar, levelbar, small_font, enemy_counter)
 inventory = Inventory(player.inventory)
 death_menu = DeathMenu(menu_font, set_main_menu)
 level_select_menu = LevelSelectMenu(menu_font, set_main_menu, set_playing)
@@ -307,6 +309,7 @@ while running:
                 enemy.reward.apply_to_player(player)
 
         overall_killed_enemies += len(killed_enemies)
+        enemy_counter.update_count(overall_killed_enemies)
         if overall_killed_enemies >= arena.get_kill_requirement():
             state = GameState.VICTORY_MENU
             victory_menu = VictoryMenu(menu_font, set_main_menu)

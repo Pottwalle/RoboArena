@@ -9,9 +9,9 @@ from item_loader import load_items
 class Arena:
     def __init__(self, screen_width, screen_height, tile_size, level_path, difficulty):
         KILL_REQUIREMENTS = {
-            "easy": 3,
-            "medium": 4,
-            "hard": 5
+            "easy": 10,
+            "medium": 30,
+            "hard": 50
         }
         self.file_name = level_path.lower().replace(' ', '') + ".txt"
         self.level_path = settings.BASE_DIR / self.file_name

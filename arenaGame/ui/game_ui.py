@@ -4,9 +4,10 @@ import pygame
 from lifebar import Lifebar
 from levelbar import Levelbar
 from ui.menu_font import MenuFont
+from ui.enemy_counter import EnemyCounter
 
 class GameUI():
-    def __init__(self, lifebar: Lifebar, levelbar: Levelbar, small_font: MenuFont):
+    def __init__(self, lifebar: Lifebar, levelbar: Levelbar, small_font: MenuFont, enemy_counter: EnemyCounter):
         self.ui = UIManager()
         self.scale = settings.UI_SCALE
         self.small_font = small_font
@@ -14,6 +15,7 @@ class GameUI():
         # ui elements
         self.lifebar = lifebar
         self.levelbar = levelbar
+        self.enemy_counter = enemy_counter
 
         self.ui_texture = pygame.transform.scale(pygame.image.load(settings.ASSET_DIR / "ui/ui.png"), (settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
     
@@ -27,6 +29,7 @@ class GameUI():
         self.draw_fps(surface, clock)
         self.lifebar.draw(surface, 10 * self.scale, 8 * self.scale, 80 * self.scale, 5 * self.scale)
         self.levelbar.draw(surface)
+        self.enemy_counter.draw(surface)
         surface.blit(self.ui_texture, (0, 0))
         self.ui.draw(surface)
     
