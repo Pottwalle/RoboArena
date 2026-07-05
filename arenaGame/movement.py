@@ -65,7 +65,7 @@ class Movement:
     # ---------------------------------------------------------
 
     def getCollidingTiles(self, pos, radius):
-        hit_pos = pos + player.hitbox_offset
+        hit_pos = pos
         player_rect = pygame.Rect(hit_pos.x - radius, hit_pos.y - radius, radius*2, radius*2)
 
         tiles = []
@@ -76,7 +76,7 @@ class Movement:
         return tiles
 
     def getCollisionNormal(self, pos, radius, tile_rect):
-        hit_pos = pos + player.hitbox_offset
+        hit_pos = pos 
         player_rect = pygame.Rect(hit_pos.x - radius, hit_pos.y - radius, radius*2, radius*2)
 
         dx = (player_rect.centerx - tile_rect.centerx) / tile_rect.width
@@ -88,7 +88,7 @@ class Movement:
             return pygame.Vector2(0, 1 if dy > 0 else -1)
 
     def getCollisionTile(self, pos, radius):
-        hit_pos = pos + player.hitbox_offset
+        hit_pos = pos 
         player_rect = pygame.Rect(hit_pos.x - radius, hit_pos.y - radius, radius*2, radius*2)
 
         for row in self.tilemap:
