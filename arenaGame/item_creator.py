@@ -8,7 +8,7 @@ class ItemCreator:
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("Item Creator")
-        self.root.geometry("600x300")
+        self.root.geometry("700x300")
 
         self.optionsframe = tk.Frame(self.root)
         self.optionsframe.columnconfigure(0, weight=1)
@@ -152,7 +152,7 @@ class ItemCreator:
                 json.dump(data, f, indent=4)
             messagebox.showinfo("Sucess", str(new_item))
         except Exception as e:
-            messagebox.showerror("Error", "Couldn't save data")
+            messagebox.showerror(f"Error", "Couldn't save data {e}")
 
 
 class StatRow:
