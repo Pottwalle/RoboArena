@@ -152,7 +152,7 @@ class ItemCreator:
                 json.dump(data, f, indent=4)
             messagebox.showinfo("Sucess", str(new_item))
         except Exception as e:
-            messagebox.showerror(f"Error", "Couldn't save data {e}")
+            messagebox.showerror("Error", f"Couldn't save data {e}")
 
 
 class StatRow:
