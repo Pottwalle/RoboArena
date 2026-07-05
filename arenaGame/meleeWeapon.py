@@ -22,7 +22,7 @@ class MeleeWeapon(Weapon):
         self.show_cone = max(0, self.show_cone -dt)
 
         # attack only if cooldown is ready
-        if self.time_since_last_attack >= self.cooldown + self.cooldown_reduction:
+        if self.time_since_last_attack >= self.cooldown + self.cooldown_bonus:
             self._perform_attack(targets)
             self.time_since_last_attack = 0.0
     

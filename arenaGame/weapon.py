@@ -10,8 +10,8 @@ class Weapon:
         """
         self.owner = owner
         self.cooldown = cooldown
-        self.cooldown_reduction = 0
-        self.time_since_last_attack = cooldown + self.cooldown_reduction # direkt bereit
+        self.cooldown_bonus = 0
+        self.time_since_last_attack = cooldown + self.cooldown_bonus # direkt bereit
 
     def update(self, dt: float, targets: list):
         """
@@ -31,4 +31,4 @@ class Weapon:
         pass
 
     def update_stats(self):
-        self.cooldown_reduction = self.owner.stats.get("cooldown")
+        self.cooldown_bonus = self.owner.stats.get("cooldown")
