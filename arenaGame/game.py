@@ -179,13 +179,17 @@ def set_main_menu():
     previous_state = state
     state = GameState.MAIN_MENU
 
+def resume_game():
+    global state
+    state = GameState.PLAYING
+
 
 # Menus
 menu_font = MenuFont("menu_font")
 small_font = MenuFont("small_font", 4, 6, 1, 10, 4)
 main_menu = MainMenu(set_select_level, set_settings, set_quit)
 settings_menu = SettingsMenu(menu_font, set_back_from_settings)
-esc_menu = EscMenu(menu_font, set_playing, set_main_menu, set_settings)
+esc_menu = EscMenu(menu_font, resume_game, set_main_menu, set_settings)
 game_ui = GameUI(lifebar, levelbar, small_font, enemy_counter)
 inventory = Inventory(player.inventory)
 death_menu = DeathMenu(menu_font, set_main_menu)
