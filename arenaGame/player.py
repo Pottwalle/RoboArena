@@ -104,10 +104,13 @@ class Player:
 
         self.weapon: Weapon = None
         self.inventory = InventoryManager(3, 8)
-        self.stats = Stats({
+        self.stats = Stats({ # stat bonuses, ontop of the base stats of the weapon / skill
             "max_hp": max_hp,
             "speed": base_speed,
-            "damage": 10
+            "damage": 0,
+            "attack_range": 0,
+            "cone_angle_deg": 0,
+            "cooldown": 0 # cooldown counts as cooldown reduction
         }, self.inventory)
 
         '''handles the updating of all player related methods changing the coordinates accordingly'''
@@ -145,6 +148,9 @@ class Player:
                 self.schaut_links = False
             else:
                 self.schaut_links = False
+        
+        if self.inventory.update_stats: # handles stat changes on equipment, signal down that change occured
+            self.weapon.update_stats()
 
         if self.is_attacking:
             self._update_attack(dt)
