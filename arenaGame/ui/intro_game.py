@@ -142,14 +142,32 @@ class IntroScreen:
         surface.blit(hint, hint.get_rect(midbottom=(settings.SCREEN_WIDTH // 2, settings.SCREEN_HEIGHT - 20)))
 
     def _wrap_text(self, text, max_width):
-        words, lines, current = text.split(" "), [], ""
-        for word in words:
-            test = (current + " " + word).strip()
-            if self.font.size(test)[0] <= max_width:
-                current = test
-            else:
+        # Schritt 1: Text in Absätze zerlegen
+        raw_paragraphs = text.split("\n")
+
+        lines = []
+
+        for para in raw_paragraphs:
+            para = para.strip()
+
+            # Leerer Absatz → echte Leerzeile
+            if para == "":
+                lines.append("")
+                continue
+
+            # Schritt 2: Wörter umbrechen wie bisher
+            words = para.split(" ")
+            current = ""
+
+            for word in words:
+                test = (current + " " + word).strip()
+                if self.font.size(test)[0] <= max_width:
+                    current = test
+                else:
+                    lines.append(current)
+                    current = word
+
+            if current:
                 lines.append(current)
-                current = word
-        if current:
-            lines.append(current)
+
         return lines
