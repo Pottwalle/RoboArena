@@ -202,11 +202,6 @@ def set_main_menu():
     previous_state = state
     state = GameState.MAIN_MENU
 
-def resume_game():
-    global state
-    state = GameState.PLAYING
-
-
 # Intro content
 INTRO_PAGES = [
     "Vor langer Zeit, als die Wikinger noch das Sagen hatten, war die Welt noch in Ordnung. "
