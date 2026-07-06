@@ -8,7 +8,10 @@
             "y": 0
         },
         "description": "A rugged iron helmet, scarred from countless battles. It offers solid protection while marking its wearer as a fearless warrior of the wild lands.",
-        "stats": { "max_hp": 20 }
+        "stats": {
+            "max_hp": 10,
+            "defence": 5
+        }
     },
     "barbarian_chestplate": {
         "name": "Barbarian Chestplate",
@@ -19,7 +22,10 @@
             "y": 0
         },
         "description": "A heavy chestplate forged from crude iron and reinforced with thick leather straps. Built to absorb brutal blows, it favors raw durability over refined craftsmanship.",
-        "stats": {}
+        "stats": {
+            "max_hp": 12,
+            "defence": 7
+        }
     },
     "barbarian_pants": {
         "name": "Barbarian Pants",
@@ -30,7 +36,10 @@
             "y": 0
         },
         "description": "Rough, battle-worn trousers made from thick leather and fur. They provide solid protection while allowing the freedom needed for relentless combat.",
-        "stats": {}
+        "stats": {
+            "max_hp": 10,
+            "defence": 5
+        }
     },
     "barbarian_boots": {
         "name": "Barbarian Boots",
@@ -41,7 +50,10 @@
             "y": 0
         },
         "description": "Heavy boots reinforced with iron and stitched hide. Designed to endure harsh terrain, they grant stability and resilience in the heat of battle.",
-        "stats": {}
+        "stats": {
+            "max_hp": 8,
+            "defence": 4
+        }
     },
     "barbarian_sword": {
         "name": "Barbarian Sword",
@@ -54,9 +66,8 @@
         "description": "A massive, brutally forged blade that favors strength over finesse. Each swing delivers devastating force, capable of cleaving through armor and bone alike.",
         "stats": {
             "damage": 2,
-            "attack_range": 60,
-            "cone_angle_deg": 60,
-            "cooldown": 0.8
+            "attack_range": 10,
+            "cooldown": -0.1
         }
     },
     "barbarian_amulet": {
@@ -68,6 +79,329 @@
             "y": 0
         },
         "description": "A primitive talisman imbued with the spirit of ancient warriors. It bolsters vitality and awakens a savage battle instinct within its wearer.",
-        "stats": {}
+        "stats": {
+            "max_hp": 5
+        }
+    },
+    "sunken_treasure_ring": {
+        "name": "Sunken Treasure Ring",
+        "type": "equipment",
+        "sprite": {
+            "x": 112,
+            "y": 0
+        },
+        "description": "A forgotten ring recovered from the ocean depths, still gleaming with the promise of lost riches and ancient secrets.",
+        "slot": "ring",
+        "stats": {
+            "defence": 3
+        }
+    },
+    "barbarian_ring": {
+        "name": "Barbarian Ring",
+        "type": "equipment",
+        "sprite": {
+            "x": 0,
+            "y": 96
+        },
+        "description": "A rugged ring forged by fierce warriors, granting its wearer enhanced strength and an unyielding battle spirit.",
+        "slot": "ring",
+        "stats": {
+            "attack_range": 5,
+            "max_hp": 2
+        }
+    },
+    "paladin_helmet": {
+        "name": "Paladin Helmet",
+        "type": "equipment",
+        "sprite": {
+            "x": 0,
+            "y": 16
+        },
+        "description": "A sacred helmet blessed by divine power, offering steadfast protection and inspiring courage in the face of darkness.",
+        "slot": "helmet",
+        "stats": {
+            "defence": 10,
+            "max_hp": 10
+        }
+    },
+    "paladin_chestplate": {
+        "name": "Paladin Chestplate",
+        "type": "equipment",
+        "sprite": {
+            "x": 16,
+            "y": 16
+        },
+        "description": "A blessed chestplate that shields its wearer with divine protection and unwavering resolve.",
+        "slot": "chestplate",
+        "stats": {
+            "defence": 12,
+            "max_hp": 10,
+            "attack_range": 5
+        }
+    },
+    "paladin_pants": {
+        "name": "Paladin Pants",
+        "type": "equipment",
+        "sprite": {
+            "x": 32,
+            "y": 16
+        },
+        "description": "Holy leg armor crafted to provide resilience and freedom of movement in battle.",
+        "slot": "pants",
+        "stats": {
+            "defence": 10,
+            "max_hp": 8
+        }
+    },
+    "paladin_boots": {
+        "name": "Paladin Boots",
+        "type": "equipment",
+        "sprite": {
+            "x": 48,
+            "y": 16
+        },
+        "description": "Sanctified boots that carry their wearer swiftly and confidently across any battlefield.",
+        "slot": "boots",
+        "stats": {
+            "defence": 8,
+            "max_hp": 4
+        }
+    },
+    "paladin_sword": {
+        "name": "Paladin Sword",
+        "type": "equipment",
+        "sprite": {
+            "x": 64,
+            "y": 16
+        },
+        "description": "A righteous blade forged to smite darkness and uphold the light of justice.",
+        "slot": "weapon",
+        "stats": {
+            "defence": 5,
+            "damage": 1.5,
+            "cooldown": -0.2
+        }
+    },
+    "paladin_amulet": {
+        "name": "Paladin Amulet",
+        "type": "equipment",
+        "sprite": {
+            "x": 80,
+            "y": 16
+        },
+        "description": "A sacred amulet imbued with divine energy, strengthening faith and protecting against evil.",
+        "slot": "amulet",
+        "stats": {
+            "defence": 7,
+            "attack_range": 2
+        }
+    },
+    "paladin_ring": {
+        "name": "Paladin Ring",
+        "type": "equipment",
+        "sprite": {
+            "x": 96,
+            "y": 16
+        },
+        "description": "A holy ring that enhances its wearer's devotion, courage, and divine power.",
+        "slot": "ring",
+        "stats": {
+            "defence": 5
+        }
+    },
+    "ranger_helmet": {
+        "name": "Ranger Helmet",
+        "type": "equipment",
+        "sprite": {
+            "x": 0,
+            "y": 32
+        },
+        "description": "A finely crafted hooded helm that sharpens the wearer's senses and awareness in the wild.",
+        "slot": "helmet",
+        "stats": {
+            "max_hp": 12
+        }
+    },
+    "ranger_chestplate": {
+        "name": "Ranger Chestplate",
+        "type": "equipment",
+        "sprite": {
+            "x": 16,
+            "y": 32
+        },
+        "description": "Lightweight armor designed for agility, providing protection without hindering movement.",
+        "slot": "chestplate",
+        "stats": {
+            "max_hp": 15,
+            "attack_range": 5
+        }
+    },
+    "ranger_pants": {
+        "name": "Ranger Pants",
+        "type": "equipment",
+        "sprite": {
+            "x": 32,
+            "y": 32
+        },
+        "description": "Durable trousers made for long journeys, offering comfort and flexibility across rugged terrain.",
+        "slot": "pants",
+        "stats": {
+            "max_hp": 13,
+            "attack_range": 2
+        }
+    },
+    "ranger_boots": {
+        "name": "Ranger Boots",
+        "type": "equipment",
+        "sprite": {
+            "x": 48,
+            "y": 32
+        },
+        "description": "Silent boots that allow their wearer to move swiftly and unseen through forests and wilderness.",
+        "slot": "boots",
+        "stats": {
+            "max_hp": 5,
+            "attack_range": 2
+        }
+    },
+    "ranger_sword": {
+        "name": "Ranger Sword",
+        "type": "equipment",
+        "sprite": {
+            "x": 64,
+            "y": 32
+        },
+        "description": "A balanced blade favored by skilled hunters, combining speed, precision, and reliability.",
+        "slot": "weapon",
+        "stats": {
+            "attack_range": 15,
+            "damage": 0.5,
+            "cooldown": -0.25
+        }
+    },
+    "ranger_amulet": {
+        "name": "Ranger Amulet",
+        "type": "equipment",
+        "sprite": {
+            "x": 80,
+            "y": 32
+        },
+        "description": "A nature-blessed amulet that enhances focus, precision, and connection to the wild.",
+        "slot": "amulet",
+        "stats": {
+            "attack_range": 5
+        }
+    },
+    "ranger_ring": {
+        "name": "Ranger Ring",
+        "type": "equipment",
+        "sprite": {
+            "x": 96,
+            "y": 32
+        },
+        "description": "An enchanted ring that improves agility, sharpens instincts, and guides its wearer through danger.",
+        "slot": "ring",
+        "stats": {
+            "max_hp": 5
+        }
+    },
+    "robo_helmet": {
+        "name": "Robo Helmet",
+        "type": "equipment",
+        "sprite": {
+            "x": 0,
+            "y": 48
+        },
+        "description": "An advanced combat helmet equipped with enhanced sensors, providing superior awareness and tactical precision.",
+        "slot": "helmet",
+        "stats": {
+            "damage": 0.5,
+            "max_hp": 10
+        }
+    },
+    "robo_chestplate": {
+        "name": "Robo Chestplate",
+        "type": "equipment",
+        "sprite": {
+            "x": 16,
+            "y": 48
+        },
+        "description": "A reinforced alloy chestplate engineered to withstand heavy impacts and extreme conditions.",
+        "slot": "chestplate",
+        "stats": {
+            "max_hp": 10,
+            "damage": 0.5,
+            "defence": 5
+        }
+    },
+    "robo_pants": {
+        "name": "Robo Pants",
+        "type": "equipment",
+        "sprite": {
+            "x": 32,
+            "y": 48
+        },
+        "description": "High-tech leg armor designed for durability, flexibility, and efficient power distribution.",
+        "slot": "pants",
+        "stats": {
+            "max_hp": 10,
+            "damage": 0.4
+        }
+    },
+    "robo_boots": {
+        "name": "Robo Boots",
+        "type": "equipment",
+        "sprite": {
+            "x": 48,
+            "y": 48
+        },
+        "description": "Mechanized boots that enhance mobility, stability, and movement speed across any terrain.",
+        "slot": "boots",
+        "stats": {
+            "max_hp": 5,
+            "damage": 0.2
+        }
+    },
+    "robo_sword": {
+        "name": "Robo Sword",
+        "type": "equipment",
+        "sprite": {
+            "x": 64,
+            "y": 48
+        },
+        "description": "A cutting-edge energy blade capable of delivering precise and devastating strikes.",
+        "slot": "weapon",
+        "stats": {
+            "attack_range": 10,
+            "damage": 2.25,
+            "cooldown": -0.2
+        }
+    },
+    "robo_amulet": {
+        "name": "Robo Amulet",
+        "type": "equipment",
+        "sprite": {
+            "x": 80,
+            "y": 48
+        },
+        "description": "A futuristic energy core that boosts system performance and strengthens defensive protocols.",
+        "slot": "amulet",
+        "stats": {
+            "attack_range": 7
+        }
+    },
+    "robo_ring": {
+        "name": "Robo Ring",
+        "type": "equipment",
+        "sprite": {
+            "x": 96,
+            "y": 48
+        },
+        "description": "A cybernetic ring that improves processing efficiency, combat accuracy, and overall performance.",
+        "slot": "ring",
+        "stats": {
+            "damage": 0.5,
+            "attack_range": 5
+        }
     }
 }

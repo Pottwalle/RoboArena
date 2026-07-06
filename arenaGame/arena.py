@@ -4,7 +4,6 @@ from settings import settings
 from tile import Tile
 from enemyTypes import MeleeEnemy, RangedEnemy, TrapperEnemy
 import edges
-from item_loader import load_items
 
 class Arena:
     def __init__(self, screen_width, screen_height, tile_size, level_path, difficulty):
@@ -79,7 +78,7 @@ class Arena:
         return grid
     
     # create enemy Array
-    def generate_enemy(self, enemies: list, movement):
+    def generate_enemy(self, enemies: list, movement, items):
         '''adds one enemy to the enemies list containing the given movement, 
         enemy split is according to the list in the method, 
         always exist the given number of a type according to difficulty
@@ -88,7 +87,6 @@ class Arena:
         Args:
             enemies: list of enemies Enemy type or subtypes
             movement: instance of Movement'''
-        items = load_items()
         enemy_sets = {
             "Easy": {
                 "total": 3,
