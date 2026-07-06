@@ -19,10 +19,12 @@ class Enemy:
                  places_traps=False, trap_cooldown=4.0, attack_direction = pygame.Vector2(0, 0), enemytype = None):
 
         self.position = pygame.Vector2(x, y)
-        self.r = r
+        self.r = r * 1.3
         self.alpha = alpha
         self.direction = pygame.Vector2()
         self.attack_direction = attack_direction
+        self.hitbox_offset = pygame.Vector2(0, r * (self.SPRITE_SCALE * 0.35))
+
 
         # Sprite laden und größer als die Hitbox skalieren (SPRITE_SCALE),
         # damit die Figur trotz kleinem Kollisionsradius erkennbar bleibt
