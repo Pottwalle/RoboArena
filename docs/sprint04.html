@@ -77,6 +77,17 @@
                     <img id="levelbar" src="data/sprint04/level_bar.png" alt="level bar picture">
                     <img id="options-btn" src="data/sprint04/options_btn.png" alt="options button picture">
                 </div>
+                <p class="description"><a href="https://github.com/bidD007">dani_634</a> Hintergrundmusik
+                    hinzugefügt, die dem Game eine besondere Atmosphäre geben und mehr Dynamik einbringen soll</p>
+                <p>+ Musik startet sobald man das Game startet und läuft dann im Loop</p>
+                <p>+ eigene Datei <code>musik_manager.py</code> erstellt und diese in <code>game.py</code>
+                    importiert</p>
+                <p>+ Funktion <code>spiele_hintergrundmusik()</code> nutzt <code>pygame.mixer</code> zum Laden und
+                    Abspielen der Musikdatei <code>Arena_musik_epic.mp3</code> in Endlosschleife</p>
+                <p>+ PulseAudio-Treiber wird für Linux explizit erzwungen, damit die Musik zuverlässig auf
+                    verschiedenen Setups abgespielt wird</p>
+                <p>+ neues Asset: <code>Arena_musik_epic.mp3</code></p>
+                <a href="https://github.com/Pottwalle/RoboArena/pull/70">more details</a>
             </li>
         </ul>
         <h3>Woche 3 (17.6. - 24.6.)</h3>
@@ -92,6 +103,13 @@
                 <p>+ Anpassungen am ESC Menü von <a href="https://github.com/Pottwalle">Valk0</a> damit die Knöpfe auch
                     Korrekt angezeigt werden</p>
                 <a href="https://github.com/Pottwalle/RoboArena/pull/66#issue-4651534807">more details</a>
+                <p class="description"><a href="https://github.com/bidD007">dani_634</a> hat sowohl in der Enemy
+                    Klasse und Player Klasse die Kreise durch geeignete Figuren ersetzt und das ganze dann noch so
+                    skaliert, dass man Details erkennt und trotzdem das Format beibehalten wird</p>
+                <p>+ eigenen character Ordner unter Asset kreiert, wo die Bilder der Figuren drinnen sind</p>
+                <p>+ in der Player Klasse mehrere Frames eingebaut, die beim Drücken der linken Maustaste eine
+                    Bewegung auslösen sollen</p>
+                <a href="https://github.com/Pottwalle/RoboArena/pull/93">more details</a>
             </li>
         </ul>
         <h3>Woche 4 (24.6. - 29.6.)</h3>
@@ -117,6 +135,20 @@
                             alt="inventory with items">
                     </div>
                 </div>
+                <p class="description"><a href="https://github.com/bidD007">dani_634</a> hat ein Story-Intro
+                    zwischen Hauptmenü und Spielstart eingebaut, im Retro-Terminal-Look mit Typewriter-Effekt</p>
+                <p>+ Text wird Buchstabe für Buchstabe eingetippt, inklusive Klick-Sound</p>
+                <p>+ Enter zeigt den Text sofort komplett an und springt zur nächsten Seite</p>
+                <p>+ Esc überspringt die Intro komplett</p>
+                <p>+ Neue Retro-Font für die Darstellung des Intros verwendet</p>
+                <p>+ Neu: <code>ui/intro_game.py</code> mit der IntroScreen-Klasse</p>
+                <p>+ Neu: <code>GameState.INTRO</code></p>
+                <p>+ <code>set_playing()</code> zeigt jetzt zuerst die Intro und ruft danach <code>start_game()</code>
+                    auf (bisheriger Inhalt von <code>set_playing</code>, nur umbenannt)</p>
+                <p>+ Neu: <code>resume_game()</code> fürs Esc-Menü, damit das Fortsetzen nach der Pause ohne erneute
+                    Intro bzw. Reset läuft</p>
+                <p>+ Neues Asset: <code>assets/sounds/type_click.wav</code></p>
+                <a href="https://github.com/Pottwalle/RoboArena/pull/104">more details</a>
             </li>
         </ul>
     </div>
