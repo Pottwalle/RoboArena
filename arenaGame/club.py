@@ -26,7 +26,7 @@ class Club(MeleeWeapon):
         origin = self.owner.position - camera
 
         # Richtung bestimmen
-        dir_vec = self.owner.direction
+        dir_vec = self.owner.attack_direction
         if dir_vec.length_squared() == 0:
             rad = math.radians(self.owner.alpha)
             dir_vec = pygame.Vector2(math.cos(rad), -math.sin(rad))

@@ -25,7 +25,7 @@ class MeleeWeapon(Weapon):
 
     def _perform_attack(self, targets: list):
         origin = self.owner.position
-        dir_vec = self.owner.direction
+        dir_vec = self.owner.attack_direction
 
         if dir_vec.length_squared() == 0:
             return
@@ -52,7 +52,7 @@ class MeleeWeapon(Weapon):
             # compare directly with cos
             if dot >= self._cos_half_cone:
                 # Treffer
-                if hasattr(target, "health"):
-                    target.health -= self.damage
+                if hasattr(target, "hp"):
+                    target.hp -= self.damage
                     # Optional: Debug
                     # print(f"Hit {target} for {self.damage} damage")

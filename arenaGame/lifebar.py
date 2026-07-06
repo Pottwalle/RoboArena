@@ -1,12 +1,11 @@
 import pygame
 
 class Lifebar:
-    def __init__(self, player, screen):
+    def __init__(self, player):
         self.player = player
-        self.screen = screen
 
-    def draw(self):
+    def draw(self, screen, x, y, width, height):
         # calculate current health/max health ratio and draw the lifebar
         ratio = self.player.hp/self.player.max_hp
-        pygame.draw.rect(self.screen, (0,0,0), (10,10, 200, 20))
-        pygame.draw.rect(self.screen, (255,0,0), (10,10,200*ratio,20))
+        pygame.draw.rect(screen, (0,0,0), (x, y, width, height))
+        pygame.draw.rect(screen, (255,0,0), (x, y, width * ratio, height))

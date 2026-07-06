@@ -1,19 +1,39 @@
 import pygame
 import math
 import random
-
+from weapon import Weapon
+from reward import Reward
+from settings import settings
 
 class Enemy:
-    def __init__(self, x, y, r, alpha, base_speed, movement, speed_modifier=0.6, health=10, damage=1, movementType="random"):
+    # Sprite-Bild für den Gegner (ersetzt den roten Kreis)
+    SPRITE_PATH = 'assets/character/enemy1.png'
+
+    # Wie viel größer das Sprite im Vergleich zum Kollisionsradius (r) gezeichnet wird.
+    # r bleibt für Kollision/Hitbox unverändert - nur die Optik wird skaliert.
+    # 1.0 = Sprite-Durchmesser == 2*r (alte Größe, kaum erkennbar)
+    # Höher = größer/erkennbarer, ohne die Hitbox zu verändern
+    SPRITE_SCALE = 3.0
+
+    def __init__(self, x, y, r, alpha, base_speed, movement, speed_modifier=1, hp=10, damage=5, movementType="random", xp_reward = 10, item_reward = [],
+                 places_traps=False, trap_cooldown=4.0, attack_direction = pygame.Vector2(0, 0), enemytype = None):
+
         self.position = pygame.Vector2(x, y)
         self.r = r
         self.alpha = alpha
         self.direction = pygame.Vector2()
+        self.attack_direction = attack_direction
+
+        # Sprite laden und größer als die Hitbox skalieren (SPRITE_SCALE),
+        # damit die Figur trotz kleinem Kollisionsradius erkennbar bleibt
+        rohbild = pygame.image.load(settings.BASE_DIR / self.SPRITE_PATH).convert_alpha()
+        durchmesser = int(self.r * 2 * self.SPRITE_SCALE)
+        self.sprite = pygame.transform.smoothscale(rohbild, (durchmesser, durchmesser))
 
         self.base_speed = base_speed
         self.speed_modifier = speed_modifier
-        self.health = health
-        self.max_health = health
+        self.hp = hp
+        self.max_hp = hp
         self.damage = damage
         self.movement_type = movementType
         self.movement = movement  # Movement-Objekt übergeben
@@ -24,7 +44,16 @@ class Enemy:
         self.max_speed = 80
         self.friction = 0.90
 
-        self.weapon = None
+        self.weapon: Weapon = None
+        self.enemytype = enemytype
+        self.reward = Reward(xp=xp_reward, items=item_reward)
+
+        # --- Interactables: Gegner kann automatisch Fallen platzieren ---
+        # places_traps: schaltet das automatische Platzieren von Fallen frei
+        # trap_cooldown: Sekunden zwischen zwei automatisch gelegten Fallen
+        self.places_traps = places_traps
+        self.trap_cooldown = trap_cooldown
+        self._trap_timer = trap_cooldown  # erste Falle erst nach einem vollen Cooldown
 
         '''handles the updating of all player related methods changing the coordinates accordingly'''
 
@@ -32,10 +61,30 @@ class Enemy:
         self.move(dt, player, clock)
         self.alpha = math.degrees(math.atan2(-self.direction.y, self.direction.x))
 
+        to_player = player.position - self.position
+        if to_player.length_squared() > 0:
+            self.attack_direction = to_player.normalize()
+
+        if self.places_traps:
+            self._trap_timer -= dt
+
+    def should_place_trap(self) -> bool:
+        '''Gibt True zurück, sobald der Cooldown für das automatische Platzieren
+        einer Falle abgelaufen ist, und setzt den Timer direkt zurück.
+
+        Die eigentliche Erzeugung der Falle übernimmt der InteractableManager
+        in der Game-Loop, damit Enemy keine Abhängigkeit zu Interactables hat.'''
+        if not self.places_traps or self._trap_timer > 0:
+            return False
+        self._trap_timer = self.trap_cooldown
+        return True
+
     def draw(self, screen, camera):
         screen_position = self.position - camera
-        pygame.draw.circle(screen, "red", (screen_position.x, screen_position.y), self.r)
-        pygame.draw.circle(screen, (0, 0, 0), (screen_position.x, screen_position.y), self.r, 2)
+
+        # Sprite statt rotem Kreis zeichnen
+        rect = self.sprite.get_rect(center=(int(screen_position.x), int(screen_position.y)))
+        screen.blit(self.sprite, rect)
 
         rad = math.radians(self.alpha)
         end_x = screen_position.x + math.cos(rad) * self.r
@@ -45,7 +94,9 @@ class Enemy:
         # Lifebar
         bar_width = 40
         bar_height = 6
-        bar_offset = self.r + 10
+        # Offset an die sichtbare Sprite-Höhe koppeln (nicht mehr an den kleinen
+        # Kollisionsradius r), sonst hängt die Leiste mitten im Sprite
+        bar_offset = (self.sprite.get_height() // 2) + 10
 
         # background
         bg_rect = pygame.Rect(
@@ -57,7 +108,7 @@ class Enemy:
         pygame.draw.rect(screen, (255,0,0), bg_rect)
 
         # current life
-        hp_ratio = self.health / self.max_health
+        hp_ratio = self.hp / self.max_hp
         fg_rect = pygame.Rect(
             screen_position.x - bar_width // 2,
             screen_position.y - bar_offset,
@@ -66,7 +117,7 @@ class Enemy:
         )
         pygame.draw.rect(screen, (0,255,0), fg_rect)
 
-    def calcDirection(self, player, clock):
+    def calc_direction(self, player, clock):
         if self.movement_type == "random":
             if random.randint(0, 500) == 0:
                 self.direction = pygame.Vector2(random.uniform(-1, 1), random.uniform(-1, 1))
@@ -94,7 +145,7 @@ class Enemy:
             self.speed_modifier = 0
 
     def move(self, dt, player, clock):
-        self.calcDirection(player, clock)
+        self.calc_direction(player, clock)
         # movement.move() übernimmt Kollision & Tile-Geschwindigkeit automatisch
         self.position = self.movement.move(
             self,dt

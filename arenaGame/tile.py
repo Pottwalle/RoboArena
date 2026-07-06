@@ -1,5 +1,5 @@
 import pygame
-from settings import ASSET_DIR, TILE_SIZE, EDGE_OVERLAYS
+from settings import settings
 import edges
 
 tileset = None
@@ -8,14 +8,14 @@ tile_edges = {}
 
 def load_tiles():
     global tileset, tiles, tile_edges
-    tileset = pygame.image.load(ASSET_DIR / 'tiles' / 'tileset.png')
+    tileset = pygame.image.load(settings.ASSET_DIR / 'tiles' / 'tileset.png')
 
     tiles = {
-        "dirt": tileset.subsurface((0, 0, TILE_SIZE, TILE_SIZE)).convert(),
-        "lava": tileset.subsurface((32, 0, TILE_SIZE, TILE_SIZE)).convert(),
-        "water": tileset.subsurface((64, 0, TILE_SIZE, TILE_SIZE)).convert(),
-        "brick": tileset.subsurface((96, 0, TILE_SIZE, TILE_SIZE)).convert(),
-        "jungle": tileset.subsurface((192, 0, TILE_SIZE, TILE_SIZE)).convert()
+        "dirt": tileset.subsurface((0, 0, settings.TILE_SIZE, settings.TILE_SIZE)).convert(),
+        "lava": tileset.subsurface((32, 0, settings.TILE_SIZE, settings.TILE_SIZE)).convert(),
+        "water": tileset.subsurface((64, 0, settings.TILE_SIZE, settings.TILE_SIZE)).convert(),
+        "brick": tileset.subsurface((96, 0, settings.TILE_SIZE, settings.TILE_SIZE)).convert(),
+        "jungle": tileset.subsurface((192, 0, settings.TILE_SIZE, settings.TILE_SIZE)).convert()
     }
 
     tile_edge_keys = ["water_dirt", "lava_dirt", "dirt_jungle"]
@@ -33,7 +33,7 @@ def load_tiles():
             for index, direction in enumerate(directions):
                 tile_edges[tile_edge_key][direction] = tileset.subsurface((index * tile_size, (starting_line + line_index) * tile_size, tile_size, tile_size)).convert_alpha()
         
-    load_edgeset_from_line(1, TILE_SIZE)
+    load_edgeset_from_line(1, settings.TILE_SIZE)
 
 class Tile:
     def __init__(self, x, y, size, tile_mask: edges.Tile_Mask, tile_type="normal", solid=False, dmg=0, offset_x=0, offset_y=0):
@@ -93,6 +93,6 @@ class Tile:
         pos = (offset_x + col * self.size, offset_y + row * self.size)
         surface.blit(tiles[self.tile_type], pos)
 
-        if EDGE_OVERLAYS:
+        if settings.EDGE_OVERLAYS:
             for overlay_key, direction in self.tile_mask.mask:
                 surface.blit(tile_edges[overlay_key][direction], pos)
