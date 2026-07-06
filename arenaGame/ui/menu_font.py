@@ -32,7 +32,7 @@ class MenuFont():
         '''loads the letters upper alphabet & 0 - 9 into the self.letters dict'''
         # letters are 6x10px with 2px margin 
         letters_sheet = pygame.image.load(settings.ASSET_DIR / f"font/{self.filename}.png").convert_alpha()
-        alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.+-"
+        alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.+-/:"
         for index, letter in enumerate(alphabet):
             self.letters[letter] = letters_sheet.subsurface(0 + index * (self.text_size + self.text_spacing), 0, self.text_size, self.text_height)
     

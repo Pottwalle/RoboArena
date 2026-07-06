@@ -34,7 +34,6 @@ class GameUI():
         self.draw_fps(surface, clock)
         self.lifebar.draw(surface, 10 * self.scale, 8 * self.scale, 80 * self.scale, 5 * self.scale)
         self.levelbar.draw(surface)
-        self.enemy_counter.draw(surface)
         surface.blit(self.ui_texture, (0, 0))
         # display current level
         level = str(self.player.level)
@@ -43,6 +42,7 @@ class GameUI():
         h = level_surface.get_height()
         surface.blit(pygame.transform.scale(level_surface, (w * self.scale, h * self.scale)), ((317 - w) * self.scale, 168 * self.scale))
 
+        self.enemy_counter.draw(surface)
         self.ui.draw(surface)
     
     def draw_fps(self, surface: pygame.Surface, clock: pygame.time.Clock):

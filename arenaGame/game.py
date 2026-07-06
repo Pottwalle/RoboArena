@@ -69,7 +69,7 @@ damage = Damage(movement)
 # create lifebar & Levelbar
 lifebar = Lifebar(player)
 levelbar = Levelbar(player, settings.UI_SCALE)
-enemy_counter = EnemyCounter(settings.UI_SCALE, MenuFont("small_font", 4, 6, 1, 10, 4))
+enemy_counter = EnemyCounter(settings.UI_SCALE, menu_font)
 
 # create collision handler
 collision = ObjectCollision(arena.grid)
@@ -339,7 +339,7 @@ while running:
                     interactables.spawn_reward_at_player(player, enemy.reward)
 
         overall_killed_enemies += len(killed_enemies)
-        enemy_counter.update_count(overall_killed_enemies)
+        enemy_counter.update_count(overall_killed_enemies, arena.get_kill_requirement())
         if overall_killed_enemies >= arena.get_kill_requirement():
             state = GameState.VICTORY_MENU
             victory_menu = VictoryMenu(menu_font, set_main_menu)
