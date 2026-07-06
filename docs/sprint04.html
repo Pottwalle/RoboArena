@@ -97,7 +97,10 @@
         <h3>Woche 3 (17.6. - 24.6.)</h3>
         <ul>
             <li>
-                <p class="description"><a href="https://github.com/500Block">500Block</a> **</p>
+                <p class="description"><a href="https://github.com/500Block">500Block</a> anpassung vieler UI Elemente, 
+                    auch änderungen am ESC Menu vorallem im Grafischen bereich, sowie das hinzufügen eines Textmodusses 
+                    für den Texture Button, die Funktionen im Einstellungsmenü sowie die funktion für Rewards mitsammt 
+                    funktionierender Levelbar</p>
                 <p>+ Der TextureButton kann jetzt auch einen Text Modus nutzen, bei dem der Inhalt eines Strings nun in
                     der Mitte steht</p>
                 <p>+ ein Reward system implementiert, dass nun auch Gegner XP geben, und dass in der Levelbar anzeigt
@@ -130,7 +133,7 @@
                         <p>+ Items die in einer JSON Datei definiert sind, sowie optionale Consumables für die zukunft
                         </p>
                         <p>+ Diese Items werden mit einem Item loader ins Spiel Geladen</p>
-                        <p>+ Änderungen für mehrere Seiten im Einstelungs Menü</p>
+                        <p>+ Änderungen für mehrere Seiten im Einstelungs Menü (Generell, Grafik, Audio)</p>
                         <a href="https://github.com/Pottwalle/RoboArena/pull/79">more details</a>
                         <p>+ die Angriffsrichtung wird nun von der Mausposition auf dem Bildschirm bestimmt</p>
                         <a href="https://github.com/Pottwalle/RoboArena/pull/78">more details</a>
@@ -159,6 +162,62 @@
                 <p>Außerdem wurden die Klassen RangedWeapon, Projectile und Bow implementiert, um Fernkampfwaffen zu implementieren und Gegnern Fernangriffe zu geben.<\p>
                 <p>Zuletzt wurde noch das Erstellen von Gegnern erleichtert durch das Einführen von enemyTypes, wo verschiedene Gegnertypen beschrieben werden, sodass diese einfacher im weiteren Code eingefügt werden können.</p>
 
+            </li>
+        </ul>
+        <h3>Woche 5-1 (29.6. - 03.7.)</h3>
+        <ul>
+            <li>
+                <p class="description"><a href="https://github.com/500Block">500Block</a>**</p>
+                <div style="display: flex;">
+                    <div>
+                        <p>+ Einstellungen für Sound hinzugefügt</p>
+                        <p>+ die Einzelnen Einstellungs Spalten Modular erstellt, um einfachere Einstellungen Hinzuzufügen</p>
+                        <p>+ Seiten zum Inventar Hinzugefügt, aus vorherigem Sprint vollendet</p>
+                        <p>+ FPS Anzeige ingame hinzugefügt, welche auch an/aus geschaltet werden kann</p>
+                        <p>+ Einstellungen können ab sofort auch gespeichert / geladen werden, speichern auch automatisch über sessions hinweg beim Einstellen</p>
+                        <p>+ Eine kleinere Schrift hinzugefügt, für FPS counter und spätere tooltips</p>
+                        <p>+ Es können nun auch Symbole im Text gechrieben werden mit "[BACK]" til, einfach im String, welche dann beim Rendern durch neue Texturen Ersetzt werden</p>
+                        <a href="https://github.com/Pottwalle/RoboArena/pull/83">more details</a>
+                        <p>+ **</p>
+                        <a href="https://github.com/Pottwalle/RoboArena/pull/84">more details</a>
+                    </div>
+                    <div style="max-width: 500px;">
+                        <img id="inventory-items" src="data/sprint04/inventory_and_items.png"
+                            alt="inventory with items">
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <h3>Woche 5-2 (03.7. - 06.7.)</h3>
+        <ul>
+            <li>
+                <p class="description"><a href="https://github.com/500Block">500Block</a> **</p>
+                <div style="display: flex;">
+                    <div>
+                        <p>* Fiexed das Enemy Spawning Promnlem, dass zuviele Gegner gespawnt sind von und mit <a href="https://github.com/Pottwalle">Valk0</a> und <a href="https://github.com/BackForester">BackForester</a></p>
+                        <p>+ Gegner geben dem Spieler ab jetzt auch Items bei deren Tod zu (25%, 6.25%, 3.125%)</p>
+                        <a href="https://github.com/Pottwalle/RoboArena/pull/95">more details</a>
+                        <p>+ Neue Zeichen zu beiden Schriftarten hinzugefügt</p>
+                        <p>+ Einige Neue Symbole Hinzugefügt, für jeden Equipment Typ eines</p>
+                        <p>+ Es kann nun auch farbig geschrieben werden</p>
+                        <p>+ Tooltipps für Items hinzugefügt, welche den Namen, Typ und deren Stats anzeigen</p>
+                        <p>+ Die Stats der Tooltips sind auch nach einem Color Mapping Eingefärbt</p>
+                        <p>+ Tooltipps werden beim hovern über Items im Inventar angezeigt</p>
+                        <p>+ Den Waffen / Nahkampf Waffen und Club jeweils hinzugefügt, dass diese nun von den Spielerstats und Items beeinflusst werden</p>
+                        <p>* Einige Texturen Updates und Bugfixed die mit dem Inventar kamen</p>
+                        <a href="https://github.com/Pottwalle/RoboArena/pull/102">more details</a>
+                        <p>+ Ein Erstellungsprogramm, den Item Creator erstellt, in dem man auf Grafische weiße Items zum Spiel hinzufügen kann</p>
+                        <p>+ 22 Neue Items mit unterschiedlichen Stats hinzugefügt</p>
+                        <a href="https://github.com/Pottwalle/RoboArena/pull/103">more details</a>
+                        <p>+ Level werden nun in der Ecke angezeigt, sowie die nötigen Texturen dafür</p>
+                        <p>+ Der Spielerschaden, der bekommen wird wird nun auch korrekt mit der Verteidigung verreichnet</p>
+                        <a href="https://github.com/Pottwalle/RoboArena/pull/105">more details</a>
+                    </div>
+                    <div style="max-width: 500px;">
+                        <img id="inventory-items" src="data/sprint04/inventory_and_items.png"
+                            alt="inventory with items">
+                    </div>
+                </div>
             </li>
         </ul>
     </div>
