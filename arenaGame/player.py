@@ -269,6 +269,7 @@ class Player:
     def update_level(self):
         if self.xp >= self.xp_breakpoints[self.level + 1]:
             self.level += 1
+            self.apply_level_up_rewards()
             self.update_level()
 
     def get_level_progress(self) -> float:
@@ -284,3 +285,8 @@ class Player:
                 max(1, (next_lvl_xp - current_lvl_xp))
             )
         )
+    
+    def apply_level_up_rewards(self):
+        '''rewards the player with a midifier rewarding mhim for a level up'''
+        self.stats.add_modifier("max_hp", 20)
+        self.stats.heal(20)
