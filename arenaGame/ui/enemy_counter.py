@@ -15,7 +15,7 @@ class EnemyCounter:
         self.kill_requirement = kill_requirement
 
     def draw(self, surface: pygame.Surface):
-        text = f"Slain: {self.killed_enemies}/{self.kill_requirement}"
+        text = f"Slain:{self.killed_enemies}/{self.kill_requirement}"
         text_surface = self.font.create_text_surface(text).convert_alpha()
 
         # Text skalieren
