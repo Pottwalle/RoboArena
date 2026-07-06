@@ -148,7 +148,7 @@ def set_playing(level=None, difficulty=None):
     # Health Packs spawnen
     for spawn_pos in arena.get_random_tile_positions("dirt", count=3):
         interactables.spawn_health_pack(spawn_pos.x, spawn_pos.y)
-    game_ui = GameUI(lifebar, levelbar, small_font)
+    game_ui = GameUI(lifebar, levelbar, small_font, menu_font, player)
 
 
 def set_settings():
@@ -182,7 +182,7 @@ def set_main_menu():
 main_menu = MainMenu(set_select_level, set_settings, set_quit)
 settings_menu = SettingsMenu(menu_font, set_back_from_settings)
 esc_menu = EscMenu(menu_font, set_playing, set_main_menu, set_settings)
-game_ui = GameUI(lifebar, levelbar, small_font)
+game_ui = GameUI(lifebar, levelbar, small_font, menu_font, player)
 inventory = Inventory(player.inventory)
 death_menu = DeathMenu(menu_font, set_main_menu)
 level_select_menu = LevelSelectMenu(menu_font, set_main_menu, set_playing)
