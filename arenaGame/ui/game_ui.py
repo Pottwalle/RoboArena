@@ -5,17 +5,22 @@ from lifebar import Lifebar
 from levelbar import Levelbar
 from ui.menu_font import MenuFont
 from ui.enemy_counter import EnemyCounter
+from player import Player
 
 class GameUI():
-    def __init__(self, lifebar: Lifebar, levelbar: Levelbar, small_font: MenuFont, enemy_counter: EnemyCounter):
+    def __init__(self, lifebar: Lifebar, levelbar: Levelbar, small_font: MenuFont, menu_font: MenuFont, player: Player, enemy_counter: EnemyCounter):
+
         self.ui = UIManager()
         self.scale = settings.UI_SCALE
         self.small_font = small_font
+        self.menu_font = menu_font
 
         # ui elements
         self.lifebar = lifebar
         self.levelbar = levelbar
+
         self.enemy_counter = enemy_counter
+        self.player = player
 
         self.ui_texture = pygame.transform.scale(pygame.image.load(settings.ASSET_DIR / "ui/ui.png"), (settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
     
@@ -31,6 +36,13 @@ class GameUI():
         self.levelbar.draw(surface)
         self.enemy_counter.draw(surface)
         surface.blit(self.ui_texture, (0, 0))
+        # display current level
+        level = str(self.player.level)
+        level_surface = self.menu_font.create_text_surface(level)
+        w = level_surface.get_width()
+        h = level_surface.get_height()
+        surface.blit(pygame.transform.scale(level_surface, (w * self.scale, h * self.scale)), ((317 - w) * self.scale, 168 * self.scale))
+
         self.ui.draw(surface)
     
     def draw_fps(self, surface: pygame.Surface, clock: pygame.time.Clock):

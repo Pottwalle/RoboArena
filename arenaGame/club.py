@@ -34,14 +34,14 @@ class Club(MeleeWeapon):
         facing = dir_vec.normalize()
 
         # Kegel berechnen
-        half_angle = self.cone_angle_rad / 2
+        half_angle = (self.cone_angle_rad + self.cone_angle_rad_bonus) / 2
 
         left_dir = facing.rotate_rad(-half_angle)
         right_dir = facing.rotate_rad(+half_angle)
 
         p0 = origin
-        p1 = origin + left_dir * self.attack_range
-        p2 = origin + right_dir * self.attack_range
+        p1 = origin + left_dir * (self.attack_range + self.attack_range_bonus)
+        p2 = origin + right_dir * (self.attack_range + self.attack_range_bonus)
 
         # Kegel zeichnen
         pygame.draw.polygon(

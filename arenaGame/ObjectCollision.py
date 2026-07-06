@@ -269,7 +269,7 @@ class ObjectCollision:
                 if damage_on_contact:
                     dmg = contact_damage if contact_damage is not None else getattr(enemy, "damage", 0)
                     if dmg:
-                        player.hp -= dmg
+                        player.stats.take_damage(dmg)
 
         return touching
 

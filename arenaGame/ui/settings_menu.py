@@ -98,7 +98,7 @@ class SettingsMenu():
             )
         )
 
-        options_music_volume = ["00", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"]
+        options_music_volume = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"]
         self.pages[SettingsState.AUDIO.value].add(
             Setting(
                 (x_base, y_base + y_offset),
