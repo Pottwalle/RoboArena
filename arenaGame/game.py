@@ -242,7 +242,7 @@ while running:
         camera = player.position - pygame.Vector2(settings.SCREEN_WIDTH / 2, settings.SCREEN_HEIGHT / 2)
 
         player.update(dt, movement, camera)
-        if player.hp <= 0 and dt > 0:
+        if player.stats.hp <= 0 and dt > 0:
             state = GameState.DEATH_MENU
             death_menu = DeathMenu(menu_font, set_main_menu)
 

@@ -36,4 +36,4 @@ class Stats:
     def take_damage(self, amount: float):
         '''makes the owner take damage calculated with defence'''
         defence = self.get("defence")
-        self.stats.hp = max(0, min(self.max_hp, amount * (100 / (defence + 100))))
+        self.hp = max(0, min(self.get("max_hp"), self.hp - (amount * (100 / (defence + 100)))))
