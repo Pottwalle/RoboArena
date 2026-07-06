@@ -1,6 +1,6 @@
 import pygame
 import math
-
+from player import Player
 
 class Interactable:
     """Basisklasse für alle interagierbaren Objekte in der Arena (z.B. Health Packs, Fallen).
@@ -173,6 +173,26 @@ class Trap(Interactable):
         pygame.draw.line(screen, (255, 255, 255), (x, y - self.r * 0.5), (x, y + self.r * 0.05), 2)
         pygame.draw.circle(screen, (255, 255, 255), (x, y + self.r * 0.35), 1.5)
 
+class DroppedReward(Interactable):
+    '''spawns an Reward, which the player can interact with, can contain items & xp'''
+    def __init__(self, x, y, reward, r=12, lifetime=120, owner=None):
+        self.reward = reward
+        super().__init__(x, y, r, lifetime, owner)
+    
+    def try_interact(self, entity) -> bool:
+        if not self.is_colliding_with(entity):
+            return False
+
+        if isinstance(entity, Player): # tries to apply the reward to the player
+            self.reward.apply_to_player(entity)
+        if self.reward.applied:
+            return True # only if the reward gets applied correctly
+        return False
+    
+    def draw(self, screen, camera):
+        screen_position = self.position - camera
+        pygame.draw.circle(screen, (255, 255, 255), screen_position, self.r)
+
 
 class InteractableManager:
     """Verwaltet sämtliche Interactables (Health Packs, Fallen, ...) der Arena.
@@ -251,6 +271,19 @@ class InteractableManager:
             return self.spawn_trap(spawn_pos.x, spawn_pos.y, owner=owner, **kwargs)
         else:
             raise ValueError(f"Unbekannter Interactable-Typ: {kind}")
+    
+    def spawn_reward_at_player(self, player, reward) -> DroppedReward:
+        '''spawns a dropped reward directly at the players position
+        
+        only players can collect the drop (owner="player")'''
+        drop = DroppedReward(
+            player.position.x,
+            player.position.y,
+            reward,
+            owner="player"
+        )
+        self.items.append(drop)
+        return drop
 
     # ------------------------------------------------------------------ #
     #  Update / Draw / Kollision                                          #

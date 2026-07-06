@@ -13,5 +13,5 @@ class Damage:
     def applyTileDamage(self, player, tile, dt):
         '''applies the damage of the tile with current position onto the player'''
         if tile.dmg > 0:
-            player.hp -= tile.dmg * dt
+            player.stats.take_damage(tile.dmg * dt)
             print(f"Player takes {tile.dmg} damage from {tile.tile_type} tile")

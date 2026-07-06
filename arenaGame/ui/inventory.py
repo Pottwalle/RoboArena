@@ -4,6 +4,7 @@ from settings import settings
 from .ui_element import UIElement
 from inventory_manager import InventoryManager
 from item import Item
+import math
 
 inventory_x = 175
 inventory_y = 7
@@ -93,8 +94,22 @@ class Inventory():
                 surface.blit(item.icon, ((inventory_x + offset[0]) * self.scale, (inventory_y + offset[1]) * self.scale))
         self.ui.draw(surface)
 
+        mousepos = pygame.mouse.get_pos()
+
+        tooltip = self._get_tooltip_at_mouse()
+        if tooltip:
+            if mousepos[0] + tooltip.get_width() > settings.SCREEN_WIDTH: # check if the tooltip would go outside the window
+                x = mousepos[0] - tooltip.get_width()
+            else:
+                x = mousepos[0]
+            if mousepos[1] + tooltip.get_height() > settings.SCREEN_HEIGHT:
+                y = mousepos[1] - tooltip.get_height()
+            else:
+                y = mousepos[1]
+            surface.blit(tooltip, (x, y))
+
         if self.dragged_item:
-            surface.blit(self.dragged_item.icon, pygame.mouse.get_pos())
+            surface.blit(self.dragged_item.icon, mousepos)
 
     def update(self, dt):
         pass
@@ -106,8 +121,8 @@ class Inventory():
         start_y = (7 + 97) * self.scale
         slot_size = self.scale * settings.ITEM_SIZE
         
-        col = int((mx - start_x) / slot_size)
-        row = int((my - start_y) / slot_size)
+        col = math.floor((mx - start_x) / slot_size)
+        row = math.floor((my - start_y) / slot_size)
 
         if 0 <= row < self.inventory.rows and 0 <= col < self.inventory.cols:
             return (row, col)
@@ -117,3 +132,17 @@ class Inventory():
             if (inventory_x + offset[0]) * self.scale <= mx <= (inventory_x + offset[0] + settings.ITEM_SIZE) * self.scale and (inventory_y + offset[1]) * self.scale <= my <= (inventory_y + offset[1] + settings.ITEM_SIZE) * self.scale:
                 return slot
         return None
+    
+    def _get_tooltip_at_mouse(self):
+        mouse_pos = pygame.mouse.get_pos()
+        hover_slot = self._get_slot_at_pos(mouse_pos)
+        if hover_slot:
+            if isinstance(hover_slot, str):
+                item = self.inventory.equipment_slots[hover_slot]
+                if item:
+                    return item.tooltip
+            else:
+                r, c = hover_slot
+                item = self.inventory.get_item(r, c)
+                if item:
+                    return item.tooltip

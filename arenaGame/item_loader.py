@@ -3,7 +3,7 @@ from settings import settings
 import json
 import pygame
 
-def load_items():
+def load_items(menu_font, small_font):
     try:
         with open(settings.ASSET_DIR / "data/items.json", 'r') as file:
             data = json.load(file)
@@ -23,6 +23,8 @@ def load_items():
                 item = Consumable(
                     info["name"],
                     icon,
+                    menu_font,
+                    small_font,
                     info["description"],
                     info["stats"].get("heal_amount", 0)
                 )
@@ -32,12 +34,16 @@ def load_items():
                     info["slot"],
                     info["stats"],
                     icon,
+                    menu_font,
+                    small_font,
                     info["description"]
                 )
             else:
                 item = Item(
                     info["name"],
                     icon,
+                    small_font,
+                    menu_font,
                     info["description"]
                 )
             item_database[key] = item

@@ -4,6 +4,7 @@ class InventoryManager():
     def __init__(self, rows, cols):
         self.rows = rows
         self.cols = cols
+        self.update_stats = True # flag for updating stats when new items are equipped
 
         self.slots = [[None for _ in range(cols)] for _ in range(rows)]
         self.equipment_slots = {
@@ -75,6 +76,7 @@ class InventoryManager():
 
                 if old_item:
                     self.slots[row][col] = old_item
+                self.update_stats = True
                 return True
         return False
     
@@ -85,6 +87,7 @@ class InventoryManager():
         if item:
             if self.add_item(item):
                 self.equipment_slots[slot_name] = None
+                self.update_stats = True
                 return True
         return False
     
