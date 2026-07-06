@@ -80,7 +80,7 @@ class Projectile:
 
         Args:
             target: Objekt mit ``.position`` (Vector2) und optional ``.r``,
-                sowie ``.health`` (Enemy) oder ``.hp`` (Player)
+                sowie ``.health`` (Enemy) oder ``.hp / .stats.take_damage`` (Player)
 
         Returns:
             bool: True, wenn ein Treffer stattgefunden hat.
@@ -94,7 +94,9 @@ class Projectile:
         if to_target.length_squared() > min_dist ** 2:
             return False
 
-        if hasattr(target, "health"):
+        if hasattr(target, "stats"):
+            target.stats.take_damage(self.damage)
+        elif hasattr(target, "health"):
             target.health -= self.damage
         elif hasattr(target, "hp"):
             target.hp -= self.damage
