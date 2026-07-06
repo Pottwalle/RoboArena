@@ -160,7 +160,7 @@ class StatRow:
         self.frame = tk.Frame(parent)
         self.frame.pack(fill="x", expand=True)
 
-        self.stat_options = ttk.Combobox(self.frame, values=["max_hp", "defence", "attack_range", "cooldown"])
+        self.stat_options = ttk.Combobox(self.frame, values=["max_hp", "defence", "attack_range", "cooldown", "damage"])
         self.stat_options.pack(side="left")
 
         self.value = tk.DoubleVar(value=0.0)
