@@ -43,6 +43,18 @@
                 <p>+ Erstes Test UI element eingefügt, was ein basic UI Button ist mit sammt funktionalität</p>
                 <a href="https://github.com/Pottwalle/RoboArena/pull/64#issue-4599278656">more details</a>
             </li>
+            <li>
+                <p class="description"><a href="https://github.com/Pottwalle">Pottwalle</a> hat eine Lifebar implementiert, die dem Spieler 
+                anzeigt, wie viel Leben er noch zur Verfügung hat.</p>
+                <p>
+                    + ein grundlegendes Waffensystem eingeführt, dass aus einer Oberklasse Weapon besteht, welche sich später in 
+                    Unterklassen unterteilen kann, damit wir verschiedene Waffenarten einbauen können.
+                </p>
+                <p>
+                    + eine erste Waffe "Club" eingebaut, die in einem Kegel vor dem Spieler zuschlägt und allen getroffenen Gegnern
+                    Schaden zufügt.
+                </p>
+            </li>
         </ul>
         <h3>Woche 2 (10.6. - 17.6.)</h3>
         <ul>
@@ -93,6 +105,13 @@
                 <p> In ihnen gibt es Fallen und Health-Packs. Beide verändern die HP des interagierenden. Die Kollision wird durch überlappende Radius Kreise überprüft. </p>
                 <p> Zudem werden jetzt Gegner und Spieler sowohl wie Gegner untereinander voneinander weggeschoben werden.</p>
             </li>
+            <li>
+                <p class="description"><a href="https://github.com/Pottwalle">Pottwalle</a> hat an dem von 500Block gebauten Menu-System noch etwas an der Game-State logik geschraubt,
+                da einige Menu-Übergänge noch nicht so funtkionierten wie geplant.</p>
+                <p>
+                    + hat ein Esc-Menu erstellt, welches es erlaubt, das Spiel zu unterbrechen und wieder fortzusetzen.
+                </p>
+            </li>
         </ul>
         <h3>Woche 3 (17.6. - 24.6.)</h3>
         <ul>
@@ -117,6 +136,19 @@
                 <p>+ in der Player Klasse mehrere Frames eingebaut, die beim Drücken der linken Maustaste eine
                     Bewegung auslösen sollen</p>
                 <a href="https://github.com/Pottwalle/RoboArena/pull/93">more details</a>
+
+            </li>
+            <li>
+                <p class="description"><a href="https://github.com/Pottwalle">Pottwalle</a> hat ein Level-Editor-System geschrieben, dass es erlaubt,
+                neue Level einfach als txt-Datei zu schreiben und diese wird dann automatisch vom Spiel umgewandelt.</p>
+                <p>
+                    + 3 neue Level
+                </p>
+                <p>
+                    + Bewegungslogik angepasst. Wir hatten das Problem, dass man durch verschiedene Ereignisse in eine Wand gebuggt wurde und dann fest 
+                    steckte. wir haben die Bewegungslogik nochmal grundsätzlich verändert und zusätzlich noch einen Slide eingebaut, so dass man nun an einer 
+                    Wand entlang rutscht, wenn man dagegen läuft, anstatt stehen zu bleiben.
+                </p>
 
             </li>
         </ul>
@@ -187,6 +219,18 @@
                     </div>
                 </div>
             </li>
+            <li>
+                <p class="description"><a href="https://github.com/Pottwalle">Pottwalle</a> hat ein level-choice menu integriert, dass es nun erelaubt, das Level
+                auszuwählen, welches man spielen möchte und einen Schwierigkeitsgrad dazu.</p>
+                <p>
+                    + Todesmenu erstellt, welches auploppt, wenn der Player auf 0 HP fällt und damit stirbt.
+                </p>
+                <p>
+                    + Siegesmenu, welches erscheint, falls die Bedingungen des gewählten Modus erfüllt wurden und der Player somit das Spiel gewinnt.
+                </p>
+
+
+                </li>
         </ul>
         <h3>Woche 5-2 (03.7. - 06.7.)</h3>
         <ul>
@@ -219,6 +263,22 @@
                         <img id="item-sheet" src="data/sprint04/item_sheet.png" style="width: 500px;" alt="item sheet">
                         <img id="level" src="data/sprint04/level.png" alt="level anzeige">
                     </div>
+            </li>
+            <li>
+                <p class="description"><a href="https://github.com/Pottwalle">Pottwalle</a> hat die Siegesbedingungen so angepasst, dass man nun wieder gewinnen kann, auch wenn
+                immer gegner respawnen. Nun muss eine gewisse Menge Gegner getötet werden und nicht mehr alle.</p>
+                <p>
+                    + einen Counter hinzugefügt, der dem Spieler sagr, wie viele Gegner schon erledigt wurden. 500Block hat das ganze dann noch erweitert,
+                    sodass auch die zu erreichende Anzahl an Gegnern mit dabei steht.
+                </p>
+                <p>
+                    + durch die neuen Grafiken waren die Hitboxen etwas buggy. Jetzt sind sie deutlich akurater, wenn auch noch nicht ganz perfekt.
+                </p>
+                <p>
+                    + den Bug gefixt, der dafür gesorgt hat, dass wenn man im Pause Menü auf Resume klickt, man automatisch
+                    in Level 1 mit leichter Schwierigkeit gespawnt wird, anstatt mit dem aktuellen Level weiter zu machen.
+                </p>
+
             </li>
         </ul>
     </div>
