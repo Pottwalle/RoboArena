@@ -88,6 +88,10 @@
                     verschiedenen Setups abgespielt wird</p>
                 <p>+ neues Asset: <code>Arena_musik_epic.mp3</code></p>
                 <a href="https://github.com/Pottwalle/RoboArena/pull/70">more details</a>
+                <p class="description"><a href="https://github.com/Backforester">Backforester</a> hat die Klassen Interactable und ObjectCollision implementiert.</p>
+                <p> Diese kümmern sich um Objekte im Spiel mit denen der Spieler und Gegner über direkte Berührung interagieren können.</p>
+                <p> In ihnen gibt es Fallen und Health-Packs. Beide verändern die HP des interagierenden. Die Kollision wird durch überlappende Radius Kreise überprüft. </p>
+                <p> Zudem werden jetzt Gegner und Spieler sowohl wie Gegner untereinander voneinander weggeschoben werden.</p>
             </li>
         </ul>
         <h3>Woche 3 (17.6. - 24.6.)</h3>
@@ -110,6 +114,7 @@
                 <p>+ in der Player Klasse mehrere Frames eingebaut, die beim Drücken der linken Maustaste eine
                     Bewegung auslösen sollen</p>
                 <a href="https://github.com/Pottwalle/RoboArena/pull/93">more details</a>
+
             </li>
         </ul>
         <h3>Woche 4 (24.6. - 29.6.)</h3>
@@ -149,6 +154,11 @@
                     Intro bzw. Reset läuft</p>
                 <p>+ Neues Asset: <code>assets/sounds/type_click.wav</code></p>
                 <a href="https://github.com/Pottwalle/RoboArena/pull/104">more details</a>
+                <p class="description"><a href="https://github.com/Backforester">Backforester</a> hat einen Bug in ObjectCollision gefixed der es erlaubt hat, dass Gegner und Spieler durch auseinaderschiebn sich in Wände hineinschieben konnten und sich dann nicht mehr bewegen können. </p>
+                <p>Zudem wurde die Implementierung von Hitpoints zwischen Spieler und Gegner angepasst, sodass beide hp benutzen. </p>
+                <p>Außerdem wurden die Klassen RangedWeapon, Projectile und Bow implementiert, um Fernkampfwaffen zu implementieren und Gegnern Fernangriffe zu geben.<\p>
+                <p>Zuletzt wurde noch das Erstellen von Gegnern erleichtert durch das Einführen von enemyTypes, wo verschiedene Gegnertypen beschrieben werden, sodass diese einfacher im weiteren Code eingefügt werden können.</p>
+
             </li>
         </ul>
     </div>
