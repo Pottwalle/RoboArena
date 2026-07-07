@@ -89,3 +89,31 @@ img {
     border-radius: 5px;
     max-height: 300px;
 }
+
+#tooltip {
+    border-radius: 5px 5px 0 0;
+    image-rendering: pixelated;
+}
+
+#item-sheet {
+    image-rendering: pixelated;
+}
+
+#level {
+    image-rendering: pixelated;
+    border-radius: 0 0 5px 5px;
+}
+
+#settings-pages {
+    image-rendering: pixelated;
+    border-radius: 5px 5px 0 0;
+}
+#icons {
+    image-rendering: pixelated;
+    height: auto;
+    width: 300px;
+}
+#equipment-inventory {
+    image-rendering: pixelated;
+    border-radius: 0 0 5px 5px;
+}
