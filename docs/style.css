@@ -57,3 +57,68 @@ img {
     list-style-type: none;
     margin: 0px;
 }
+
+.description {
+    background-color: lightgray;
+    border-radius: 5px;
+    padding-left: 5px;
+}
+
+#main-menu,
+#ingame-ui {
+    width: 50%;
+}
+
+#main-menu {
+    border-radius: 5px 0 0 5px;
+}
+
+#ingame-ui {
+    border-radius: 0 5px 5px 0;
+}
+
+#levelbar {
+    border-radius: 5px 5px 0 0;
+}
+
+#options-btn {
+    border-radius: 0 0 5px 5px;
+}
+
+#inventory-items {
+    border-radius: 5px;
+    max-height: 300px;
+}
+
+#tooltip {
+    border-radius: 5px 5px 0 0;
+    image-rendering: pixelated;
+}
+
+#item-sheet {
+    image-rendering: pixelated;
+}
+
+#level {
+    image-rendering: pixelated;
+    border-radius: 0 0 5px 5px;
+}
+
+#settings-pages {
+    image-rendering: pixelated;
+    border-radius: 5px 5px 0 0;
+}
+#icons {
+    image-rendering: pixelated;
+    height: auto;
+    width: 300px;
+}
+#equipment-inventory {
+    image-rendering: pixelated;
+    border-radius: 0 0 5px 5px;
+}
+.key {
+    background-color: lightgray;
+    border-radius: 3px;
+    padding: 3px;
+}

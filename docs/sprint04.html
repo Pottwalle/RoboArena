@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meine GitHub.io Seite</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="header">
+        <h1>RoboArena Team 3</h1>
+        <ul>
+            <li class="member"><a href="https://github.com/Pottwalle">Valk0</a></li>
+            <li class="member"><a href="https://github.com/500Block">500Block</a></li>
+            <li class="member"><a href="https://github.com/bidD007">dani_634</a></li>
+            <li class="member"><a href="https://github.com/BackForester">Backforster</a></li>
+        </ul>
+    </div>
+
+    <div class="sprint-target">
+        <div class="sprint-header">
+            <h1>Sprint 4</h1>
+            <ul>
+                <li>von: 03.06.2026</li>
+                <li>bis: 08.07.2026</li>
+            </ul>
+        </div>
+        <h3>Woche 1 (3.6. - 10.6.)</h3>
+        <ul>
+            <li>
+                <p class="description"><a href="https://github.com/500Block">500Block</a> hat das Tile Edge Rendering
+                    eingeführt & eine grundlegende Struktur für Ingame UI Elemente eingeführt mitsamt einem Beispiel
+                    Hauptmenü</p>
+                <p>+ Tile Edge Rendering eingeführt, was momentan dazu dient, 3 Kantenübergänge zu malen</p> <a
+                    href="https://github.com/Pottwalle/RoboArena/pull/62#issue-4597053586">more details</a>
+                <p>+ Erste Version an Gamestates eingeführt, welche es ermöglichen verschiedene UI Menüs zu malen
+                    (Playing, Esc_menü, Main_menu, Settings)</p>
+                <p>+ Erste Version eines Hauptmenüs erstellt</p>
+                <p>+ UI Manager erstellt, der alle Unterelemente verwaltet, also die Funktionen update, draw, handle_event
+                    aufruft</p>
+                <p>+ Erstes Test UI Element eingefügt, das ein basic UI Button ist mit sämtlicher Funktionalität</p>
+                <a href="https://github.com/Pottwalle/RoboArena/pull/64#issue-4599278656">more details</a>
+            </li>
+            <li>
+                <p class="description"><a href="https://github.com/Pottwalle">Pottwalle</a> hat eine Lifebar implementiert, die dem Spieler 
+                anzeigt, wie viel Leben er noch zur Verfügung hat.</p>
+                <p>
+                    + ein grundlegendes Waffensystem eingeführt, dass aus einer Oberklasse Weapon besteht, welche sich später in 
+                    Unterklassen unterteilen kann, damit wir verschiedene Waffenarten einbauen können.
+                </p>
+                <p>
+                    + eine erste Waffe "Club" eingebaut, die in einem Kegel vor dem Spieler zuschlägt und allen getroffenen Gegnern
+                    Schaden zufügt.
+                </p>
+            </li>
+        </ul>
+        <h3>Woche 2 (10.6. - 17.6.)</h3>
+        <ul>
+            <li>
+                <p class="description"><a href="https://github.com/500Block">500Block</a> hat einige Texturen
+                    hinzugefügt, für verschiedene UI Anwendungszwecke, sowie das Hauptmenü finalisiert, mit neu
+                    erstelltem Texturen-Button</p>
+                <p>+ Erste Texturenversion erstellt für Buffs, Inventar, Ingame UI, andere UI Elemente &
+                    Hauptmenü-Hintergrund</p>
+                <p>+ Das Hauptmenü soweit überarbeitet, dass es in einem funktionalen und erstmal finalen Zustand ist
+                </p>
+                <p>+ Einen Textur-Button hinzugefügt, der statt mit Texten mit Texturen arbeitet</p>
+                <p>+ Ein erstes Ingame UI erstellt, welches die bestehende Lifebar einbaut</p>
+                <a href="https://github.com/Pottwalle/RoboArena/pull/64#issue-4599278656">more details</a>
+                <div style="display: flex;">
+                    <img id="main-menu" src="data/sprint04/main_menu.png" alt="main menu">
+                    <img id="ingame-ui" src="data/sprint04/ingame_ui.png" alt="ingame UI overlay">
+                </div>
+                <p class="description"><a href="https://github.com/500Block">500Block</a> hat einige Texturen
+                    aktualisiert & hinzugefügt, die Hauptmenüschrift nun als malbare Schrift erstellt sowie ein
+                    Einstellungsmenü grundlegend angelebt mit neuem Optionen-Button</p>
+                <p>+ Texturen für ein erstes Itemset, Menu-Font-Schrift, Settings-Hintergrund hinzugefügt</p>
+                <p>+ Eine funktionierende Levelbar implementiert, mit xp speicherung in Player zusammen mit Funktionen zur
+                    Level-Verwaltung</p>
+                <p>+ Menu-Font-Klasse implementiert, welche es erlaubt, Text aus Strings in Grafiktext (wie im Main
+                    Menu) umzuwandeln und zu malen mit einigen Helfermethoden für unterschiedliche Zwecke</p>
+                <p>+ Einen Option-Button hinzugefügt, welcher es erlaubt, durch verschiedene Optionen durchzurotieren
+                    mit links / rechts Pfeil</p>
+                <p>+ Eine erste Version eines Einstellungemenüs erstellt</p>
+                <a href="https://github.com/Pottwalle/RoboArena/pull/66#issue-4651534807">more details</a>
+                <div style="max-width: 500px;">
+                    <img id="levelbar" src="data/sprint04/level_bar.png" alt="level bar picture">
+                    <img id="options-btn" src="data/sprint04/options_btn.png" alt="options button picture">
+                </div>
+
+
+                <p class="description"><a href="https://github.com/bidD007">bidD007</a> Hintergrundmusik
+                    hinzugefügt, die dem Game eine besondere Atmosphäre geben und mehr Dynamik einbringen soll</p>
+                <p>+ Musik startet sobald man das Game startet und läuft dann im Loop</p>
+                <p>+ eigene Datei <code>musik_manager.py</code> erstellt und diese in <code>game.py</code>
+                    importiert</p>
+                <p>+ Funktion <code>spiele_hintergrundmusik()</code> nutzt <code>pygame.mixer</code> zum Laden und
+                    Abspielen der Musikdatei <code>Arena_musik_epic.mp3</code> in Endlosschleife</p>
+                <p>+ PulseAudio-Treiber wird für Linux explizit erzwungen, damit die Musik zuverlässig auf
+                    verschiedenen Setups abgespielt wird</p>
+                <p>+ neues Asset: <code>Arena_musik_epic.mp3</code></p>
+                <a href="https://github.com/Pottwalle/RoboArena/pull/70">more details</a>
+                <p class="description"><a href="https://github.com/Backforester">Backforester</a> hat die Klassen Interactable und ObjectCollision implementiert.</p>
+                <p> Diese kümmern sich um Objekte im Spiel mit denen der Spieler und Gegner über direkte Berührung interagieren können.</p>
+                <p> In ihnen gibt es Fallen und Health-Packs. Beide verändern die HP des interagierenden. Die Kollision wird durch überlappende Radius Kreise überprüft. </p>
+                <p> Zudem werden jetzt Gegner und Spieler sowohl wie Gegner untereinander voneinander weggeschoben werden.</p>
+            </li>
+            <li>
+                <p class="description"><a href="https://github.com/Pottwalle">Pottwalle</a> hat an dem von 500Block gebauten Menu-System noch etwas an der Game-State logik geschraubt,
+                da einige Menu-Übergänge noch nicht so funtkionierten wie geplant.</p>
+                <p>
+                    + hat ein Esc-Menu erstellt, welches es erlaubt, das Spiel zu unterbrechen und wieder fortzusetzen.
+                </p>
+            </li>
+        </ul>
+        <h3>Woche 3 (17.6. - 24.6.)</h3>
+        <ul>
+            <li>
+                <p class="description"><a href="https://github.com/500Block">500Block</a> Anpassung vieler UI-Elemente, 
+                    auch Änderungen am ESC-Menu vor allem im grafischen Bereich, sowie das Hinzufügen eines Textmodusses 
+                    für den Texture-Button, die Funktionen im Einstellungsmenü sowie die Funktion für Rewards mitsamt 
+                    funktionierender Levelbar</p>
+                <p>+ Der Texture-Button kann jetzt auch einen Text-Modus nutzen, bei dem der Inhalt eines Strings nun in
+                    der Mitte steht</p>
+                <p>+ ein Reward-System implementiert, das nun auch Gegner XP gibt, und das in der Levelbar anzeigt
+                </p>
+                <p>+ Anpassungen am Einstellungsmenü, sodass diese jetzt auch geändert werden können durch das
+                    Einstellung-Menü</p>
+                <p>+ Anpassungen am ESC-Menü von <a href="https://github.com/Pottwalle">Valk0</a> damit die Knöpfe auch
+                    Korrekt angezeigt werden</p>
+                <a href="https://github.com/Pottwalle/RoboArena/pull/66#issue-4651534807">more details</a>
+
+
+                <p class="description"><a href="https://github.com/bidD007">bidD007</a> hat sowohl in der Enemy
+                    Klasse und Player Klasse die Kreise durch geeignete Figuren ersetzt und das ganze dann noch so
+                    skaliert, dass man Details erkennt und trotzdem das Format beibehalten wird</p>
+                <p>+ eigenen character Ordner unter Asset kreiert, wo die Bilder der Figuren drinnen sind</p>
+                <p>+ in der Player Klasse mehrere Frames eingebaut, die beim Drücken der linken Maustaste eine
+                    Bewegung auslösen sollen</p>
+                <a href="https://github.com/Pottwalle/RoboArena/pull/93">more details</a>
+
+            </li>
+            <li>
+                <p class="description"><a href="https://github.com/Pottwalle">Pottwalle</a> hat ein Level-Editor-System geschrieben, dass es erlaubt,
+                neue Level einfach als txt-Datei zu schreiben und diese wird dann automatisch vom Spiel umgewandelt.</p>
+                <div style="max-width: 300px;">
+                        <img id="level-editor" src="data/sprint04/level_editor.png"
+                            alt="level design">
+                    </div>
+                <p>
+                    + 3 neue Level
+                </p>
+                <p>
+                    + Bewegungslogik angepasst. Wir hatten das Problem, dass man durch verschiedene Ereignisse in eine Wand gebuggt wurde und dann fest 
+                    steckte. wir haben die Bewegungslogik nochmal grundsätzlich verändert und zusätzlich noch einen Slide eingebaut, so dass man nun an einer 
+                    Wand entlang rutscht, wenn man dagegen läuft, anstatt stehen zu bleiben.
+                </p>
+
+            </li>
+        </ul>
+        <h3>Woche 4 (24.6. - 29.6.)</h3>
+        <ul>
+            <li>
+                <p class="description"><a href="https://github.com/500Block">500Block</a> ein paar Änderungen am
+                    Einstellungsmenü, aber hauptsächlich eine Implementierung des Inventars mit Drag & Drop, Items
+                    mit Definition in externer Datei</p>
+                <div style="display: flex;">
+                    <div>
+                        <p>+ Inventar-System hinzugefügt, das Drag and Drop implementiert, und Items von den Gegnern
+                            speichern kann</p>
+                        <p>+ Items, die in einer JSON-Datei definiert sind, sowie optionale Consumables für die Zukunft
+                        </p>
+                        <p>+ Diese Items werden mit einem Item-Loader ins Spiel geladen</p>
+                        <p>+ Änderungen für mehrere Seiten im Einstelungsmenü (Generell, Grafik, Audio)</p>
+                        <a href="https://github.com/Pottwalle/RoboArena/pull/79">more details</a>
+                        <p>+ Die Angriffsrichtung wird nun von der Mausposition auf dem Bildschirm bestimmt</p>
+                        <a href="https://github.com/Pottwalle/RoboArena/pull/78">more details</a>
+                    </div>
+                    <div style="max-width: 500px;">
+                        <img id="inventory-items" src="data/sprint04/inventory_and_items.png"
+                            alt="inventory with items">
+                    </div>
+                </div>
+                <p class="description"><a href="https://github.com/bidD007">bidD007</a> hat ein Story-Intro
+                    zwischen Hauptmenü und Spielstart eingebaut, im Retro-Terminal-Look mit Typewriter-Effekt</p>
+                <p>+ Text wird Buchstabe für Buchstabe eingetippt, inklusive Klick-Sound</p>
+                <p>+ Enter zeigt den Text sofort komplett an und springt zur nächsten Seite</p>
+                <p>+ Esc überspringt die Intro komplett</p>
+                <p>+ Neue Retro-Font für die Darstellung des Intros verwendet</p>
+                <p>+ Neu: <code>ui/intro_game.py</code> mit der IntroScreen-Klasse</p>
+                <p>+ Neu: <code>GameState.INTRO</code></p>
+                <p>+ <code>set_playing()</code> zeigt jetzt zuerst die Intro und ruft danach <code>start_game()</code>
+                    auf (bisheriger Inhalt von <code>set_playing</code>, nur umbenannt)</p>
+                <p>+ Neu: <code>resume_game()</code> fürs Esc-Menü, damit das Fortsetzen nach der Pause ohne erneute
+                    Intro bzw. Reset läuft</p>
+                <p>+ Neues Asset: <code>assets/sounds/type_click.wav</code></p>
+                <a href="https://github.com/Pottwalle/RoboArena/pull/104">more details</a>
+                <p class="description"><a href="https://github.com/Backforester">Backforester</a> hat einen Bug in ObjectCollision gefixed der es erlaubt hat, dass Gegner und Spieler durch auseinaderschiebn sich in Wände hineinschieben konnten und sich dann nicht mehr bewegen können. </p>
+                <p>Zudem wurde die Implementierung von Hitpoints zwischen Spieler und Gegner angepasst, sodass beide hp benutzen. </p>
+                <p>Außerdem wurden die Klassen RangedWeapon, Projectile und Bow implementiert, um Fernkampfwaffen zu implementieren und Gegnern Fernangriffe zu geben.<\p>
+                <p>Zuletzt wurde noch das Erstellen von Gegnern erleichtert durch das Einführen von enemyTypes, wo verschiedene Gegnertypen beschrieben werden, sodass diese einfacher im weiteren Code eingefügt werden können.</p>
+
+            </li>
+        </ul>
+        <h3>Woche 5-1 (29.6. - 03.7.)</h3>
+        <ul>
+            <li>
+                <p class="description"><a href="https://github.com/500Block">500Block</a> Einige Anpassungen im Einstellungsmenü mit neuen Einstellungen (FPS), die ab sofort auch gespeichert werden. Symbole können nun geschrieben werden und der Spieler kann auch Equipment Items für Bonusattribute im neuen Stat System nutzen.</p>
+                <div style="display: flex;">
+                    <div>
+                        <p>+ Einstellungen für Sound hinzugefügt</p>
+                        <p>+ Die einzelnen Einstellungsspalten Modular erstellt, um einfachere Einstellungen hinzuzufügen</p>
+                        <p>+ Seiten zum Inventar hinzugefügt, aus vorherigem Sprint vollendet</p>
+                        <p>+ FPS Anzeige ingame hinzugefügt, welche auch an/aus geschaltet werden kann</p>
+                        <p>+ Einstellungen können ab sofort auch gespeichert / geladen werden, speichern auch automatisch über Sessions hinweg beim Einstellen</p>
+                        <p>+ Eine kleinere Schrift hinzugefügt, für FPS counter und spätere Tooltips</p>
+                        <p>+ Es können nun auch Symbole im Text geschrieben werden mit "[BACK]", einfach im String, welche dann beim Rendern durch neue Texturen ersetzt werden</p>
+                        <a href="https://github.com/Pottwalle/RoboArena/pull/83">more details</a>
+                        <p>+ Es existieren nun Equipment-Items, welche ausgerüstet werden können, im Inventar per Drag & Drop sowie RMB</p>
+                        <p>+ Equipment gibt Bonusstats dem Player je nach Item-Atrributen</p>
+                        <p>+ Gegenstände können jetzt Drag & Dropped werden, auch in die Equipment-Slots</p>
+                        <p>+ Ein Stat-System wurde hinzugefügt, das die Basis / Equipment / Bonusstats des Spielers zusammenrechnet</p>
+                        <p>+ Modifier können genutzt werden, um temporäre Buffs zu geben</p>
+                        <a href="https://github.com/Pottwalle/RoboArena/pull/84">more details</a>
+                    </div>
+                    <div style="max-width: 300px;">
+                        <img id="settings-pages" src="data/sprint04/settings_pages.png" alt="Einstellungs Seiten">
+                        <img id="icons" src="data/sprint04/icons.png" alt="Text Icons">
+                        <img id="equipment-inventory" src="data/sprint04/equipment.png" alt="Inventar mit Ausrüstung">
+                    </div>
+                </div>
+            </li>
+            <li>
+                <p class="description"><a href="https://github.com/Pottwalle">Pottwalle</a> hat ein level-choice menu integriert, dass es nun erelaubt, das Level
+                auszuwählen, welches man spielen möchte und einen Schwierigkeitsgrad dazu.</p>
+                <p>
+                    + Todesmenu erstellt, welches auploppt, wenn der Player auf 0 HP fällt und damit stirbt.
+                </p>
+                <p>
+                    + Siegesmenu, welches erscheint, falls die Bedingungen des gewählten Modus erfüllt wurden und der Player somit das Spiel gewinnt.
+                </p>
+                <div style="max-width: 300px;">
+                        <img id="settings-pages" src="data/sprint04/Level_select.png" alt="level-select Menü">
+                        <img id="icons" src="data/sprint04/death_menu.png" alt="Death-Menü">
+                        <img id="equipment-inventory" src="data/sprint04/victory_menu.png" alt="Victory-MenÜ">
+                    </div>
+
+
+                </li>
+        </ul>
+        <h3>Woche 5-2 (03.7. - 06.7.)</h3>
+        <ul>
+            <li>
+                <p class="description"><a href="https://github.com/500Block">500Block</a> hat einige Bugs behoben, Items zu gegnern hinzugefügt sowie das Erstellen von Items vereinfacht. Außerdem wurden die Stats und Namen der Items als Tooltipps zum Anzeigen gebracht sowie die Anwendung der Stats implementiert</p>
+                <div style="display: flex;">
+                    <div>
+                        <p>* Fiexed das Enemy Spawning Problem, dass zu viele Gegner gespawnt sind von und mit <a href="https://github.com/Pottwalle">Valk0</a> und <a href="https://github.com/BackForester">BackForester</a></p>
+                        <p>+ Gegner geben dem Spieler ab jetzt auch Items bei deren Tod zu (25%, 6.25%, 3.125%)</p>
+                        <a href="https://github.com/Pottwalle/RoboArena/pull/95">more details</a>
+                        <p>+ Neue Zeichen zu beiden Schriftarten hinzugefügt</p>
+                        <p>+ Einige neue Symbole hinzugefügt, für jeden Equipment-Typ eines</p>
+                        <p>+ Es kann nun auch farbig geschrieben werden</p>
+                        <p>+ Tooltipps für Items hinzugefügt, welche den Namen, Typ und deren Stats anzeigen</p>
+                        <p>+ Die Stats der Tooltips sind auch nach einem Color Mapping eingefärbt</p>
+                        <p>+ Tooltipps werden beim Hover über Items im Inventar angezeigt</p>
+                        <p>+ Den Waffen-/Nahkampf-Waffen und Club jeweils hinzugefügt, dass diese nun von den Spielerstats und Items beeinflusst werden</p>
+                        <p>* Einige Texturen-Updates und Bugfixes, die mit dem Inventar kamen</p>
+                        <a href="https://github.com/Pottwalle/RoboArena/pull/102">more details</a>
+                        <p>+ Ein Erstellungsprogramm, den Item Creator erstellt, in dem man auf grafische weiße Items zum Spiel hinzufügen kann</p>
+                        <p>+ 22 neue Items mit unterschiedlichen Stats hinzugefügt</p>
+                        <a href="https://github.com/Pottwalle/RoboArena/pull/103">more details</a>
+                        <p>+ Level werden nun in der Ecke angezeigt, sowie die nötigen Texturen dafür</p>
+                        <p>+ Der Spielerschaden, der bekommen wird, wird nun auch korrekt mit der Verteidigung verrechnet</p>
+                        <a href="https://github.com/Pottwalle/RoboArena/pull/105">more details</a>
+                    </div>
+                    <div style="max-width: 300px;">
+                        <img id="tooltip" src="data/sprint04/tooltip.png" alt="item tooltip">
+                        <img id="item-creator" src="data/sprint04/item_creator.png" alt="Item creator window">
+                        <img id="item-sheet" src="data/sprint04/item_sheet.png" style="width: 500px;" alt="item sheet">
+                        <img id="level" src="data/sprint04/level.png" alt="level anzeige">
+                    </div>
+            </li>
+            <li>
+                <p class="description"><a href="https://github.com/Pottwalle">Pottwalle</a> hat die Siegesbedingungen so angepasst, dass man nun wieder gewinnen kann, auch wenn
+                immer gegner respawnen. Nun muss eine gewisse Menge Gegner getötet werden und nicht mehr alle.</p>
+                <p>
+                    + einen Counter hinzugefügt, der dem Spieler sagr, wie viele Gegner schon erledigt wurden. 500Block hat das ganze dann noch erweitert,
+                    sodass auch die zu erreichende Anzahl an Gegnern mit dabei steht.
+                </p>
+                <div style="max-width: 300px;">
+                        <img id="enemy_count" src="data/sprint04/enemy_count.png"
+                            alt="Enemy-counter">
+                    </div>
+                <p>
+                    + durch die neuen Grafiken waren die Hitboxen etwas buggy. Jetzt sind sie deutlich akurater, wenn auch noch nicht ganz perfekt.
+                </p>
+                <p>
+                    + den Bug gefixt, der dafür gesorgt hat, dass wenn man im Pause Menü auf Resume klickt, man automatisch
+                    in Level 1 mit leichter Schwierigkeit gespawnt wird, anstatt mit dem aktuellen Level weiter zu machen.
+                </p>
+
+            </li>
+        </ul>
+    </div>
+    <div class="sprint-target">
+        <a href="index.html">Zurück zur Übersicht</a>
+    </div>
+</body>
+
+</html>
