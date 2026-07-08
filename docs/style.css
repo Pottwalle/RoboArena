@@ -117,3 +117,14 @@ img {
     image-rendering: pixelated;
     border-radius: 0 0 5px 5px;
 }
+.key {
+    background-color: lightgray;
+    border-radius: 3px;
+    padding: 3px;
+}
+p code {
+    background-color: black;
+    color: white;
+    padding: 5px;
+    border-radius: 3px;
+}
