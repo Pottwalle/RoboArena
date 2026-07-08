@@ -23,6 +23,7 @@ from interactable import InteractableManager
 from ui.death_menu import DeathMenu
 from ui.level_menu import LevelSelectMenu
 from ui.victory_menu import VictoryMenu
+from ui.enemy_counter import EnemyCounter
 from ui.intro_game import IntroScreen
 
 pygame.init()
@@ -57,9 +58,10 @@ player = Player(
     10, 0, 100
 )
 player.setWeapon(Club(player))
-# Gegner-Liste erstellen
+# Gegner-Liste erstellen, getötete Gegner Zählen
 #  x, y, r, alpha, base_speed, movement, speed_modifier=1, hp=10, damage=5, movementType="random"
 enemies = []
+overall_killed_enemies = 0
 
 # create damage handler
 damage = Damage(movement)
@@ -67,6 +69,7 @@ damage = Damage(movement)
 # create lifebar & Levelbar
 lifebar = Lifebar(player)
 levelbar = Levelbar(player, settings.UI_SCALE)
+enemy_counter = EnemyCounter(settings.UI_SCALE, menu_font)
 
 # create collision handler
 collision = ObjectCollision(arena.grid)
@@ -101,12 +104,11 @@ previous_state = GameState.MAIN_MENU
 
 
 # callback functions to set Game states
-
 def start_game(level=None, difficulty=None):
     """Baut Arena/Player/Enemies etc. neu auf und wechselt in den PLAYING-State.
     Wird NICHT direkt vom Menu aufgerufen, sondern erst nachdem die Intro durchgelaufen ist
     (siehe set_playing weiter unten)."""
-    global state, previous_state, arena, movement, player, enemies, damage, lifebar, levelbar, collision, interactables, game_ui, inventory
+    global state, previous_state, arena, movement, player, enemies, damage, lifebar, levelbar, collision, interactables, game_ui, inventory, overall_killed_enemies
 
     previous_state = state
     state = GameState.PLAYING
@@ -142,6 +144,7 @@ def start_game(level=None, difficulty=None):
     # Gegner abhängig von Difficulty laden
     enemies = []
 
+    overall_killed_enemies = 0
     arena.generate_enemy(enemies, movement, items)
 
     # Damage, UI, Collision, Interactables neu erzeugen
@@ -155,8 +158,8 @@ def start_game(level=None, difficulty=None):
     # Health Packs spawnen
     for spawn_pos in arena.get_random_tile_positions("dirt", count=3):
         interactables.spawn_health_pack(spawn_pos.x, spawn_pos.y)
-    game_ui = GameUI(lifebar, levelbar, small_font, menu_font, player)
 
+    game_ui = GameUI(lifebar, levelbar, small_font, menu_font, player, enemy_counter)
 
 def set_playing(level=None, difficulty=None):
     """Wird vom MainMenu / LevelSelectMenu aufgerufen. Zeigt zuerst die Intro,
@@ -167,12 +170,10 @@ def set_playing(level=None, difficulty=None):
     intro_screen.reset()
     intro_screen.on_finished = lambda: start_game(level, difficulty)
 
-
 def resume_game():
     """Wird vom EscMenu benutzt, um OHNE Intro und OHNE Reset einfach weiterzuspielen."""
     global state
     state = GameState.PLAYING
-
 
 def set_settings():
     global state, previous_state
@@ -201,7 +202,6 @@ def set_main_menu():
     previous_state = state
     state = GameState.MAIN_MENU
 
-
 # Intro content
 INTRO_PAGES = [
     "Vor langer Zeit, als die Wikinger noch das Sagen hatten, war die Welt noch in Ordnung. "
@@ -218,7 +218,7 @@ intro_screen = IntroScreen(INTRO_PAGES)
 main_menu = MainMenu(set_select_level, set_settings, set_quit)
 settings_menu = SettingsMenu(menu_font, set_back_from_settings)
 esc_menu = EscMenu(menu_font, resume_game, set_main_menu, set_settings)
-game_ui = GameUI(lifebar, levelbar, small_font, menu_font, player)
+game_ui = GameUI(lifebar, levelbar, small_font, menu_font, player, enemy_counter)
 inventory = Inventory(player.inventory)
 death_menu = DeathMenu(menu_font, set_main_menu)
 level_select_menu = LevelSelectMenu(menu_font, set_main_menu, set_playing)
@@ -293,10 +293,6 @@ while running:
             if enemy.weapon is None and enemy.movement_type == "passive":
                 enemy.setWeapon(Bow(enemy))
 
-        if len(enemies) == 0:
-            state = GameState.VICTORY_MENU
-            victory_menu = VictoryMenu(menu_font, set_main_menu)
-
         # apply weapon damage to enemies
         if player.weapon is not None:
             player.weapon.update(dt, enemies)
@@ -341,6 +337,12 @@ while running:
                 enemy.reward.apply_to_player(player)
                 if enemy.reward.xp != 0 or enemy.reward.items != []: # spawns the reward at the players ground if it couldnt get applied
                     interactables.spawn_reward_at_player(player, enemy.reward)
+
+        overall_killed_enemies += len(killed_enemies)
+        enemy_counter.update_count(overall_killed_enemies, arena.get_kill_requirement())
+        if overall_killed_enemies >= arena.get_kill_requirement():
+            state = GameState.VICTORY_MENU
+            victory_menu = VictoryMenu(menu_font, set_main_menu)
 
         enemies = [enemy for enemy in enemies if enemy.hp > 0]
 

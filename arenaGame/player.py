@@ -82,7 +82,8 @@ class Player:
         self.schaut_links = False
 
         self.position = pygame.Vector2(x, y)
-        self.r = r
+        self.r = r * 1.3
+        self.hitbox_offset = pygame.Vector2(0, r * (self.SPRITE_SCALE * 0.35))
         self.alpha = alpha
         self.direction = pygame.Vector2()
         self.attack_direction = pygame.Vector2()

@@ -22,7 +22,7 @@ class Tooltip:
         if hasattr(self.item, "stats"):
             name_surface = self.menu_font.create_text_surface(f"[{self.item.type.upper()}]" + self.item.name)
             for stat, value in self.item.stats.items():
-                sign = "+" if value >= 0 else "-"
+                sign = "+" if value >= 0 else ""
                 text_surface = self.small_font.create_text_surface(f"{sign}{value} {self.format_name(stat)}")
                 
                 if stat in color_mapping:

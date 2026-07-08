@@ -17,6 +17,7 @@ class LevelSelectMenu:
         ui_elements = pygame.image.load(settings.ASSET_DIR/"ui/ui_elements.png")
 
         hover_texture = ui_elements.subsurface((0,54, 79, 18)).convert_alpha()
+        level_hover_texture = ui_elements.subsurface((0,121, 36, 18)).convert_alpha()
         normal_texture = ui_elements.subsurface((0,72, 79, 18)).convert_alpha()
 
         menu_text = menu_font.create_text_surface("SELECT LEVEL AND DIFFICULTY!").convert_alpha()
@@ -36,10 +37,10 @@ class LevelSelectMenu:
         bottom_y = 55
 
         '''Arrows for selection'''
-        self.ui.add(TextureButton((center_x - 100, top_y, 79, 18), "PREV", normal_texture, hover_texture, self.scale, self.prev_level, text_button=True))
-        self.ui.add(TextureButton((center_x + 20, top_y, 79, 18), "NEXT", normal_texture, hover_texture, self.scale, self.next_level, text_button=True))
-        self.ui.add(TextureButton((center_x - 100, bottom_y, 79, 18), "PREV", normal_texture, hover_texture, self.scale, self.prev_diff, text_button=True))
-        self.ui.add(TextureButton((center_x + 20, bottom_y, 79, 18), "NEXT", normal_texture, hover_texture, self.scale, self.next_diff, text_button=True))
+        self.ui.add(TextureButton((center_x - 100, top_y, 36, 18), "PREV", normal_texture, level_hover_texture, self.scale, self.prev_level, text_button=True))
+        self.ui.add(TextureButton((center_x + 20, top_y, 36, 18), "NEXT", normal_texture, level_hover_texture, self.scale, self.next_level, text_button=True))
+        self.ui.add(TextureButton((center_x - 100, bottom_y, 36, 18), "PREV", normal_texture, level_hover_texture, self.scale, self.prev_diff, text_button=True))
+        self.ui.add(TextureButton((center_x + 20, bottom_y, 36, 18), "NEXT", normal_texture, level_hover_texture, self.scale, self.next_diff, text_button=True))
 
         '''Start and Main Menu buttons'''
         self.ui.add(TextureButton(
