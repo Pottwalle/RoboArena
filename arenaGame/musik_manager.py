@@ -9,7 +9,7 @@ def spiele_hintergrundmusik():
     try:
         pygame.mixer.init()
 
-        pygame.mixer.music.load(settings.ASSET_DIR / "sounds/Arena_musik_epic.mp3")
+        pygame.mixer.music.load(settings.ASSET_DIR / "sounds" / "Arena_musik_epic.mp3")
         pygame.mixer.music.play(-1)  # -1 Endlosschleife im Hintergrund
         pygame.mixer.music.set_volume(settings.MUSIC_VOLUME)
         print("Hintergrundmusik läuft...")

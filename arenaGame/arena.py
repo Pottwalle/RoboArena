@@ -13,7 +13,7 @@ class Arena:
             "hard": 50
         }
         self.file_name = level_path.lower().replace(' ', '') + ".txt"
-        self.level_path = settings.BASE_DIR / self.file_name
+        self.level_path = settings.ASSET_DIR / "level" / self.file_name
         self.map = self.load_level(self.level_path)
         self.difficulty = difficulty
         self.mapped_map = self.build_mapped_map(self.map)
