@@ -57,9 +57,7 @@ jobs:
 
     - name: Build with PyInstaller
       run: |
-        pyinstaller --onefile --windowed ^
-          --add-data "arenaGame/assets;assets" ^
-          arenaGame/game.py
+        pyinstaller --onefile --windowed --add-data "arenaGame/assets;assets" arenaGame/game.py
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
