@@ -1,0 +1,9 @@
+dist/
+build/
+*.exe
+*.spec
+*.pyz
+*.pkg
+*.toc
+*.zip
+localpycs/
