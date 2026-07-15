@@ -122,3 +122,8 @@ img {
     border-radius: 3px;
     padding: 3px;
 }
+figcaption {
+    font-size: 0.85em;
+    color: #767676;
+    font-style: italic;
+}
