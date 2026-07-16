@@ -26,7 +26,9 @@ from ui.victory_menu import VictoryMenu
 from ui.enemy_counter import EnemyCounter
 from ui.intro_game import IntroScreen
 
+print("ASSET_DIR:", settings.ASSET_DIR)
 pygame.init()
+
 
 # hintergrundmusik
 spiele_hintergrundmusik()
